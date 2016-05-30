@@ -1,0 +1,498 @@
+#ifndef __INC_SBSSHCONSTANTS
+#define __INC_SBSSHCONSTANTS
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbconstants.h"
+#include "sbcryptoprov.h"
+#include "sbtypes.h"
+#include "sbstrutils.h"
+#include "sbutils.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_ERROR_SSH_INVALID_IDENTIFICATION_STRING 	1
+#define SB_ERROR_SSH_INVALID_VERSION 	2
+#define SB_ERROR_SSH_INVALID_MESSAGE_CODE 	3
+#define SB_ERROR_SSH_INVALID_CRC 	4
+#define SB_ERROR_SSH_INVALID_PACKET_TYPE 	5
+#define SB_ERROR_SSH_INVALID_PACKET 	6
+#define SB_ERROR_SSH_UNSUPPORTED_CIPHER 	7
+#define SB_ERROR_SSH_UNSUPPORTED_AUTH_TYPE 	8
+#define SB_ERROR_SSH_INVALID_RSA_CHALLENGE 	9
+#define SB_ERROR_SSH_AUTHENTICATION_FAILED 	10
+#define SB_ERROR_SSH_INVALID_PACKET_SIZE 	11
+#define SB_ERROR_SSH_HOST_NOT_ALLOWED_TO_CONNECT 	101
+#define SB_ERROR_SSH_PROTOCOL_ERROR 	102
+#define SB_ERROR_SSH_KEY_EXCHANGE_FAILED 	103
+#define SB_ERROR_SSH_INVALID_MAC 	105
+#define SB_ERROR_SSH_COMPRESSION_ERROR 	106
+#define SB_ERROR_SSH_SERVICE_NOT_AVAILABLE 	107
+#define SB_ERROR_SSH_PROTOCOL_VERSION_NOT_SUPPORTED 	108
+#define SB_ERROR_SSH_HOST_KEY_NOT_VERIFIABLE 	109
+#define SB_ERROR_SSH_CONNECTION_LOST 	110
+#define SB_ERROR_SSH_APPLICATION_CLOSED 	111
+#define SB_ERROR_SSH_TOO_MANY_CONNECTIONS 	112
+#define SB_ERROR_SSH_AUTH_CANCELLED_BY_USER 	113
+#define SB_ERROR_SSH_NO_MORE_AUTH_METHODS_AVAILABLE 	114
+#define SB_ERROR_SSH_ILLEGAL_USERNAME 	115
+#define SB_ERROR_SSH_INTERNAL_ERROR 	200
+#define SB_ERROR_SSH_NOT_CONNECTED 	222
+#define SB_ERROR_SSH_CONNECTION_CANCELLED_BY_USER 	501
+#define SB_ERROR_SSH_FORWARD_DISALLOWED 	502
+#define SB_ERROR_SSH_ONKEYVALIDATE_NOT_ASSIGNED 	503
+#define SB_ERROR_SSH_GSSKEX_SERVER_ERROR_MESSAGE 	601
+#define SB_ERROR_SSH_GSSAPI_SERVER_ERROR_MESSAGE 	603
+#define SB_SSH_AUTH_TYPE_RHOSTS 	1
+#define SB_SSH_AUTH_TYPE_PUBLICKEY 	2
+#define SB_SSH_AUTH_TYPE_PASSWORD 	4
+#define SB_SSH_AUTH_TYPE_HOSTBASED 	8
+#define SB_SSH_AUTH_TYPE_KEYBOARD 	16
+#define SB_SSH_AUTH_TYPE_GSSAPI_WITH_MIC 	32
+#define SB_SSH_AUTH_TYPE_GSSAPI_KEYEX 	64
+#define SB_SSH_AUTH_TYPE_PUBLICKEYAGENT 	128
+#define SB_SSH_EA_FIRST 	0
+#define SB_SSH_EA_3DES 	0
+#define SB_SSH_EA_BLOWFISH 	1
+#define SB_SSH_EA_TWOFISH256 	2
+#define SB_SSH_EA_TWOFISH192 	3
+#define SB_SSH_EA_TWOFISH128 	4
+#define SB_SSH_EA_AES256 	5
+#define SB_SSH_EA_AES192 	6
+#define SB_SSH_EA_AES128 	7
+#define SB_SSH_EA_SERPENT256 	8
+#define SB_SSH_EA_SERPENT192 	9
+#define SB_SSH_EA_SERPENT128 	10
+#define SB_SSH_EA_ARCFOUR 	11
+#define SB_SSH_EA_IDEA 	12
+#define SB_SSH_EA_CAST128 	13
+#define SB_SSH_EA_NONE 	14
+#define SB_SSH_EA_DES 	15
+#define SB_SSH_EA_AES128_CTR 	16
+#define SB_SSH_EA_AES192_CTR 	17
+#define SB_SSH_EA_AES256_CTR 	18
+#define SB_SSH_EA_3DES_CTR 	19
+#define SB_SSH_EA_BLOWFISH_CTR 	20
+#define SB_SSH_EA_TWOFISH128_CTR 	21
+#define SB_SSH_EA_TWOFISH192_CTR 	22
+#define SB_SSH_EA_TWOFISH256_CTR 	23
+#define SB_SSH_EA_SERPENT128_CTR 	24
+#define SB_SSH_EA_SERPENT192_CTR 	25
+#define SB_SSH_EA_SERPENT256_CTR 	26
+#define SB_SSH_EA_IDEA_CTR 	27
+#define SB_SSH_EA_CAST128_CTR 	28
+#define SB_SSH_EA_ARCFOUR128 	29
+#define SB_SSH_EA_ARCFOUR256 	30
+#define SB_SSH_EA_AES128_GCM 	31
+#define SB_SSH_EA_AES256_GCM 	32
+#define SB_SSH_EA_AES128_GCM_OPENSSH 	33
+#define SB_SSH_EA_AES256_GCM_OPENSSH 	34
+#define SB_SSH_EA_CHACHA20 	35
+#define SB_SSH_EA_CHACHA20_OPENSSH 	36
+#define SB_SSH_EA_LAST 	36
+#define SB_SSH_CA_FIRST 	0
+#define SB_SSH_CA_NONE 	0
+#define SB_SSH_CA_ZLIB 	1
+#define SB_SSH_CA_ZLIB_DELAYED 	2
+#define SB_SSH_CA_LAST 	2
+#define SB_SSH_MA_FIRST 	0
+#define SB_SSH_MA_HMAC_SHA1 	0
+#define SB_SSH_MA_HMAC_SHA1_96 	1
+#define SB_SSH_MA_HMAC_MD5 	2
+#define SB_SSH_MA_HMAC_MD5_96 	3
+#define SB_SSH_MA_NONE 	4
+#define SB_SSH_MA_HMAC_RIPEMD160 	5
+#define SB_SSH_MA_HMAC_RIPEMD 	6
+#define SB_SSH_MA_HMAC_RIPEMD_OPENSSH 	7
+#define SB_SSH_MA_HMAC_SHA256 	8
+#define SB_SSH_MA_HMAC_SHA256_96 	9
+#define SB_SSH_MA_UMAC32 	10
+#define SB_SSH_MA_UMAC64 	11
+#define SB_SSH_MA_UMAC96 	12
+#define SB_SSH_MA_UMAC128 	13
+#define SB_SSH_MA_HMAC_SHA2_256 	14
+#define SB_SSH_MA_HMAC_SHA2_512 	15
+#define SB_SSH_MA_AES128_GCM 	16
+#define SB_SSH_MA_AES256_GCM 	17
+#define SB_SSH_MA_POLY1305 	18
+#define SB_SSH_MA_LAST 	18
+#define SB_SSH_EC_FIRST 	0
+#define SB_SSH_EC_NIST_P256 	0
+#define SB_SSH_EC_NIST_P384 	1
+#define SB_SSH_EC_NIST_P521 	2
+#define SB_SSH_EC_NIST_K163 	3
+#define SB_SSH_EC_NIST_P192 	4
+#define SB_SSH_EC_NIST_P224 	5
+#define SB_SSH_EC_NIST_K233 	6
+#define SB_SSH_EC_NIST_B233 	7
+#define SB_SSH_EC_NIST_K283 	8
+#define SB_SSH_EC_NIST_K409 	9
+#define SB_SSH_EC_NIST_B409 	10
+#define SB_SSH_EC_NIST_K571 	11
+#define SB_SSH_EC_CURVE25519 	12
+#define SB_SSH_EC_LAST 	12
+#define SB_SSH_KEX_FIRST 	1
+#define SB_SSH_KEX_DH_GROUP 	2
+#define SB_SSH_KEX_DH_GROUP_EXCHANGE 	1
+#define SB_SSH_KEX_DH_GROUP_14 	3
+#define SB_SSH_KEX_COMMON_LAST 	3
+#define SB_SSH_KEX_DH_GROUP_EXCHANGE256 	4
+#define SB_SSH_KEX_RSA1024_SHA1 	5
+#define SB_SSH_KEX_RSA2048_SHA256 	6
+#define SB_SSH_KEX_ECDH_FIRST 	7
+#define SB_SSH_KEX_ECDH_NIST_P256 	7
+#define SB_SSH_KEX_ECDH_NIST_P384 	8
+#define SB_SSH_KEX_ECDH_NIST_P521 	9
+#define SB_SSH_KEX_ECDH_NIST_K163 	10
+#define SB_SSH_KEX_ECDH_NIST_P192 	11
+#define SB_SSH_KEX_ECDH_NIST_P224 	12
+#define SB_SSH_KEX_ECDH_NIST_K233 	13
+#define SB_SSH_KEX_ECDH_NIST_B233 	14
+#define SB_SSH_KEX_ECDH_NIST_K283 	15
+#define SB_SSH_KEX_ECDH_NIST_K409 	16
+#define SB_SSH_KEX_ECDH_NIST_B409 	17
+#define SB_SSH_KEX_ECDH_NIST_K571 	18
+#define SB_SSH_KEX_ECDH_CURVE25519 	19
+#define SB_SSH_KEX_ECDH_LAST 	19
+#define SB_SSH_KEX_CURVE25519 	20
+#define SB_SSH_KEX_GSS_FIRST 	21
+#define SB_SSH_KEX_GSS_GROUP_EXCHANGE 	21
+#define SB_SSH_KEX_GSS_GROUP 	22
+#define SB_SSH_KEX_GSS_GROUP_14 	23
+#define SB_SSH_KEX_GSS_LAST 	23
+#define SB_SSH_KEX_LAST 	23
+#define SB_SSH_PK_FIRST 	0
+#define SB_SSH_PK_DSS 	0
+#define SB_SSH_PK_RSA 	1
+#define SB_SSH_PK_X509_SIGN_RSA 	2
+#define SB_SSH_PK_X509_SIGN_DSS 	3
+#define SB_SSH_PK_SPKI_SIGN_RSA 	4
+#define SB_SSH_PK_SPKI_SIGN_DSS 	5
+#define SB_SSH_PK_PGP_SIGN_RSA 	6
+#define SB_SSH_PK_PGP_SIGN_DSS 	7
+#define SB_SSH_PK_ECDSA_FIRST 	8
+#define SB_SSH_PK_ECDSA_NIST_P256 	8
+#define SB_SSH_PK_ECDSA_NIST_P384 	9
+#define SB_SSH_PK_ECDSA_NIST_P521 	10
+#define SB_SSH_PK_ECDSA_NIST_K163 	11
+#define SB_SSH_PK_ECDSA_NIST_P192 	12
+#define SB_SSH_PK_ECDSA_NIST_P224 	13
+#define SB_SSH_PK_ECDSA_NIST_K233 	14
+#define SB_SSH_PK_ECDSA_NIST_B233 	15
+#define SB_SSH_PK_ECDSA_NIST_K283 	16
+#define SB_SSH_PK_ECDSA_NIST_K409 	17
+#define SB_SSH_PK_ECDSA_NIST_B409 	18
+#define SB_SSH_PK_ECDSA_NIST_K571 	19
+#define SB_SSH_PK_ECDSA_CURVE25519 	20
+#define SB_SSH_PK_ECDSA_LAST 	20
+#define SB_SSH_PK_LAST 	20
+#define SB_SSH_PK_NULL 	21
+#define SB_SSH_TUNNEL_ERROR_FORWARD_DISALLOWED 	1
+#define SB_SSH_TUNNEL_ERROR_SERVER_ERROR 	2
+#define SB_SSH_TUNNEL_ERROR_ADMINISTRATIVELY_PROHIBITED 	1
+#define SB_SSH_TUNNEL_ERROR_CONNECT_FAILED 	2
+#define SB_SSH_TUNNEL_ERROR_UNKNOWN_CHANNEL_TYPE 	3
+#define SB_SSH_TUNNEL_ERROR_RESOURCE_SHORTAGE 	4
+#define SB_SSH_TUNNEL_ERROR_ALREADY_CONNECTED 	700
+#define SB_SSH_TUNNEL_ERROR_NOT_BOUND_TO_SSH_CLASS 	701
+#define SB_SSH_TUNNEL_ERROR_SSH_NOT_CONNECTED 	702
+#define SB_SSH_TUNNEL_ERROR_UNSUPPORTED_BY_SSH_VERSION 	703
+#define SB_SSH_TUNNEL_ERROR_UNSUPPORTED_ACTION 	704
+#define SB_SSH_TUNNEL_ERROR_OPEN_FAILED 	705
+#define SB_IN_BUFFER_SIZE 	263168
+#define SB_OUT_BUFFER_SIZE 	132072
+#define SB_COMPR_BUFFER_SIZE 	132072
+#define SB_IDENTIFICATION_STRING_SIZE 	255
+#define SB_SSH1_MSG_NONE 	0
+#define SB_SSH1_MSG_DISCONNECT 	1
+#define SB_SSH1_MSG_PUBLIC_KEY 	2
+#define SB_SSH1_MSG_SESSION_KEY 	3
+#define SB_SSH1_MSG_USER 	4
+#define SB_SSH1_MSG_AUTH_RHOSTS 	5
+#define SB_SSH1_MSG_AUTH_RSA 	6
+#define SB_SSH1_MSG_AUTH_RSA_CHALLENGE 	7
+#define SB_SSH1_MSG_AUTH_RSA_RESPONSE 	8
+#define SB_SSH1_MSG_AUTH_PASSWORD 	9
+#define SB_SSH1_MSG_REQUEST_PTY 	10
+#define SB_SSH1_MSG_WINDOW_SIZE 	11
+#define SB_SSH1_MSG_EXEC_SHELL 	12
+#define SB_SSH1_MSG_EXEC_CMD 	13
+#define SB_SSH1_MSG_SUCCESS 	14
+#define SB_SSH1_MSG_FAILURE 	15
+#define SB_SSH1_MSG_STDIN_DATA 	16
+#define SB_SSH1_MSG_STDOUT_DATA 	17
+#define SB_SSH1_MSG_STDERR_DATA 	18
+#define SB_SSH1_MSG_EOF 	19
+#define SB_SSH1_MSG_EXIT_STATUS 	20
+#define SB_SSH1_MSG_CHANNEL_OPEN_CONFIRMATION 	21
+#define SB_SSH1_MSG_CHANNEL_OPEN_FAILURE 	22
+#define SB_SSH1_MSG_CHANNEL_DATA 	23
+#define SB_SSH1_MSG_CHANNEL_CLOSE 	24
+#define SB_SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION 	25
+#define SB_SSH1_MSG_X11_OPEN 	27
+#define SB_SSH1_MSG_PORT_FORWARD_REQUEST 	28
+#define SB_SSH1_MSG_PORT_OPEN 	29
+#define SB_SSH1_MSG_AGENT_REQUEST_FORWARDING 	30
+#define SB_SSH1_MSG_AGENT_OPEN 	31
+#define SB_SSH1_MSG_IGNORE 	32
+#define SB_SSH1_MSG_EXIT_CONFIRMATION 	33
+#define SB_SSH1_MSG_X11_REQUEST_FORWARDING 	34
+#define SB_SSH1_MSG_AUTH_RHOSTS_RSA 	35
+#define SB_SSH1_MSG_DEBUG 	36
+#define SB_SSH1_MSG_REQUEST_COMPRESSION 	37
+#define SB_SSH1_MSG_AUTH_TIS 	39
+#define SB_SSH1_MSG_AUTH_TIS_CHALLENGE 	40
+#define SB_SSH1_MSG_AUTH_TIS_RESPONSE 	41
+#define SB_SSH1_CIPHER_NONE 	0
+#define SB_SSH1_CIPHER_IDEA 	1
+#define SB_SSH1_CIPHER_DES 	2
+#define SB_SSH1_CIPHER_3DES 	3
+#define SB_SSH1_CIPHER_RC4 	5
+#define SB_SSH1_CIPHER_BLOWFISH 	6
+#define SB_SSH1_AUTH_RHOSTS 	1
+#define SB_SSH1_AUTH_RSA 	2
+#define SB_SSH1_AUTH_PASSWORD 	3
+#define SB_SSH1_AUTH_RHOSTS_RSA 	4
+#define SB_SSH1_AUTH_TIS 	5
+#define SB_SSH1_AUTH_KERBEROS 	6
+#define SB_SSH2_MSG_DISCONNECT 	1
+#define SB_SSH2_MSG_IGNORE 	2
+#define SB_SSH2_MSG_UNIMPLEMENTED 	3
+#define SB_SSH2_MSG_DEBUG 	4
+#define SB_SSH2_MSG_SERVICE_REQUEST 	5
+#define SB_SSH2_MSG_SERVICE_ACCEPT 	6
+#define SB_SSH2_MSG_KEXINIT 	20
+#define SB_SSH2_MSG_NEWKEYS 	21
+#define SB_SSH2_MSG_KEXDH_INIT 	30
+#define SB_SSH2_MSG_KEXDH_REPLY 	31
+#define SB_SSH2_MSG_KEX_DH_GEX_REQUEST 	34
+#define SB_SSH2_MSG_KEX_DH_GEX_GROUP 	31
+#define SB_SSH2_MSG_KEX_DH_GEX_INIT 	32
+#define SB_SSH2_MSG_KEX_DH_GEX_REPLY 	33
+#define SB_SSH2_MSG_KEXRSA_PUBKEY 	30
+#define SB_SSH2_MSG_KEXRSA_SECRET 	31
+#define SB_SSH2_MSG_KEXRSA_DONE 	32
+#define SB_SSH2_MSG_KEX_ECDH_INIT 	30
+#define SB_SSH2_MSG_KEX_ECDH_REPLY 	31
+#define SB_SSH2_MSG_USERAUTH_REQUEST 	50
+#define SB_SSH2_MSG_USERAUTH_FAILURE 	51
+#define SB_SSH2_MSG_USERAUTH_SUCCESS 	52
+#define SB_SSH2_MSG_USERAUTH_BANNER 	53
+#define SB_SSH2_MSG_USERAUTH_PK_OK 	60
+#define SB_SSH2_MSG_USERAUTH_INFO_REQUEST 	60
+#define SB_SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ 	60
+#define SB_SSH2_MSG_USERAUTH_INFO_RESPONSE 	61
+#define SB_SSH2_MSG_GLOBAL_REQUEST 	80
+#define SB_SSH2_MSG_REQUEST_SUCCESS 	81
+#define SB_SSH2_MSG_REQUEST_FAILURE 	82
+#define SB_SSH2_MSG_CHANNEL_OPEN 	90
+#define SB_SSH2_MSG_CHANNEL_OPEN_CONFIRMATION 	91
+#define SB_SSH2_MSG_CHANNEL_OPEN_FAILURE 	92
+#define SB_SSH2_MSG_CHANNEL_WINDOW_ADJUST 	93
+#define SB_SSH2_MSG_CHANNEL_DATA 	94
+#define SB_SSH2_MSG_CHANNEL_EXTENDED_DATA 	95
+#define SB_SSH2_MSG_CHANNEL_EOF 	96
+#define SB_SSH2_MSG_CHANNEL_CLOSE 	97
+#define SB_SSH2_MSG_CHANNEL_REQUEST 	98
+#define SB_SSH2_MSG_CHANNEL_SUCCESS 	99
+#define SB_SSH2_MSG_CHANNEL_FAILURE 	100
+#define SB_SSH_MSG_KEXGSS_INIT 	30
+#define SB_SSH_MSG_KEXGSS_CONTINUE 	31
+#define SB_SSH_MSG_KEXGSS_COMPLETE 	32
+#define SB_SSH_MSG_KEXGSS_HOSTKEY 	33
+#define SB_SSH_MSG_KEXGSS_ERROR 	34
+#define SB_SSH_MSG_KEXGSS_GROUPREQ 	40
+#define SB_SSH_MSG_KEXGSS_GROUP 	41
+#define SB_SSH_MSG_USERAUTH_GSSAPI_RESPONSE 	60
+#define SB_SSH_MSG_USERAUTH_GSSAPI_TOKEN 	61
+#define SB_SSH_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE 	63
+#define SB_SSH_MSG_USERAUTH_GSSAPI_ERROR 	64
+#define SB_SSH_MSG_USERAUTH_GSSAPI_ERRTOK 	65
+#define SB_SSH_MSG_USERAUTH_GSSAPI_MIC 	66
+#define SB_SSH_EXTENDED_DATA_STDERR 	1
+#define SB_SSH_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT 	1
+#define SB_SSH_DISCONNECT_PROTOCOL_ERROR 	2
+#define SB_SSH_DISCONNECT_KEY_EXCHANGE_FAILED 	3
+#define SB_SSH_DISCONNECT_RESERVED 	4
+#define SB_SSH_DISCONNECT_MAC_ERROR 	5
+#define SB_SSH_DISCONNECT_COMPRESSION_ERROR 	6
+#define SB_SSH_DISCONNECT_SERVICE_NOT_AVAILABLE 	7
+#define SB_SSH_DISCONNECT_PROTOCOL_VERSION_NOT_SUPPORTED 	8
+#define SB_SSH_DISCONNECT_HOST_KEY_NOT_VERIFIABLE 	9
+#define SB_SSH_DISCONNECT_CONNECTION_LOST 	10
+#define SB_SSH_DISCONNECT_BY_APPLICATION 	11
+#define SB_SSH_DISCONNECT_TOO_MANY_CONNECTIONS 	12
+#define SB_SSH_DISCONNECT_AUTH_CANCELLED_BY_USER 	13
+#define SB_SSH_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE 	14
+#define SB_SSH_DISCONNECT_ILLEGAL_USER_NAME 	15
+#define SB_SSH2_HASH_ALG_SHA1 	1
+#define SB_SSH2_CONN_INTERNAL_TYPE_NONE 	0
+#define SB_SSH2_CONN_INTERNAL_TYPE_SESSION 	1
+#define SB_SSH_CONN_INTERNAL_TYPE_COMMAND 	2
+#define SB_SSH_CONN_INTERNAL_TYPE_SHELL 	3
+#define SB_SSH2_CONN_INTERNAL_STATE_BEFORE 	0
+#define SB_SSH2_CONN_INTERNAL_STATE_SESSION_OPENED 	1
+#define SB_SSH2_CONN_INTERNAL_STATE_PTY_REQUEST_SENT 	2
+#define SB_SSH2_CONN_INTERNAL_STATE_PTY_ALLOCATED 	3
+#define SB_SSH2_CONN_INTERNAL_STATE_ENVIRONMENT_SENT 	4
+#define SB_SSH2_CONN_INTERNAL_STATE_ENVIRONMENT_PASSED 	5
+#define SB_SSH2_CONN_INTERNAL_STATE_SHELL_REQUEST_SENT 	6
+#define SB_SSH2_CONN_INTERNAL_STATE_SHELL_STARTED 	7
+#define SB_SSH2_CONN_INTERNAL_STATE_EXEC_REQUEST_SENT 	8
+#define SB_SSH2_CONN_INTERNAL_STATE_SUBSYSTEM_REQUEST_SENT 	9
+#define SB_SSH2_CONN_INTERNAL_STATE_X_REQUEST_SENT 	10
+#define SB_SSH2_CONN_INTERNAL_STATE_BOUND_X_REQUEST_SENT 	11
+#define SB_SSH1_SESS_TYPE_SHELL 	1
+#define SB_SSH1_SESS_TYPE_COMMAND 	2
+#define SB_SSH1_SESS_TYPE_NONE 	3
+#define SB_SSH2_AUTH_STATE_NONE 	1
+#define SB_SSH2_AUTH_STATE_PK 	2
+#define SB_SSH2_AUTH_STATE_HOSTBASED 	3
+#define SB_SSH2_AUTH_STATE_PASSWORD 	4
+#define SB_SSHCOMKEY_ORIG_MAGIC 	3958992703
+#define SB_SSHKEY_HEADER_SUBJECT 	"Subject: "
+#define SB_SSHKEY_HEADER_COMMENT 	"Comment: "
+#define SB_SInvalidTunnelType 	"Invalid tunnel type"
+#define SB_SInvalidSize 	"Invalid size"
+#define SB_SDisconnectInvalidPacketSize 	"Invalid packet size"
+#define SB_SDisconnectConnectionClosed 	"Connection closed"
+#define SB_SDisconnectInvalidPacket 	"Invalid packet"
+#define SB_SDisconnectInvalidCRC 	"Invalid CRC checksum"
+#define SB_SDisconnectInvalidPacketType 	"Invalid packet type"
+#define SB_SDisconnectUnsupportedCipher 	"Unsupported cipher"
+#define SB_SDisconnectUnsupportedAuthType 	"Unsupported AUTH type"
+#define SB_SDisconnectInvalidRSAChallenge 	"Invalid RSA challenge"
+#define SB_SDisconnectAuthenticationFailed 	"Authentication failed"
+#define SB_SDisconnectInternalError 	"Internal error"
+#define SB_SDisconnectHostKeyNotVerifiable 	"Host key not verifiable"
+#define SB_SDisconnectInvalidMAC 	"Invalid MAC"
+#define SB_SDisconnectKeyExchangeFailed 	"Key exchange failed"
+#define SB_SDisconnectNoMoreAuthMethodsAvailable 	"No more authentication methods available"
+#define SB_SDisconnectInvalidChannelID 	"Invalid channel ID"
+#define SB_SDisconnectBadService 	"Bad service id"
+#define SB_SInternalUsedException 	"Internally used and handled exception. Please ignore."
+#define SB_SForbidden 	"Forbidden"
+#define SB_SCertAlgDoesNotMatchSSH 	"Certificate algorithm does not match the negotiated one"
+#define SB_SBadCertificate 	"Bad certificate"
+#define SB_SOnKeyValidateNotAssigned 	"OnKeyValidate event handler is not assigned to the event"
+#define SB_SUnassignedValidationHandler 	"Key validation handler is not assigned. Please handle the OnKeyValidate event and implement proper key validation code there."
+#define SB_SNullArgument 	"Listing argument shouldn\'t be equal to null"
+#define SB_SCannotInitializeObfuscation 	"Cannot initialize obfuscation"
+#define SB_SSH_DSS_ID 	"ssh-dss"
+#define SB_SSH_RSA_ID 	"ssh-rsa"
+#define SB_SSH_ECDSA_ID 	"ecdsa-sha2-"
+#define SB_DSS_ID_SPACE 	"ssh-dss "
+#define SB_RSA_ID_SPACE 	"ssh-rsa "
+#define SB_BEGIN_MARKER 	"---- B"
+#define SB_SSH_COM_MARKER 	"---- B"
+#define SB_SSH_NULL 	"\x05""\x00"
+#define SB_SSH_CONST_BUF_SSH_CONNECTION 	"ssh-connection"
+#define SB_SSH_CONST_BUF_SSH_USERAUTH 	"ssh-userauth"
+#define SB_SSH_CONST_BUF_GSSAPI_KEYEX 	"gssapi-keyex"
+#define SB_SSH_CONST_BUF_GSSAPI_WITH_MIC 	"gssapi-with-mic"
+#define SB_SSH_CONST_BUF_PUBLICKEY 	"publickey"
+#define SB_SSH_CONST_BUF_HOSTBASED 	"hostbased"
+#define SB_SSH_CONST_BUF_PASSWORD 	"password"
+#define SB_SSH_CONST_BUF_KEYBOARD_INTERACTIVE 	"keyboard-interactive"
+#define SB_SSH_CONST_BUF_SESSION 	"session"
+#define SB_SSH_CONST_BUF_DIRECT_TCPIP 	"direct-tcpip"
+#define SB_SSH_CONST_BUF_PTY_REQ 	"pty-req"
+#define SB_SSH_CONST_BUF_SHELL 	"shell"
+#define SB_SSH_CONST_BUF_EXEC 	"exec"
+#define SB_SSH_CONST_BUF_KEEPALIVE 	"keepalive@openssh.com"
+#define SB_SSH_CONST_BUF_SUBSYSTEM 	"subsystem"
+#define SB_SSH_CONST_BUF_X11_REQ 	"x11-req"
+#define SB_SSH_CONST_BUF_SIGNAL 	"signal"
+#define SB_SSH_CONST_BUF_ENV 	"env"
+#define SB_SSH_CONST_BUF_WINDOW_CHANGE 	"window-change"
+#define SB_SSH_CONST_BUF_TCPIP_FORWARD 	"tcpip-forward"
+#define SB_SSH_CONST_BUF_CANCEL_TCPIP_FORWARD 	"cancel-tcpip-forward"
+#define SB_SSH_CONST_BUF_FORWARDED_TCPIP 	"forwarded-tcpip"
+#define SB_SSH_CONST_BUF_X509V3_SIGN_RSA 	"x509v3-sign-rsa"
+#define SB_SSH_CONST_BUF_X509V3_SIGN_DSS 	"x509v3-sign-dss"
+#define SB_SSH_CONST_BUF_NONE 	"none"
+#define SB_SSH_CONST_BUF_EXIT_STATUS 	"exit-status"
+#define SB_SSH_CONST_BUF_EXIT_SIGNAL 	"exit-signal"
+#define SB_SSH_CONST_BUF_VERSION_STR_199 	"1.99"
+#define SB_SSH_CONST_BUF_VERSION_STR_150 	"1.5"
+#define SB_SSH_CONST_BUF_VERSION_STR_200 	"2.0"
+#define SB_SSH_CONST_BUF_OAEP_PREFIX 	"0!0\t\x06""\x05""+\x0E""\x03""\x02""\x1A""\x05""\x00""\x04""\x14"
+#define SB_SSH_X509_SIGN_RSA_ID 	"x509v3-sign-rsa"
+#define SB_SSH_X509_SIGN_DSS_ID 	"x509v3-sign-dss"
+#define SB_SSHCOMKEY_RSA_ID 	"if-modn{sign{rsa-pkcs1-sha1},encrypt{rsa-pkcs1v2-oaep}}"
+#define SB_SSHCOMKEY_RSA_ID2 	"if-modn{sign{rsa-pkcs1-sha1},encrypt{rsa-pkcs1-none}}"
+#define SB_SSHCOMKEY_DSS_ID 	"dl-modp{sign{dsa-nist-sha1},dh{plain}}"
+#define SB_SSHCOMKEY_SSHKEY_PREFIX_DSS 	"dl-modp{sign{dsa-nist-sha1}}"
+#define SB_SSHCOMKEY_DESEDE_ID 	"3des-cbc"
+#define SB_SSHCOMKEY_NONE_ID 	"none"
+#define SB_PUTTYKEY_ID_V2 	"PuTTY-User-Key-File-2: "
+#define SB_PUTTYKEY_ALG_RSA 	"ssh-rsa"
+#define SB_PUTTYKEY_ALG_DSS 	"ssh-dss"
+#define SB_PUTTYKEY_ENCRYPTION_AES 	"aes256-cbc"
+#define SB_PUTTYKEY_ENCRYPTION_NONE 	"none"
+#define SB_SSH1KEY_BEGIN 	"SSH PRIVATE KEY FILE FORMAT 1.1\n"
+#define SB_PUTTYKEY_FIELD_ENCRYPTION 	"Encryption: "
+#define SB_PUTTYKEY_FIELD_COMMENT 	"Comment: "
+#define SB_PUTTYKEY_FIELD_PUBLICLINES 	"Public-Lines: "
+#define SB_PUTTYKEY_FIELD_PRIVATELINES 	"Private-Lines: "
+#define SB_PUTTYKEY_FIELD_PRIVATEMAC 	"Private-MAC: "
+#define SB_PUTTYKEY_MAC_BEGIN 	"putty-private-key-file-mac-key"
+#define SB_SSHKEY_BEGIN_MARKER 	"---- BEGIN SSH2 PUBLIC KEY ----"
+#define SB_SSHKEY_END_MARKER 	"---- END SSH2 PUBLIC KEY ----"
+#define SB_SSHKEY_PRIVATE_BEGIN_MARKER 	"---- BEGIN SSH2 ENCRYPTED PRIVATE KEY ----"
+#define SB_SSHKEY_PRIVATE_END_MARKER 	"---- END SSH2 ENCRYPTED PRIVATE KEY ----"
+#define SB_SSHKEY_PREFIX_RSA 	"\x00""\x00""\x00""\assh-rsa"
+#define SB_SSHKEY_PREFIX_DSS 	"\x00""\x00""\x00""\assh-dss"
+#define SB_SSHKEY_PREFIX_ECDSA 	"\x00""\x00""\x00""\x13""ecdsa-sha2-"
+#define SB_SSHKEY_PREFIX_ECDSA_CURVE25519 	"\x00""\x00""\x00""\x15""ecdsa-sha2-"
+#define SB_ASN_SHA1_ID 	"0!0\t\x06""\x05""+\x0E""\x03""\x02""\x1A""\x05""\x00""\x04""\x14"
+#define SB_SSH_IDENTIFIER 	"SSH-"
+#define SB_SSH_15_IDENTIFIER 	"SSH-1.5-"
+#define SB_SSH_20_IDENTIFIER 	"SSH-2.0-"
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+#ifdef SB_USE_GLOBAL_PROCS_SSHCONSTANTS
+
+void GetSSHPacketNameByCode(int32_t Code, std::string &OutResult);
+
+#endif /* SB_USE_GLOBAL_PROCS_SSHCONSTANTS */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_SSHCONSTANTS
+SB_IMPORT uint32_t SB_APIENTRY SBSSHConstants_GetSSHPacketNameByCode(int32_t Code, char * pcOutResult, int32_t * szOutResult);
+#endif /* SB_USE_GLOBAL_PROCS_SSHCONSTANTS */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBSSHCONSTANTS */
+

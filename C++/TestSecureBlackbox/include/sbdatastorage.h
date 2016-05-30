@@ -1,0 +1,1305 @@
+#ifndef __INC_SBDATASTORAGE
+#define __INC_SBDATASTORAGE
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbconstants.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+#include "sbasn1tree.h"
+#include "sbpkcs7.h"
+#include "sbpkcs7utils.h"
+#include "sbrdn.h"
+#include "sbcrc.h"
+#include "sbcustomcertstorage.h"
+#include "sbstreams.h"
+#include "sbencstream.h"
+#include "sbauthdatastream.h"
+#include "sbdatastorageutils.h"
+#include "sbsymmetriccrypto.h"
+#include "sbhashfunction.h"
+#include "sbstringlist.h"
+#include "sbmessages.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_DEFSECHANDLER_MD_NAME 	"eldosdefsecinfo"
+#define SB_CONTENTLENGTH_MD_NAME 	"eldoscontentlength"
+#define SB_ERROR_FACILITY_CLOUD 	126976
+#define SB_ERROR_CLOUD_ERROR_FLAG 	2048
+#define SB_CLOUD_ERROR_BASE 	129024
+#define SB_CLOUD_ERROR_INTERNAL_ERROR 	129025
+#define SB_CLOUD_ERROR_UNSUPPORTED_OPERATION 	129026
+#define SB_CLOUD_ERROR_UNSUPPORTED_MD_LOCATION 	129063
+#define SB_CLOUD_ERROR_UNSUPPORTED_SIG_METHOD 	129064
+#define SB_CLOUD_ERROR_WRONG_METADATA_MODE 	129027
+#define SB_CLOUD_ERROR_CRC_CHECK_IN_PT_ONLY 	129028
+#define SB_CLOUD_ERROR_HTTP_REQUEST_FAILED 	129029
+#define SB_CLOUD_ERROR_BAD_PARAMETERS 	129030
+#define SB_CLOUD_ERROR_LISTING_COMPLETED 	129031
+#define SB_CLOUD_ERROR_OBJECT_EXISTS 	129032
+#define SB_CLOUD_ERROR_NOT_IMPLEMENTED 	129033
+#define SB_CLOUD_ERROR_NO_BUCKET 	129034
+#define SB_CLOUD_ERROR_UNEXPECTED_MESSAGE 	129035
+#define SB_CLOUD_ERROR_VERSIONING_DISABLED 	129036
+#define SB_CLOUD_ERROR_BAD_NOTIFY_CONFIG 	129037
+#define SB_CLOUD_ERROR_OPERATION_FAILED 	129038
+#define SB_CLOUD_ERROR_NO_HTTP_CLIENT 	129039
+#define SB_CLOUD_ERROR_INVALID_OBJECT_NAME 	129040
+#define SB_CLOUD_ERROR_INVALID_JSON_RESPONSE 	129060
+#define SB_CLOUD_ERROR_INVALID_ACCOUNT_INFO 	129065
+#define SB_CLOUD_ERROR_INVALID_OBJECT_KIND 	129067
+#define SB_CLOUD_ERROR_INVALID_OPERATION 	129067
+#define SB_CLOUD_ERROR_INVALID_RESPONSE 	129069
+#define SB_CLOUD_ERROR_INVALID_OBJECT_ID 	129078
+#define SB_CLOUD_ERROR_INVALID_AUTH_CODE 	129058
+#define SB_CLOUD_ERROR_INTERRUPTED_BY_USER 	129042
+#define SB_CLOUD_ERROR_STORAGE_NOT_FOUND 	129043
+#define SB_CLOUD_ERROR_STREAM_NOT_READABLE 	129044
+#define SB_CLOUD_ERROR_STREAM_NOT_WRITEABLE 	129045
+#define SB_CLOUD_ERROR_EDIT_MEDIA_URL_NOT_FOUND 	129046
+#define SB_CLOUD_ERROR_UNSUPPORTED_FEATURE 	129047
+#define SB_CLOUD_ERROR_CANT_MODIFY_METADATA 	129048
+#define SB_CLOUD_ERROR_CANT_COPY_FOLDERS 	129049
+#define SB_CLOUD_ERROR_EDIT_URL_NOT_FOUND 	129050
+#define SB_CLOUD_ERROR_OBJECT_NOT_FOUND 	129051
+#define SB_CLOUD_ERROR_AUTH_FAILED 	129052
+#define SB_CLOUD_ERROR_OBJECT_NOT_FOLDER 	129053
+#define SB_CLOUD_ERROR_OBJECT_URL_NOT_AVAIL 	129054
+#define SB_CLOUD_ERROR_FILE_INACCESSIBLE 	129055
+#define SB_CLOUD_ERROR_AUTH_NOT_STARTED 	129056
+#define SB_CLOUD_ERROR_UPLOAD_NOT_STARTED 	129057
+#define SB_CLOUD_ERROR_UPLOAD_NOT_COMPLETED 	129075
+#define SB_CLOUD_ERROR_CANT_PRESERVE_METADATA 	129059
+#define SB_CLOUD_ERROR_FAILED_GET_COPY_REF 	129061
+#define SB_CLOUD_ERROR_CANT_CONSTRUCT_MDPATH 	129062
+#define SB_CLOUD_ERROR_BAD_JSON_OBJ 	129066
+#define SB_CLOUD_ERROR_PROPERTY_NOT_FOUND 	129068
+#define SB_CLOUD_ERROR_RESUME_UPLOAD_FAILED 	129070
+#define SB_CLOUD_ERROR_RESUME_INVALID_RANGE 	129071
+#define SB_CLOUD_ERROR_SERVER_REPORTED_ERROR 	129072
+#define SB_CLOUD_ERROR_NO_RESUME_ID 	129073
+#define SB_CLOUD_ERROR_WRONG_OBJECT_TYPE 	129074
+#define SB_CLOUD_ERROR_COMMENTS_NOT_ENABLED 	129076
+#define SB_CLOUD_ERROR_TAGS_NOT_ENABLED 	129077
+#define SB_CLOUD_ERROR_NO_AUTH_EVENT_HANDLER 	129079
+#define SB_CLOUD_ERROR_COPY_FAILED 	129080
+#define SB_CLOUD_ERROR_COPY_TIMEOUT 	129081
+#define SB_CLOUD_ERROR_ACCESS_DENIED 	129082
+#define SB_CLOUD_ERROR_CONTENT_NOT_READY 	129083
+#define SB_CLOUD_ERROR_FAILED_BITS_SESSION 	129084
+#define SB_CLOUD_ERROR_ACCESS_TOKEN_EXPIRED 	129085
+#define SB_CLOUD_ERROR_BAD_STREAM 	129086
+
+typedef TElClassHandle TElDSCustomKeyProtectionHandlerHandle;
+
+typedef TElClassHandle TElCustomDataStorageEncodingHandlerHandle;
+
+typedef TElClassHandle TElDSEnvelopedDataKeyProtectionHandlerHandle;
+
+typedef TElClassHandle TElDSEncryptedDataKeyProtectionHandlerHandle;
+
+typedef TElClassHandle TElDSPlainKeyProtectionHandlerHandle;
+
+typedef TElClassHandle TElDSKeyProtectionHandlersFactoryHandle;
+
+typedef TElClassHandle TElCustomDataStorageSecurityHandlerHandle;
+
+typedef TElClassHandle TElDataStorageObjectListHandle;
+
+typedef TElClassHandle TElCustomDataStorageObjectHandle;
+
+typedef TElClassHandle TElCustomDataStorageHandle;
+
+typedef TElClassHandle TElDefaultDataStorageSecurityHandlerHandle;
+
+typedef TElClassHandle TElDataStorageSecurityHandlersFactoryHandle;
+
+typedef TElClassHandle TElDataStorageEncodingHandlersFactoryHandle;
+
+typedef uint8_t TSBDSDataAuthInfoTypeRaw;
+
+typedef enum
+{
+	aitNone = 0,
+	aitBasic = 1,
+	aitExtended = 2
+} TSBDSDataAuthInfoType;
+
+typedef uint8_t TSBDSDigestLocationRaw;
+
+typedef enum
+{
+	dlLocal = 0,
+	dlAppended = 1,
+	dlEmbedded = 2
+} TSBDSDigestLocation;
+
+typedef uint8_t TSBDataStorageOperationRaw;
+
+typedef enum
+{
+	dsoNone = 0,
+	dsoRead = 1,
+	dsoWrite = 2,
+	dsoList = 3,
+	dsoDelete = 4,
+	dsoCopy = 5,
+	dsoRename = 6,
+	dsoReadInfo = 7,
+	dsoWriteInfo = 8,
+	dsoOther = 9,
+	dsoLock = 10,
+	dsoUnlock = 11
+} TSBDataStorageOperation;
+
+typedef Pointer TSBDataStorageOperationParams;
+
+typedef void (SB_CALLBACK *TSBDataStorageOperationFinishEvent)(void * _ObjectData, TObjectHandle Sender, TSBDataStorageOperationRaw Operation);
+
+typedef void (SB_CALLBACK *TSBDataStorageOperationStartEvent)(void * _ObjectData, TObjectHandle Sender, TSBDataStorageOperationRaw Operation, int8_t * Cancel);
+
+typedef void (SB_CALLBACK *TSBDataStorageProgressEvent)(void * _ObjectData, TObjectHandle Sender, TSBDataStorageOperationRaw Operation, int64_t Total, int64_t Current, int8_t * Cancel);
+
+typedef void (SB_CALLBACK *TSBDataStorageProgressFunc)(void * _ObjectData, TSBDataStorageOperationRaw Operation, int64_t Total, int64_t Current, void * Data, int8_t * Cancel);
+
+typedef TElClassHandle TElDSKeyProtectionHandlerClassHandle;
+
+typedef void (SB_CALLBACK *TSBFDSSecurityHandlerCreatedEvent)(void * _ObjectData, TObjectHandle Sender, TElCustomDataStorageObjectHandle Obj, void * Data, TElCustomDataStorageSecurityHandlerHandle Handler);
+
+typedef void (SB_CALLBACK *TSBFDSSecurityHandlerNeededEvent)(void * _ObjectData, TObjectHandle Sender, TElCustomDataStorageObjectHandle Obj, void * Data, TElCustomDataStorageSecurityHandlerHandle * Handler);
+
+typedef void (SB_CALLBACK *TSBDataStorageSecHandlerSignatureFoundEvent)(void * _ObjectData, TObjectHandle Sender, int8_t Success, int32_t ErrorCode, TElMessageVerifierHandle Verifier, int8_t * TryAgain);
+
+typedef void (SB_CALLBACK *TSBDataStorageSecHandlerSigningPreparedEvent)(void * _ObjectData, TObjectHandle Sender, TElMessageSignerHandle Signer);
+
+typedef void (SB_CALLBACK *TSBDataStorageCreateTemporaryStreamEvent)(void * _ObjectData, TObjectHandle Sender, TStreamHandle * Stream, int8_t * ReleaseStreamAfterUse);
+
+typedef uint8_t TSBDSDataStorageFeatureRaw;
+
+typedef enum
+{
+	dsfObjectRead = 0,
+	dsfObjectWrite = 1,
+	dsfBlockRead = 2,
+	dsfBlockWrite = 3,
+	dsfMetadataGet = 4,
+	dsfMetadataSet = 5,
+	dsfCopy = 6,
+	dsfDelete = 7
+} TSBDSDataStorageFeature;
+
+typedef TElClassHandle TElDataStorageSecurityHandlerClassHandle;
+
+typedef uint8_t TSBEncodingHandlerFeatureRaw;
+
+typedef enum
+{
+	ehfObjectEncoding = 0,
+	ehfObjectDecoding = 1,
+	ehfRandomAccessEncoding = 2,
+	ehfRandomAccessDecoding = 3
+} TSBEncodingHandlerFeature;
+
+typedef TElClassHandle TElDataStorageEncodingHandlerClassHandle;
+
+#ifdef SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_GetOID(TElDSCustomKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_GetDescription(TElDSCustomKeyProtectionHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_Load(TElDSCustomKeyProtectionHandlerHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_Save(TElDSCustomKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_CreateInstance(TElDSCustomKeyProtectionHandlerHandle _Handle, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_GetKey(TElDSCustomKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_SetKey(TElDSCustomKeyProtectionHandlerHandle _Handle, const uint8_t pKey[], int32_t szKey);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_Reset(TElDSCustomKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_KeyAvailable(TElDSCustomKeyProtectionHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_ClearCache(TElDSCustomKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSCustomKeyProtectionHandler_Create(TElDSCustomKeyProtectionHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageEncodingHandler_Reset(TElCustomDataStorageEncodingHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageEncodingHandler_GetOID(TElCustomDataStorageEncodingHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageEncodingHandler_GetDescription(TElCustomDataStorageEncodingHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageEncodingHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageEncodingHandler_Create(TComponentHandle AOwner, TElCustomDataStorageEncodingHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSENVELOPEDDATAKEYPROTECTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_GetOID(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_GetDescription(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_CreateInstance(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_Load(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_Save(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_GetKey(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_SetKey(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, const uint8_t pKey[], int32_t szKey);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_Reset(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_KeyAvailable(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_ClearCache(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_CertIDs(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t Index, TElPKCS7IssuerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_CertIDCount(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_CertStorage(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, TElCustomCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_set_CertStorage(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, TElCustomCertStorageHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_Algorithm(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_set_Algorithm(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_BitsInKey(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_set_BitsInKey(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_get_UseOAEP(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_set_UseOAEP(TElDSEnvelopedDataKeyProtectionHandlerHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEnvelopedDataKeyProtectionHandler_Create(TElDSEnvelopedDataKeyProtectionHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDSENVELOPEDDATAKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSENCRYPTEDDATAKEYPROTECTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_GetOID(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_GetDescription(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_CreateInstance(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_Load(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_Save(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_GetKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_SetKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, const uint8_t pKey[], int32_t szKey);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_Reset(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_KeyAvailable(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_ClearCache(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_get_Algorithm(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_set_Algorithm(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_get_BitsInKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_set_BitsInKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_get_EncryptionKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_set_EncryptionKey(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_get_GenericKeys(TElDSEncryptedDataKeyProtectionHandlerHandle _Handle, TElByteArrayListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSEncryptedDataKeyProtectionHandler_Create(TElDSEncryptedDataKeyProtectionHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDSENCRYPTEDDATAKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSPLAINKEYPROTECTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_GetOID(TElDSPlainKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_GetDescription(TElDSPlainKeyProtectionHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_CreateInstance(TElDSPlainKeyProtectionHandlerHandle _Handle, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_Load(TElDSPlainKeyProtectionHandlerHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_Save(TElDSPlainKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_GetKey(TElDSPlainKeyProtectionHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_SetKey(TElDSPlainKeyProtectionHandlerHandle _Handle, const uint8_t pKey[], int32_t szKey);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_Reset(TElDSPlainKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_KeyAvailable(TElDSPlainKeyProtectionHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_ClearCache(TElDSPlainKeyProtectionHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSPlainKeyProtectionHandler_Create(TElDSPlainKeyProtectionHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDSPLAINKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSKEYPROTECTIONHANDLERSFACTORY
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_RegisterHandler(TElDSKeyProtectionHandlersFactoryHandle _Handle, TElDSKeyProtectionHandlerClassHandle Cls);
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_UnregisterHandler(TElDSKeyProtectionHandlersFactoryHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_CreateInstance(TElDSKeyProtectionHandlersFactoryHandle _Handle, const uint8_t pOID[], int32_t szOID, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_get_RegisteredHandlers(TElDSKeyProtectionHandlersFactoryHandle _Handle, int32_t Index, TElDSCustomKeyProtectionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_get_RegisteredHandlerCount(TElDSKeyProtectionHandlersFactoryHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDSKeyProtectionHandlersFactory_Create(TElDSKeyProtectionHandlersFactoryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDSKEYPROTECTIONHANDLERSFACTORY */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_Reset(TElCustomDataStorageSecurityHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_GetOID(TElCustomDataStorageSecurityHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_GetDescription(TElCustomDataStorageSecurityHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_CanEncrypt(TElCustomDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_CanDecrypt(TElCustomDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_ClearCache(TElCustomDataStorageSecurityHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageSecurityHandler_Create(TComponentHandle AOwner, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEOBJECTLIST
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageObjectList_Clear(TElDataStorageObjectListHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageObjectList_get_Objects(TElDataStorageObjectListHandle _Handle, int32_t Index, TElCustomDataStorageObjectHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageObjectList_get_Count(TElDataStorageObjectListHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageObjectList_Create(TElDataStorageObjectListHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDATASTORAGEOBJECTLIST */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_Assign(TElCustomDataStorageObjectHandle _Handle, TElCustomDataStorageObjectHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_Clone(TElCustomDataStorageObjectHandle _Handle, TElCustomDataStorageObjectHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_get_Handler(TElCustomDataStorageObjectHandle _Handle, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_get_Name(TElCustomDataStorageObjectHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_get_Secured(TElCustomDataStorageObjectHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_get_RawSize(TElCustomDataStorageObjectHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorageObject_Create(TElCustomDataStorageObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGE
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_AcquireObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_ReleaseObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle * Obj);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_ReadObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TStreamHandle Strm);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_WriteObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TStreamHandle Strm, TElCustomDataStorageSecurityHandlerHandle Handler);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_ReadBlock(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TStreamHandle Strm, int64_t Offset, int64_t Size, int64_t * Read);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_WriteBlock(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TStreamHandle Strm, TElCustomDataStorageSecurityHandlerHandle Handler, int64_t Offset, int64_t * Written);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_DeleteObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle * Obj);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_GetProtectionInfo(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_List(TElCustomDataStorageHandle _Handle, TElDataStorageObjectListHandle Objs);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_CopyObject(TElCustomDataStorageHandle _Handle, TElCustomDataStorageObjectHandle Obj, TElCustomDataStorageSecurityHandlerHandle NewHandler, TElCustomDataStorageObjectHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_PassthroughMode(TElCustomDataStorageHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_PassthroughMode(TElCustomDataStorageHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_Overwrite(TElCustomDataStorageHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_Overwrite(TElCustomDataStorageHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_SecurityHandler(TElCustomDataStorageHandle _Handle, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_SecurityHandler(TElCustomDataStorageHandle _Handle, TElCustomDataStorageSecurityHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_ObjectInfoReadStrategy(TElCustomDataStorageHandle _Handle, TSBProtectedObjectReadStrategyRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_ObjectInfoReadStrategy(TElCustomDataStorageHandle _Handle, TSBProtectedObjectReadStrategyRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_OnProgress(TElCustomDataStorageHandle _Handle, TSBDataStorageProgressEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_OnProgress(TElCustomDataStorageHandle _Handle, TSBDataStorageProgressEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_OnOperationStart(TElCustomDataStorageHandle _Handle, TSBDataStorageOperationStartEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_OnOperationStart(TElCustomDataStorageHandle _Handle, TSBDataStorageOperationStartEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_OnOperationFinish(TElCustomDataStorageHandle _Handle, TSBDataStorageOperationFinishEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_OnOperationFinish(TElCustomDataStorageHandle _Handle, TSBDataStorageOperationFinishEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_OnSecurityHandlerNeeded(TElCustomDataStorageHandle _Handle, TSBFDSSecurityHandlerNeededEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_OnSecurityHandlerNeeded(TElCustomDataStorageHandle _Handle, TSBFDSSecurityHandlerNeededEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_get_OnSecurityHandlerCreated(TElCustomDataStorageHandle _Handle, TSBFDSSecurityHandlerCreatedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_set_OnSecurityHandlerCreated(TElCustomDataStorageHandle _Handle, TSBFDSSecurityHandlerCreatedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCustomDataStorage_Create(TComponentHandle AOwner, TElCustomDataStorageHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGE */
+
+#ifdef SB_USE_CLASS_TELDEFAULTDATASTORAGESECURITYHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_CanEncrypt(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_CanDecrypt(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_ClearCache(TElDefaultDataStorageSecurityHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_GetDescription(TElDefaultDataStorageSecurityHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_GetOID(TElDefaultDataStorageSecurityHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_Reset(TElDefaultDataStorageSecurityHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_CertIDs(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Index, TElPKCS7IssuerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_CertIDCount(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_DataSize(TElDefaultDataStorageSecurityHandlerHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_GenericEncryptionKey(TElDefaultDataStorageSecurityHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_GenericEncryptionKey(TElDefaultDataStorageSecurityHandlerHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_GenericEncryptionKeys(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElByteArrayListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_GenericEncryptionKeyUsed(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_ProtectedUserData(TElDefaultDataStorageSecurityHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_ProtectedUserData(TElDefaultDataStorageSecurityHandlerHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_UnprotectedUserData(TElDefaultDataStorageSecurityHandlerHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_UnprotectedUserData(TElDefaultDataStorageSecurityHandlerHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_SignatureFound(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_SignatureVerifier(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElMessageVerifierHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_SignatureVerificationResult(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_ObjectIntegrityRecordAvailable(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_MetadataIntegrityRecordAvailable(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthBlockSize(TElDefaultDataStorageSecurityHandlerHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthBlockSize(TElDefaultDataStorageSecurityHandlerHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthDigestAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthDigestAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthDigestLocation(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDSDigestLocationRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthDigestLocation(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDSDigestLocationRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthHashSize(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthHashSize(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthInfoType(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDSDataAuthInfoTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthInfoType(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDSDataAuthInfoTypeRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_AuthKeyLen(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_AuthKeyLen(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_CacheEncryptionKey(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_CacheEncryptionKey(TElDefaultDataStorageSecurityHandlerHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_DataEncryptionAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_DataEncryptionAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_EncodingHandler(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomDataStorageEncodingHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_EncodingHandler(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomDataStorageEncodingHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_EncryptionCertificates(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_EncryptionCertificates(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomCertStorageHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_KeyEncryptionAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_KeyEncryptionAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_SigningCertificates(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_SigningCertificates(TElDefaultDataStorageSecurityHandlerHandle _Handle, TElCustomCertStorageHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_SignatureHashAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_SignatureHashAlgorithm(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_ExtraTrailerSpace(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_ExtraTrailerSpace(TElDefaultDataStorageSecurityHandlerHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_OnSigningPrepared(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDataStorageSecHandlerSigningPreparedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_OnSigningPrepared(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDataStorageSecHandlerSigningPreparedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_get_OnSignatureFound(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDataStorageSecHandlerSignatureFoundEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_set_OnSignatureFound(TElDefaultDataStorageSecurityHandlerHandle _Handle, TSBDataStorageSecHandlerSignatureFoundEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElDefaultDataStorageSecurityHandler_Create(TComponentHandle AOwner, TElDefaultDataStorageSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDEFAULTDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_RegisterHandler(TElDataStorageSecurityHandlersFactoryHandle _Handle, TElDataStorageSecurityHandlerClassHandle Cls);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_UnregisterHandler(TElDataStorageSecurityHandlersFactoryHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_CreateInstance(TElDataStorageSecurityHandlersFactoryHandle _Handle, const uint8_t pOID[], int32_t szOID, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_CreateInstanceFromMetadata(TElDataStorageSecurityHandlersFactoryHandle _Handle, const uint8_t pSecMetadata[], int32_t szSecMetadata, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_get_RegisteredHandlers(TElDataStorageSecurityHandlersFactoryHandle _Handle, int32_t Index, TElCustomDataStorageSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_get_RegisteredHandlerCount(TElDataStorageSecurityHandlersFactoryHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageSecurityHandlersFactory_Create(TElDataStorageSecurityHandlersFactoryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_RegisterHandler(TElDataStorageEncodingHandlersFactoryHandle _Handle, TElDataStorageEncodingHandlerClassHandle Cls);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_UnregisterHandler(TElDataStorageEncodingHandlersFactoryHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_CreateInstance(TElDataStorageEncodingHandlersFactoryHandle _Handle, const uint8_t pOID[], int32_t szOID, TElCustomDataStorageEncodingHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_CreateInstance_1(TElDataStorageEncodingHandlersFactoryHandle _Handle, const uint8_t pOID[], int32_t szOID, const uint8_t pParams[], int32_t szParams, TElCustomDataStorageEncodingHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_get_RegisteredHandlers(TElDataStorageEncodingHandlersFactoryHandle _Handle, int32_t Index, TElCustomDataStorageEncodingHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_get_RegisteredHandlerCount(TElDataStorageEncodingHandlersFactoryHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElDataStorageEncodingHandlersFactory_Create(TElDataStorageEncodingHandlersFactoryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElDSCustomKeyProtectionHandler;
+class TElCustomDataStorageEncodingHandler;
+class TElDSEnvelopedDataKeyProtectionHandler;
+class TElDSEncryptedDataKeyProtectionHandler;
+class TElDSPlainKeyProtectionHandler;
+class TElDSKeyProtectionHandlersFactory;
+class TElCustomDataStorageSecurityHandler;
+class TElDataStorageObjectList;
+class TElCustomDataStorageObject;
+class TElCustomDataStorage;
+class TElDefaultDataStorageSecurityHandler;
+class TElDataStorageSecurityHandlersFactory;
+class TElDataStorageEncodingHandlersFactory;
+
+#ifdef SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER
+class TElDSCustomKeyProtectionHandler: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElDSCustomKeyProtectionHandler)
+	public:
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual void Load(const std::vector<uint8_t> &Buffer);
+
+		virtual void Save(std::vector<uint8_t> &OutResult);
+
+		virtual TElDSCustomKeyProtectionHandlerHandle CreateInstance();
+
+		virtual void GetKey(std::vector<uint8_t> &OutResult);
+
+		virtual void SetKey(const std::vector<uint8_t> &Key);
+
+		virtual void Reset();
+
+		virtual bool KeyAvailable();
+
+		virtual void ClearCache();
+
+		static TClassHandle ClassType();
+
+		TElDSCustomKeyProtectionHandler(TElDSCustomKeyProtectionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		TElDSCustomKeyProtectionHandler();
+
+};
+#endif /* SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+class TElCustomDataStorageEncodingHandler: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElCustomDataStorageEncodingHandler)
+	public:
+		virtual void Reset();
+
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		TElCustomDataStorageEncodingHandler(TElCustomDataStorageEncodingHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElCustomDataStorageEncodingHandler(TComponent &AOwner);
+
+		explicit TElCustomDataStorageEncodingHandler(TComponent *AOwner);
+
+};
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSENVELOPEDDATAKEYPROTECTIONHANDLER
+class TElDSEnvelopedDataKeyProtectionHandler: public TElDSCustomKeyProtectionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElDSEnvelopedDataKeyProtectionHandler)
+#ifdef SB_USE_CLASS_TELPKCS7ISSUER
+		TElPKCS7Issuer* _Inst_CertIDs;
+#endif /* SB_USE_CLASS_TELPKCS7ISSUER */
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		TElCustomCertStorage* _Inst_CertStorage;
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void initInstances();
+
+	public:
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual TElDSCustomKeyProtectionHandlerHandle CreateInstance();
+
+		virtual void Load(const std::vector<uint8_t> &Buffer);
+
+		virtual void Save(std::vector<uint8_t> &OutResult);
+
+		virtual void GetKey(std::vector<uint8_t> &OutResult);
+
+		virtual void SetKey(const std::vector<uint8_t> &Key);
+
+		virtual void Reset();
+
+		virtual bool KeyAvailable();
+
+		virtual void ClearCache();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELPKCS7ISSUER
+		virtual TElPKCS7Issuer* get_CertIDs(int32_t Index);
+#endif /* SB_USE_CLASS_TELPKCS7ISSUER */
+
+		virtual int32_t get_CertIDCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_CertIDCount, TElDSEnvelopedDataKeyProtectionHandler, CertIDCount);
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		virtual TElCustomCertStorage* get_CertStorage();
+
+		virtual void set_CertStorage(TElCustomCertStorage &Value);
+
+		virtual void set_CertStorage(TElCustomCertStorage *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomCertStorage*, get_CertStorage, set_CertStorage, TElDSEnvelopedDataKeyProtectionHandler, CertStorage);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		virtual int32_t get_Algorithm();
+
+		virtual void set_Algorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Algorithm, set_Algorithm, TElDSEnvelopedDataKeyProtectionHandler, Algorithm);
+
+		virtual int32_t get_BitsInKey();
+
+		virtual void set_BitsInKey(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_BitsInKey, set_BitsInKey, TElDSEnvelopedDataKeyProtectionHandler, BitsInKey);
+
+		virtual bool get_UseOAEP();
+
+		virtual void set_UseOAEP(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseOAEP, set_UseOAEP, TElDSEnvelopedDataKeyProtectionHandler, UseOAEP);
+
+		TElDSEnvelopedDataKeyProtectionHandler(TElDSEnvelopedDataKeyProtectionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		TElDSEnvelopedDataKeyProtectionHandler();
+
+		virtual ~TElDSEnvelopedDataKeyProtectionHandler();
+
+};
+#endif /* SB_USE_CLASS_TELDSENVELOPEDDATAKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSENCRYPTEDDATAKEYPROTECTIONHANDLER
+class TElDSEncryptedDataKeyProtectionHandler: public TElDSCustomKeyProtectionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElDSEncryptedDataKeyProtectionHandler)
+#ifdef SB_USE_CLASS_TELBYTEARRAYLIST
+		TElByteArrayList* _Inst_GenericKeys;
+#endif /* SB_USE_CLASS_TELBYTEARRAYLIST */
+
+		void initInstances();
+
+	public:
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual TElDSCustomKeyProtectionHandlerHandle CreateInstance();
+
+		virtual void Load(const std::vector<uint8_t> &Buffer);
+
+		virtual void Save(std::vector<uint8_t> &OutResult);
+
+		virtual void GetKey(std::vector<uint8_t> &OutResult);
+
+		virtual void SetKey(const std::vector<uint8_t> &Key);
+
+		virtual void Reset();
+
+		virtual bool KeyAvailable();
+
+		virtual void ClearCache();
+
+		static TClassHandle ClassType();
+
+		virtual int32_t get_Algorithm();
+
+		virtual void set_Algorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Algorithm, set_Algorithm, TElDSEncryptedDataKeyProtectionHandler, Algorithm);
+
+		virtual int32_t get_BitsInKey();
+
+		virtual void set_BitsInKey(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_BitsInKey, set_BitsInKey, TElDSEncryptedDataKeyProtectionHandler, BitsInKey);
+
+		virtual void get_EncryptionKey(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptionKey(const std::vector<uint8_t> &Value);
+
+#ifdef SB_USE_CLASS_TELBYTEARRAYLIST
+		virtual TElByteArrayList* get_GenericKeys();
+
+		SB_DECLARE_PROPERTY_GET(TElByteArrayList*, get_GenericKeys, TElDSEncryptedDataKeyProtectionHandler, GenericKeys);
+#endif /* SB_USE_CLASS_TELBYTEARRAYLIST */
+
+		TElDSEncryptedDataKeyProtectionHandler(TElDSEncryptedDataKeyProtectionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		TElDSEncryptedDataKeyProtectionHandler();
+
+		virtual ~TElDSEncryptedDataKeyProtectionHandler();
+
+};
+#endif /* SB_USE_CLASS_TELDSENCRYPTEDDATAKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSPLAINKEYPROTECTIONHANDLER
+class TElDSPlainKeyProtectionHandler: public TElDSCustomKeyProtectionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElDSPlainKeyProtectionHandler)
+	public:
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual TElDSCustomKeyProtectionHandlerHandle CreateInstance();
+
+		virtual void Load(const std::vector<uint8_t> &Buffer);
+
+		virtual void Save(std::vector<uint8_t> &OutResult);
+
+		virtual void GetKey(std::vector<uint8_t> &OutResult);
+
+		virtual void SetKey(const std::vector<uint8_t> &Key);
+
+		virtual void Reset();
+
+		virtual bool KeyAvailable();
+
+		virtual void ClearCache();
+
+		static TClassHandle ClassType();
+
+		TElDSPlainKeyProtectionHandler(TElDSPlainKeyProtectionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		TElDSPlainKeyProtectionHandler();
+
+};
+#endif /* SB_USE_CLASS_TELDSPLAINKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSKEYPROTECTIONHANDLERSFACTORY
+class TElDSKeyProtectionHandlersFactory: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElDSKeyProtectionHandlersFactory)
+#ifdef SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER
+		TElDSCustomKeyProtectionHandler* _Inst_RegisteredHandlers;
+#endif /* SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER */
+
+		void initInstances();
+
+	public:
+		void RegisterHandler(TElDSKeyProtectionHandlerClassHandle Cls);
+
+		void UnregisterHandler(int32_t Index);
+
+#ifdef SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER
+		TElDSCustomKeyProtectionHandlerHandle CreateInstance(const std::vector<uint8_t> &OID);
+#endif /* SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER
+		virtual TElDSCustomKeyProtectionHandler* get_RegisteredHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELDSCUSTOMKEYPROTECTIONHANDLER */
+
+		virtual int32_t get_RegisteredHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_RegisteredHandlerCount, TElDSKeyProtectionHandlersFactory, RegisteredHandlerCount);
+
+		TElDSKeyProtectionHandlersFactory(TElDSKeyProtectionHandlersFactoryHandle handle, TElOwnHandle ownHandle);
+
+		TElDSKeyProtectionHandlersFactory();
+
+		virtual ~TElDSKeyProtectionHandlersFactory();
+
+};
+#endif /* SB_USE_CLASS_TELDSKEYPROTECTIONHANDLERSFACTORY */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+class TElCustomDataStorageSecurityHandler: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElCustomDataStorageSecurityHandler)
+	public:
+		virtual void Reset();
+
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual bool CanEncrypt();
+
+		virtual bool CanDecrypt();
+
+		virtual void ClearCache();
+
+		static TClassHandle ClassType();
+
+		TElCustomDataStorageSecurityHandler(TElCustomDataStorageSecurityHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElCustomDataStorageSecurityHandler(TComponent &AOwner);
+
+		explicit TElCustomDataStorageSecurityHandler(TComponent *AOwner);
+
+};
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEOBJECTLIST
+class TElDataStorageObjectList: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElDataStorageObjectList)
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+		TElCustomDataStorageObject* _Inst_Objects;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+		void initInstances();
+
+	public:
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+		virtual TElCustomDataStorageObject* get_Objects(int32_t Index);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElDataStorageObjectList, Count);
+
+		TElDataStorageObjectList(TElDataStorageObjectListHandle handle, TElOwnHandle ownHandle);
+
+		TElDataStorageObjectList();
+
+		virtual ~TElDataStorageObjectList();
+
+};
+#endif /* SB_USE_CLASS_TELDATASTORAGEOBJECTLIST */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+class TElCustomDataStorageObject: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElCustomDataStorageObject)
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandler* _Inst_Handler;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TElCustomDataStorageObject &Source);
+
+		virtual void Assign(TElCustomDataStorageObject *Source);
+
+		virtual TElCustomDataStorageObjectHandle Clone();
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		virtual TElCustomDataStorageSecurityHandler* get_Handler();
+
+		SB_DECLARE_PROPERTY_GET(TElCustomDataStorageSecurityHandler*, get_Handler, TElCustomDataStorageObject, Handler);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		virtual void get_Name(std::string &OutResult);
+
+		virtual bool get_Secured();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Secured, TElCustomDataStorageObject, Secured);
+
+		virtual int64_t get_RawSize();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_RawSize, TElCustomDataStorageObject, RawSize);
+
+		TElCustomDataStorageObject(TElCustomDataStorageObjectHandle handle, TElOwnHandle ownHandle);
+
+		TElCustomDataStorageObject();
+
+		virtual ~TElCustomDataStorageObject();
+
+};
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGE
+class TElCustomDataStorage: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElCustomDataStorage)
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandler* _Inst_SecurityHandler;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+		TElCustomDataStorageObjectHandle AcquireObject();
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+		void ReleaseObject(TElCustomDataStorageObject &Obj);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TSTREAM
+		void ReadObject(TElCustomDataStorageObject &Obj, TStream &Strm);
+
+		void ReadObject(TElCustomDataStorageObject *Obj, TStream *Strm);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TSTREAM */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER_AND_TSTREAM
+		void WriteObject(TElCustomDataStorageObject &Obj, TStream &Strm, TElCustomDataStorageSecurityHandler &Handler);
+
+		void WriteObject(TElCustomDataStorageObject *Obj, TStream *Strm, TElCustomDataStorageSecurityHandler *Handler);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER_AND_TSTREAM */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TSTREAM
+		void ReadBlock(TElCustomDataStorageObject &Obj, TStream &Strm, int64_t Offset, int64_t Size, int64_t &Read);
+
+		void ReadBlock(TElCustomDataStorageObject *Obj, TStream *Strm, int64_t Offset, int64_t Size, int64_t &Read);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TSTREAM */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER_AND_TSTREAM
+		void WriteBlock(TElCustomDataStorageObject &Obj, TStream &Strm, TElCustomDataStorageSecurityHandler &Handler, int64_t Offset, int64_t &Written);
+
+		void WriteBlock(TElCustomDataStorageObject *Obj, TStream *Strm, TElCustomDataStorageSecurityHandler *Handler, int64_t Offset, int64_t &Written);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER_AND_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT
+		void DeleteObject(TElCustomDataStorageObject &Obj);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEOBJECT */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandlerHandle GetProtectionInfo(TElCustomDataStorageObject &Obj);
+
+		TElCustomDataStorageSecurityHandlerHandle GetProtectionInfo(TElCustomDataStorageObject *Obj);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEOBJECTLIST
+		void List(TElDataStorageObjectList &Objs);
+
+		void List(TElDataStorageObjectList *Objs);
+#endif /* SB_USE_CLASS_TELDATASTORAGEOBJECTLIST */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageObjectHandle CopyObject(TElCustomDataStorageObject &Obj, TElCustomDataStorageSecurityHandler &NewHandler);
+
+		TElCustomDataStorageObjectHandle CopyObject(TElCustomDataStorageObject *Obj, TElCustomDataStorageSecurityHandler *NewHandler);
+#endif /* SB_USE_CLASSES_TELCUSTOMDATASTORAGEOBJECT_AND_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		virtual bool get_PassthroughMode();
+
+		virtual void set_PassthroughMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_PassthroughMode, set_PassthroughMode, TElCustomDataStorage, PassthroughMode);
+
+		virtual bool get_Overwrite();
+
+		virtual void set_Overwrite(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Overwrite, set_Overwrite, TElCustomDataStorage, Overwrite);
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		virtual TElCustomDataStorageSecurityHandler* get_SecurityHandler();
+
+		virtual void set_SecurityHandler(TElCustomDataStorageSecurityHandler &Value);
+
+		virtual void set_SecurityHandler(TElCustomDataStorageSecurityHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomDataStorageSecurityHandler*, get_SecurityHandler, set_SecurityHandler, TElCustomDataStorage, SecurityHandler);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		virtual TSBProtectedObjectReadStrategy get_ObjectInfoReadStrategy();
+
+		virtual void set_ObjectInfoReadStrategy(TSBProtectedObjectReadStrategy Value);
+
+		SB_DECLARE_PROPERTY(TSBProtectedObjectReadStrategy, get_ObjectInfoReadStrategy, set_ObjectInfoReadStrategy, TElCustomDataStorage, ObjectInfoReadStrategy);
+
+		virtual void get_OnProgress(TSBDataStorageProgressEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnProgress(TSBDataStorageProgressEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnOperationStart(TSBDataStorageOperationStartEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnOperationStart(TSBDataStorageOperationStartEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnOperationFinish(TSBDataStorageOperationFinishEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnOperationFinish(TSBDataStorageOperationFinishEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnSecurityHandlerNeeded(TSBFDSSecurityHandlerNeededEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnSecurityHandlerNeeded(TSBFDSSecurityHandlerNeededEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnSecurityHandlerCreated(TSBFDSSecurityHandlerCreatedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnSecurityHandlerCreated(TSBFDSSecurityHandlerCreatedEvent pMethodValue, void * pDataValue);
+
+		TElCustomDataStorage(TElCustomDataStorageHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElCustomDataStorage(TComponent &AOwner);
+
+		explicit TElCustomDataStorage(TComponent *AOwner);
+
+		virtual ~TElCustomDataStorage();
+
+};
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGE */
+
+#ifdef SB_USE_CLASS_TELDEFAULTDATASTORAGESECURITYHANDLER
+class TElDefaultDataStorageSecurityHandler: public TElCustomDataStorageSecurityHandler
+{
+	private:
+		SB_DISABLE_COPY(TElDefaultDataStorageSecurityHandler)
+#ifdef SB_USE_CLASS_TELPKCS7ISSUER
+		TElPKCS7Issuer* _Inst_CertIDs;
+#endif /* SB_USE_CLASS_TELPKCS7ISSUER */
+#ifdef SB_USE_CLASS_TELBYTEARRAYLIST
+		TElByteArrayList* _Inst_GenericEncryptionKeys;
+#endif /* SB_USE_CLASS_TELBYTEARRAYLIST */
+#ifdef SB_USE_CLASS_TELMESSAGEVERIFIER
+		TElMessageVerifier* _Inst_SignatureVerifier;
+#endif /* SB_USE_CLASS_TELMESSAGEVERIFIER */
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		TElCustomDataStorageEncodingHandler* _Inst_EncodingHandler;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		TElCustomCertStorage* _Inst_EncryptionCertificates;
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		TElCustomCertStorage* _Inst_SigningCertificates;
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void initInstances();
+
+	public:
+		virtual bool CanEncrypt();
+
+		virtual bool CanDecrypt();
+
+		virtual void ClearCache();
+
+		virtual void GetDescription(std::string &OutResult);
+
+		virtual void GetOID(std::vector<uint8_t> &OutResult);
+
+		virtual void Reset();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELPKCS7ISSUER
+		virtual TElPKCS7Issuer* get_CertIDs(int32_t Index);
+#endif /* SB_USE_CLASS_TELPKCS7ISSUER */
+
+		virtual int32_t get_CertIDCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_CertIDCount, TElDefaultDataStorageSecurityHandler, CertIDCount);
+
+		virtual int64_t get_DataSize();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_DataSize, TElDefaultDataStorageSecurityHandler, DataSize);
+
+		virtual void get_GenericEncryptionKey(std::vector<uint8_t> &OutResult);
+
+		virtual void set_GenericEncryptionKey(const std::vector<uint8_t> &Value);
+
+#ifdef SB_USE_CLASS_TELBYTEARRAYLIST
+		virtual TElByteArrayList* get_GenericEncryptionKeys();
+
+		SB_DECLARE_PROPERTY_GET(TElByteArrayList*, get_GenericEncryptionKeys, TElDefaultDataStorageSecurityHandler, GenericEncryptionKeys);
+#endif /* SB_USE_CLASS_TELBYTEARRAYLIST */
+
+		virtual bool get_GenericEncryptionKeyUsed();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_GenericEncryptionKeyUsed, TElDefaultDataStorageSecurityHandler, GenericEncryptionKeyUsed);
+
+		virtual void get_ProtectedUserData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ProtectedUserData(const std::vector<uint8_t> &Value);
+
+		virtual void get_UnprotectedUserData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_UnprotectedUserData(const std::vector<uint8_t> &Value);
+
+		virtual bool get_SignatureFound();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_SignatureFound, TElDefaultDataStorageSecurityHandler, SignatureFound);
+
+#ifdef SB_USE_CLASS_TELMESSAGEVERIFIER
+		virtual TElMessageVerifier* get_SignatureVerifier();
+
+		SB_DECLARE_PROPERTY_GET(TElMessageVerifier*, get_SignatureVerifier, TElDefaultDataStorageSecurityHandler, SignatureVerifier);
+#endif /* SB_USE_CLASS_TELMESSAGEVERIFIER */
+
+		virtual int32_t get_SignatureVerificationResult();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureVerificationResult, TElDefaultDataStorageSecurityHandler, SignatureVerificationResult);
+
+		virtual bool get_ObjectIntegrityRecordAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_ObjectIntegrityRecordAvailable, TElDefaultDataStorageSecurityHandler, ObjectIntegrityRecordAvailable);
+
+		virtual bool get_MetadataIntegrityRecordAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_MetadataIntegrityRecordAvailable, TElDefaultDataStorageSecurityHandler, MetadataIntegrityRecordAvailable);
+
+		virtual int64_t get_AuthBlockSize();
+
+		virtual void set_AuthBlockSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_AuthBlockSize, set_AuthBlockSize, TElDefaultDataStorageSecurityHandler, AuthBlockSize);
+
+		virtual int32_t get_AuthDigestAlgorithm();
+
+		virtual void set_AuthDigestAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AuthDigestAlgorithm, set_AuthDigestAlgorithm, TElDefaultDataStorageSecurityHandler, AuthDigestAlgorithm);
+
+		virtual TSBDSDigestLocation get_AuthDigestLocation();
+
+		virtual void set_AuthDigestLocation(TSBDSDigestLocation Value);
+
+		SB_DECLARE_PROPERTY(TSBDSDigestLocation, get_AuthDigestLocation, set_AuthDigestLocation, TElDefaultDataStorageSecurityHandler, AuthDigestLocation);
+
+		virtual int32_t get_AuthHashSize();
+
+		virtual void set_AuthHashSize(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AuthHashSize, set_AuthHashSize, TElDefaultDataStorageSecurityHandler, AuthHashSize);
+
+		virtual TSBDSDataAuthInfoType get_AuthInfoType();
+
+		virtual void set_AuthInfoType(TSBDSDataAuthInfoType Value);
+
+		SB_DECLARE_PROPERTY(TSBDSDataAuthInfoType, get_AuthInfoType, set_AuthInfoType, TElDefaultDataStorageSecurityHandler, AuthInfoType);
+
+		virtual int32_t get_AuthKeyLen();
+
+		virtual void set_AuthKeyLen(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AuthKeyLen, set_AuthKeyLen, TElDefaultDataStorageSecurityHandler, AuthKeyLen);
+
+		virtual bool get_CacheEncryptionKey();
+
+		virtual void set_CacheEncryptionKey(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CacheEncryptionKey, set_CacheEncryptionKey, TElDefaultDataStorageSecurityHandler, CacheEncryptionKey);
+
+		virtual int32_t get_DataEncryptionAlgorithm();
+
+		virtual void set_DataEncryptionAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_DataEncryptionAlgorithm, set_DataEncryptionAlgorithm, TElDefaultDataStorageSecurityHandler, DataEncryptionAlgorithm);
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		virtual TElCustomDataStorageEncodingHandler* get_EncodingHandler();
+
+		virtual void set_EncodingHandler(TElCustomDataStorageEncodingHandler &Value);
+
+		virtual void set_EncodingHandler(TElCustomDataStorageEncodingHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomDataStorageEncodingHandler*, get_EncodingHandler, set_EncodingHandler, TElDefaultDataStorageSecurityHandler, EncodingHandler);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		virtual TElCustomCertStorage* get_EncryptionCertificates();
+
+		virtual void set_EncryptionCertificates(TElCustomCertStorage &Value);
+
+		virtual void set_EncryptionCertificates(TElCustomCertStorage *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomCertStorage*, get_EncryptionCertificates, set_EncryptionCertificates, TElDefaultDataStorageSecurityHandler, EncryptionCertificates);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		virtual int32_t get_KeyEncryptionAlgorithm();
+
+		virtual void set_KeyEncryptionAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_KeyEncryptionAlgorithm, set_KeyEncryptionAlgorithm, TElDefaultDataStorageSecurityHandler, KeyEncryptionAlgorithm);
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		virtual TElCustomCertStorage* get_SigningCertificates();
+
+		virtual void set_SigningCertificates(TElCustomCertStorage &Value);
+
+		virtual void set_SigningCertificates(TElCustomCertStorage *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomCertStorage*, get_SigningCertificates, set_SigningCertificates, TElDefaultDataStorageSecurityHandler, SigningCertificates);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		virtual int32_t get_SignatureHashAlgorithm();
+
+		virtual void set_SignatureHashAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_SignatureHashAlgorithm, set_SignatureHashAlgorithm, TElDefaultDataStorageSecurityHandler, SignatureHashAlgorithm);
+
+		virtual int32_t get_ExtraTrailerSpace();
+
+		virtual void set_ExtraTrailerSpace(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_ExtraTrailerSpace, set_ExtraTrailerSpace, TElDefaultDataStorageSecurityHandler, ExtraTrailerSpace);
+
+		virtual void get_OnSigningPrepared(TSBDataStorageSecHandlerSigningPreparedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnSigningPrepared(TSBDataStorageSecHandlerSigningPreparedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnSignatureFound(TSBDataStorageSecHandlerSignatureFoundEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnSignatureFound(TSBDataStorageSecHandlerSignatureFoundEvent pMethodValue, void * pDataValue);
+
+		TElDefaultDataStorageSecurityHandler(TElDefaultDataStorageSecurityHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElDefaultDataStorageSecurityHandler(TComponent &AOwner);
+
+		explicit TElDefaultDataStorageSecurityHandler(TComponent *AOwner);
+
+		virtual ~TElDefaultDataStorageSecurityHandler();
+
+};
+#endif /* SB_USE_CLASS_TELDEFAULTDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY
+class TElDataStorageSecurityHandlersFactory: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElDataStorageSecurityHandlersFactory)
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandler* _Inst_RegisteredHandlers;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		void initInstances();
+
+	public:
+		void RegisterHandler(TElDataStorageSecurityHandlerClassHandle Cls);
+
+		void UnregisterHandler(int32_t Index);
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandlerHandle CreateInstance(const std::vector<uint8_t> &OID);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		TElCustomDataStorageSecurityHandlerHandle CreateInstanceFromMetadata(const std::vector<uint8_t> &SecMetadata);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER
+		virtual TElCustomDataStorageSecurityHandler* get_RegisteredHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGESECURITYHANDLER */
+
+		virtual int32_t get_RegisteredHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_RegisteredHandlerCount, TElDataStorageSecurityHandlersFactory, RegisteredHandlerCount);
+
+		TElDataStorageSecurityHandlersFactory(TElDataStorageSecurityHandlersFactoryHandle handle, TElOwnHandle ownHandle);
+
+		TElDataStorageSecurityHandlersFactory();
+
+		virtual ~TElDataStorageSecurityHandlersFactory();
+
+};
+#endif /* SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY
+class TElDataStorageEncodingHandlersFactory: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElDataStorageEncodingHandlersFactory)
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		TElCustomDataStorageEncodingHandler* _Inst_RegisteredHandlers;
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+		void initInstances();
+
+	public:
+		void RegisterHandler(TElDataStorageEncodingHandlerClassHandle Cls);
+
+		void UnregisterHandler(int32_t Index);
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		TElCustomDataStorageEncodingHandlerHandle CreateInstance(const std::vector<uint8_t> &OID);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		TElCustomDataStorageEncodingHandlerHandle CreateInstance(const std::vector<uint8_t> &OID, const std::vector<uint8_t> &Params);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+#ifdef SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER
+		virtual TElCustomDataStorageEncodingHandler* get_RegisteredHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELCUSTOMDATASTORAGEENCODINGHANDLER */
+
+		virtual int32_t get_RegisteredHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_RegisteredHandlerCount, TElDataStorageEncodingHandlersFactory, RegisteredHandlerCount);
+
+		TElDataStorageEncodingHandlersFactory(TElDataStorageEncodingHandlersFactoryHandle handle, TElOwnHandle ownHandle);
+
+		TElDataStorageEncodingHandlersFactory();
+
+		virtual ~TElDataStorageEncodingHandlersFactory();
+
+};
+#endif /* SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY */
+
+#ifdef SB_USE_GLOBAL_PROCS_DATASTORAGE
+
+#ifdef SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY
+TElDataStorageSecurityHandlersFactoryHandle DataStorageSecurityHandlersFactory();
+#endif /* SB_USE_CLASS_TELDATASTORAGESECURITYHANDLERSFACTORY */
+
+#ifdef SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY
+TElDataStorageEncodingHandlersFactoryHandle DataStorageEncodingHandlersFactory();
+#endif /* SB_USE_CLASS_TELDATASTORAGEENCODINGHANDLERSFACTORY */
+
+#endif /* SB_USE_GLOBAL_PROCS_DATASTORAGE */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_DATASTORAGE
+SB_IMPORT uint32_t SB_APIENTRY SBDataStorage_DataStorageSecurityHandlersFactory(TElDataStorageSecurityHandlersFactoryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBDataStorage_DataStorageEncodingHandlersFactory(TElDataStorageEncodingHandlersFactoryHandle * OutResult);
+#endif /* SB_USE_GLOBAL_PROCS_DATASTORAGE */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBDATASTORAGE */
+

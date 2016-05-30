@@ -1,0 +1,1285 @@
+#ifndef __INC_SBCADES
+#define __INC_SBCADES
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbconstants.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+#include "sbpkicommon.h"
+#include "sbcms.h"
+#include "sbcmsutils.h"
+#include "sbpkcs7.h"
+#include "sbpkcs7utils.h"
+#include "sbx509.h"
+#include "sbx509ext.h"
+#include "sbcustomcertstorage.h"
+#include "sbcertvalidator.h"
+#include "sbcrl.h"
+#include "sbcrlstorage.h"
+#include "sbocspcommon.h"
+#include "sbocspclient.h"
+#include "sbtspcommon.h"
+#include "sbtspclient.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_ERROR_FACILITY_CADES 	9472
+#define SB_CADES_ERROR_NO_SIGNING_CERT 	9473
+#define SB_CADES_ERROR_NO_SIGNATURE 	9474
+#define SB_CADES_ERROR_CANT_MODIFIED_TIMESTAMPED_CONTENT 	9489
+#define SB_CADES_ERROR_TIMESTAMP_DOESNT_MATCH_SOURCE 	9490
+#define SB_CADES_ERROR_VALIDATION_INFO_INCOMPLETE 	9491
+#define SB_CADES_ERROR_C_MUST_CONTAIN_SIG_TIMESTAMP 	9492
+#define SB_CADES_ERROR_BAD_SIGNATURE_STATE 	9505
+#define SB_CADES_ERROR_CANT_UPGRADE_SIGNATURE_LEVEL 	9506
+#define SB_CADES_ERROR_CANT_UPGRADE_TO_SAME_LEVEL 	9507
+#define SB_CADES_ERROR_ONLY_ARCHIVAL_TIMESTAMP_ALLOWED 	9508
+
+typedef TElClassHandle TElCAdESRevocationInfoHandle;
+
+typedef TElClassHandle TElCAdESSignatureProcessorHandle;
+
+typedef uint8_t TSBCAdESCompatibilityErrorRaw;
+
+typedef enum
+{
+	cerrUnknown = 0,
+	cerrNoMessageDigest = 1,
+	cerrNoContentType = 2,
+	cerrNoSigningCertificate = 3,
+	cerrNoSignaturePolicy = 4,
+	cerrNoSignatureTimestamp = 5,
+	cerrNoCertificateReferences = 6,
+	cerrNoRevocationReferences = 7,
+	cerrNoCertificateValues = 8,
+	cerrNoRevocationValues = 9,
+	cerrNoTimestampedValidationData = 10,
+	cerrNoArchivalTimestamp = 11,
+	cerrUnexpectedValidationElements = 12,
+	cerrMissingValidationElements = 13,
+	cerrInvalidATSHashIndex = 14,
+	cerrNoSigningTime = 15,
+	cerrMisplacedSigPolicyStore = 16
+} TSBCAdESCompatibilityError;
+
+typedef uint32_t TSBCAdESCompatibilityErrorsRaw;
+
+typedef enum 
+{
+	f_cerrUnknown = 1,
+	f_cerrNoMessageDigest = 2,
+	f_cerrNoContentType = 4,
+	f_cerrNoSigningCertificate = 8,
+	f_cerrNoSignaturePolicy = 16,
+	f_cerrNoSignatureTimestamp = 32,
+	f_cerrNoCertificateReferences = 64,
+	f_cerrNoRevocationReferences = 128,
+	f_cerrNoCertificateValues = 256,
+	f_cerrNoRevocationValues = 512,
+	f_cerrNoTimestampedValidationData = 1024,
+	f_cerrNoArchivalTimestamp = 2048,
+	f_cerrUnexpectedValidationElements = 4096,
+	f_cerrMissingValidationElements = 8192,
+	f_cerrInvalidATSHashIndex = 16384,
+	f_cerrNoSigningTime = 32768,
+	f_cerrMisplacedSigPolicyStore = 65536
+} TSBCAdESCompatibilityErrors;
+
+typedef void (SB_CALLBACK *TSBCAdESCertValidatorPreparedEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateValidatorHandle * CertValidator, TElX509CertificateHandle Cert);
+
+typedef void (SB_CALLBACK *TSBCAdESCertValidatorFinishedEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateValidatorHandle CertValidator, TElX509CertificateHandle Cert, TSBCertificateValidityRaw Validity, TSBCertificateValidityReasonRaw Reason);
+
+typedef void (SB_CALLBACK *TSBCAdESBeforeSignEvent)(void * _ObjectData, TObjectHandle Sender, TElCMSSignatureHandle Signature, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain);
+
+typedef void (SB_CALLBACK *TSBCAdESBeforeAddTimestampEvent)(void * _ObjectData, TObjectHandle Sender, TElCMSSignatureHandle Signature, TElCustomTSPClientHandle TSPClient);
+
+typedef void (SB_CALLBACK *TSBCAdESBeforeAddValidationTimestampEvent)(void * _ObjectData, TObjectHandle Sender, TElCMSSignatureHandle Signature, TSBCMSTimestampTypeRaw TimestampType, TElCustomTSPClientHandle TSPClient);
+
+typedef uint8_t TSBCAdESSignatureValidityRaw;
+
+typedef enum
+{
+	asvValid = 0,
+	asvInvalid = 1,
+	asvIncomplete = 2
+} TSBCAdESSignatureValidity;
+
+#ifdef SB_USE_CLASS_TELCADESREVOCATIONINFO
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_Assign(TElCAdESRevocationInfoHandle _Handle, TElCAdESRevocationInfoHandle Source, int8_t Clear);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_Clear(TElCAdESRevocationInfoHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_AddOCSPResponse(TElCAdESRevocationInfoHandle _Handle, TElOCSPResponseHandle Resp, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_RemoveOCSPResponse(TElCAdESRevocationInfoHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_get_Certificates(TElCAdESRevocationInfoHandle _Handle, TElMemoryCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_get_CRLs(TElCAdESRevocationInfoHandle _Handle, TElMemoryCRLStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_get_OCSPResponses(TElCAdESRevocationInfoHandle _Handle, int32_t Index, TElOCSPResponseHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_get_OCSPResponseCount(TElCAdESRevocationInfoHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESRevocationInfo_Create(TElCAdESRevocationInfoHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCADESREVOCATIONINFO */
+
+#ifdef SB_USE_CLASS_TELCADESSIGNATUREPROCESSOR
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_Validate(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESSignatureValidityRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_Validate_1(TElCAdESSignatureProcessorHandle _Handle, TElCMSTimestampHandle ArchivalTimestamp, TSBCAdESSignatureValidityRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpdateValidationInformation(TElCAdESSignatureProcessorHandle _Handle, int8_t UpdateRefs, int8_t UpdateValues);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpdateValidationInformation_1(TElCAdESSignatureProcessorHandle _Handle, int8_t UpdateRefs, int8_t UpdateValues, int8_t BaselineProfileMode);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBES(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBES_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBES_2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateEPES(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, const uint8_t pPolicyID[], int32_t szPolicyID, int32_t PolicyHashAlg, const uint8_t pPolicyHash[], int32_t szPolicyHash);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateEPES_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, const uint8_t pContentType[], int32_t szContentType, const uint8_t pPolicyID[], int32_t szPolicyID, int32_t PolicyHashAlg, const uint8_t pPolicyHash[], int32_t szPolicyHash);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateEPES_2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, const uint8_t pPolicyID[], int32_t szPolicyID, int32_t PolicyHashAlg, const uint8_t pPolicyHash[], int32_t szPolicyHash, const char * pcURI, int32_t szURI, const char * pcUNOrganization, int32_t szUNOrganization, const int32_t pUNNumbers[], int32_t szUNNumbers, const char * pcExplicitText, int32_t szExplicitText);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateT(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateT_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateC(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateC_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, int8_t InsertCertAndRevValues);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXType1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXType1_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXType2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXType2_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateX(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateX_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLType1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLType1_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLType2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLType2_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXL(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXL_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLBase(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateXLBase_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineB(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineB_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineB_2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineT(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineT_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineLT(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineLT_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineLTA(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateBaselineLTA_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedBES(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedBES_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedBES_2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedEPES(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, const uint8_t pPolicyID[], int32_t szPolicyID, int32_t PolicyHashAlg, const uint8_t pPolicyHash[], int32_t szPolicyHash);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedEPES_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, const uint8_t pPolicyID[], int32_t szPolicyID, int32_t PolicyHashAlg, const uint8_t pPolicyHash[], int32_t szPolicyHash, const char * pcURI, int32_t szURI, const char * pcUNOrganization, int32_t szUNOrganization, const int32_t pUNNumbers[], int32_t szUNNumbers, const char * pcExplicitText, int32_t szExplicitText);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedT(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedT_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedC(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedC_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, int8_t InsertCertAndRevValues);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXType1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXType1_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXType2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXType2_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedX(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedX_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLType1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLType1_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLType2(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLType2_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXL(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXL_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLBase(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedXLBase_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, const uint8_t pContentType[], int32_t szContentType, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedA(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CreateExtendedA_1(TElCAdESSignatureProcessorHandle _Handle, TElX509CertificateHandle Cert, TElCustomCertStorageHandle Chain, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToC(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToX(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToXType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToXType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToXLType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToXLType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToBaselineLTA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedC(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedX(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedXType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedXType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedXLType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedXLType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_CanUpgradeToExtendedA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToT(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToC(TElCAdESSignatureProcessorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToC_1(TElCAdESSignatureProcessorHandle _Handle, int8_t InsertCertAndRevValues);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToC_2(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToC_3(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, int8_t InsertCertAndRevValues);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToX(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToX_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXType1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXType1_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXType2(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXType2_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXL(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXL_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLBase(TElCAdESSignatureProcessorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLBase_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLType1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLType1_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLType2(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToXLType2_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToA(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToA_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ValidationTSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToA_2(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ValidationTSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToBaselineLTA(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToBaselineLTA_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToExtendedA(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_UpgradeToExtendedA_1(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle TSPClient, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_Archive(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_ArchiveBaseline(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_ArchiveExtended(TElCAdESSignatureProcessorHandle _Handle, TElCustomTSPClientHandle ArchivalTSPClient);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBES(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsEPES(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsC(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsC_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsX(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsX_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXType1_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXType2_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXL_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXLType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXLType1_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXLType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsXLType2_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsTimestampedXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsTimestampedXL_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsA_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineB(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineLT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineLT_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineLTA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsBaselineLTA_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedBES(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedEPES(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedT(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedC(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedC_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedX(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedX_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXType1_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXType2_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXL_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXLType1(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXLType1_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXLType2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedXLType2_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsTimestampedExtendedXL(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsTimestampedExtendedXL_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedA(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_IsExtendedA_1(TElCAdESSignatureProcessorHandle _Handle, int8_t DeepCheck, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_Signature(TElCAdESSignatureProcessorHandle _Handle, TElCMSSignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_Signature(TElCAdESSignatureProcessorHandle _Handle, TElCMSSignatureHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_CompatibilityErrors(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESCompatibilityErrorsRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_ForceSigningCertificateV2(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_ForceSigningCertificateV2(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_ValidationMoment(TElCAdESSignatureProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_ValidationMoment(TElCAdESSignatureProcessorHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_ForceCompleteChainValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_ForceCompleteChainValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_IgnoreChainValidationErrors(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_IgnoreChainValidationErrors(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_PerformRevocationCheck(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_PerformRevocationCheck(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OfflineMode(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OfflineMode(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_ClaimedSigningTime(TElCAdESSignatureProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_CertifiedSigningTime(TElCAdESSignatureProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_LastArchivalTime(TElCAdESSignatureProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_CertifiedValidationTime(TElCAdESSignatureProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_DeepTimestampValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_DeepTimestampValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_DeepCountersignatureValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_DeepCountersignatureValidation(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_CustomRevocationInfo(TElCAdESSignatureProcessorHandle _Handle, TElCAdESRevocationInfoHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_TrustedCertificates(TElCAdESSignatureProcessorHandle _Handle, TElCustomCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_TrustedCertificates(TElCAdESSignatureProcessorHandle _Handle, TElCustomCertStorageHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_AllowPartialValidationInfo(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_AllowPartialValidationInfo(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_SkipValidationTimestampedSignatures(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_SkipValidationTimestampedSignatures(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_GracePeriod(TElCAdESSignatureProcessorHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_GracePeriod(TElCAdESSignatureProcessorHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_ReportInvalidTimestamps(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_ReportInvalidTimestamps(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_AddReferenceToSigningCert(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_AddReferenceToSigningCert(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_AddReferencesToIrrevocableCerts(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_AddReferencesToIrrevocableCerts(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_AddReferencesToAllUsedCertsAndRevInfo(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_AddReferencesToAllUsedCertsAndRevInfo(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_LastValidationResult(TElCAdESSignatureProcessorHandle _Handle, TSBCMSAdvancedSignatureValidityRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_UseArchivalTimestampV3(TElCAdESSignatureProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_UseArchivalTimestampV3(TElCAdESSignatureProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OnCertValidatorPrepared(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESCertValidatorPreparedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OnCertValidatorPrepared(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESCertValidatorPreparedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OnCertValidatorFinished(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESCertValidatorFinishedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OnCertValidatorFinished(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESCertValidatorFinishedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OnBeforeSign(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeSignEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OnBeforeSign(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeSignEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OnBeforeAddTimestamp(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeAddTimestampEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OnBeforeAddTimestamp(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeAddTimestampEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_get_OnBeforeAddValidationTimestamp(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeAddValidationTimestampEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_set_OnBeforeAddValidationTimestamp(TElCAdESSignatureProcessorHandle _Handle, TSBCAdESBeforeAddValidationTimestampEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_Create(TElCMSSignatureHandle Sig, TElCAdESSignatureProcessorHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElCAdESSignatureProcessor_Create_1(TElCAdESSignatureProcessorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCADESSIGNATUREPROCESSOR */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElCAdESRevocationInfo;
+class TElCAdESSignatureProcessor;
+
+SB_DEFINE_ENUM_FLAG_OPERATORS(TSBCAdESCompatibilityErrors)
+
+#ifdef SB_USE_CLASS_TELCADESREVOCATIONINFO
+class TElCAdESRevocationInfo: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElCAdESRevocationInfo)
+#ifdef SB_USE_CLASS_TELMEMORYCERTSTORAGE
+		TElMemoryCertStorage* _Inst_Certificates;
+#endif /* SB_USE_CLASS_TELMEMORYCERTSTORAGE */
+#ifdef SB_USE_CLASS_TELMEMORYCRLSTORAGE
+		TElMemoryCRLStorage* _Inst_CRLs;
+#endif /* SB_USE_CLASS_TELMEMORYCRLSTORAGE */
+#ifdef SB_USE_CLASS_TELOCSPRESPONSE
+		TElOCSPResponse* _Inst_OCSPResponses;
+#endif /* SB_USE_CLASS_TELOCSPRESPONSE */
+
+		void initInstances();
+
+	public:
+		void Assign(TElCAdESRevocationInfo &Source, bool Clear);
+
+		void Assign(TElCAdESRevocationInfo *Source, bool Clear);
+
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELOCSPRESPONSE
+		int32_t AddOCSPResponse(TElOCSPResponse &Resp);
+
+		int32_t AddOCSPResponse(TElOCSPResponse *Resp);
+#endif /* SB_USE_CLASS_TELOCSPRESPONSE */
+
+		void RemoveOCSPResponse(int32_t Index);
+
+#ifdef SB_USE_CLASS_TELMEMORYCERTSTORAGE
+		virtual TElMemoryCertStorage* get_Certificates();
+
+		SB_DECLARE_PROPERTY_GET(TElMemoryCertStorage*, get_Certificates, TElCAdESRevocationInfo, Certificates);
+#endif /* SB_USE_CLASS_TELMEMORYCERTSTORAGE */
+
+#ifdef SB_USE_CLASS_TELMEMORYCRLSTORAGE
+		virtual TElMemoryCRLStorage* get_CRLs();
+
+		SB_DECLARE_PROPERTY_GET(TElMemoryCRLStorage*, get_CRLs, TElCAdESRevocationInfo, CRLs);
+#endif /* SB_USE_CLASS_TELMEMORYCRLSTORAGE */
+
+#ifdef SB_USE_CLASS_TELOCSPRESPONSE
+		virtual TElOCSPResponse* get_OCSPResponses(int32_t Index);
+#endif /* SB_USE_CLASS_TELOCSPRESPONSE */
+
+		virtual int32_t get_OCSPResponseCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_OCSPResponseCount, TElCAdESRevocationInfo, OCSPResponseCount);
+
+		TElCAdESRevocationInfo(TElCAdESRevocationInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElCAdESRevocationInfo();
+
+		virtual ~TElCAdESRevocationInfo();
+
+};
+#endif /* SB_USE_CLASS_TELCADESREVOCATIONINFO */
+
+#ifdef SB_USE_CLASS_TELCADESSIGNATUREPROCESSOR
+class TElCAdESSignatureProcessor: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElCAdESSignatureProcessor)
+#ifdef SB_USE_CLASS_TELCMSSIGNATURE
+		TElCMSSignature* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELCMSSIGNATURE */
+#ifdef SB_USE_CLASS_TELCADESREVOCATIONINFO
+		TElCAdESRevocationInfo* _Inst_CustomRevocationInfo;
+#endif /* SB_USE_CLASS_TELCADESREVOCATIONINFO */
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		TElCustomCertStorage* _Inst_TrustedCertificates;
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void initInstances();
+
+	public:
+		TSBCAdESSignatureValidity Validate();
+
+#ifdef SB_USE_CLASS_TELCMSTIMESTAMP
+		TSBCAdESSignatureValidity Validate(TElCMSTimestamp &ArchivalTimestamp);
+
+		TSBCAdESSignatureValidity Validate(TElCMSTimestamp *ArchivalTimestamp);
+#endif /* SB_USE_CLASS_TELCMSTIMESTAMP */
+
+		void UpdateValidationInformation(bool UpdateRefs, bool UpdateValues);
+
+		void UpdateValidationInformation(bool UpdateRefs, bool UpdateValues, bool BaselineProfileMode);
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateBES(TElX509Certificate &Cert);
+
+		void CreateBES(TElX509Certificate *Cert);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateBES(TElX509Certificate &Cert, TElCustomCertStorage &Chain);
+
+		void CreateBES(TElX509Certificate *Cert, TElCustomCertStorage *Chain);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateBES(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType);
+
+		void CreateBES(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateEPES(TElX509Certificate &Cert, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+
+		void CreateEPES(TElX509Certificate *Cert, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateEPES(TElX509Certificate &Cert, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+
+		void CreateEPES(TElX509Certificate *Cert, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateEPES(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash, const std::string &URI, const std::string &UNOrganization, const std::vector<int32_t> &UNNumbers, const std::string &ExplicitText);
+
+		void CreateEPES(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash, const std::string &URI, const std::string &UNOrganization, const std::vector<int32_t> &UNNumbers, const std::string &ExplicitText);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateT(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateT(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateT(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateT(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateC(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateC(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateC(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, bool InsertCertAndRevValues);
+
+		void CreateC(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, bool InsertCertAndRevValues);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXType1(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXType1(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXType1(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXType1(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXType2(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXType2(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXType2(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXType2(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateX(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateX(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateX(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateX(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLType1(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXLType1(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLType1(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXLType1(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLType2(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXLType2(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLType2(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXLType2(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXL(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXL(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXL(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateXL(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLBase(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateXLBase(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateXLBase(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateXLBase(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateBaselineB(TElX509Certificate &Cert);
+
+		void CreateBaselineB(TElX509Certificate *Cert);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateBaselineB(TElX509Certificate &Cert, TElCustomCertStorage &Chain);
+
+		void CreateBaselineB(TElX509Certificate *Cert, TElCustomCertStorage *Chain);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateBaselineB(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType);
+
+		void CreateBaselineB(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineT(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateBaselineT(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineT(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateBaselineT(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineLT(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateBaselineLT(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineLT(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateBaselineLT(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineLTA(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void CreateBaselineLTA(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateBaselineLTA(TElX509Certificate &Cert, TElCustomCertStorage &Chain, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void CreateBaselineLTA(TElX509Certificate *Cert, TElCustomCertStorage *Chain, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateExtendedBES(TElX509Certificate &Cert);
+
+		void CreateExtendedBES(TElX509Certificate *Cert);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateExtendedBES(TElX509Certificate &Cert, TElCustomCertStorage &Chain);
+
+		void CreateExtendedBES(TElX509Certificate *Cert, TElCustomCertStorage *Chain);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateExtendedBES(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType);
+
+		void CreateExtendedBES(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void CreateExtendedEPES(TElX509Certificate &Cert, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+
+		void CreateExtendedEPES(TElX509Certificate *Cert, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void CreateExtendedEPES(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash, const std::string &URI, const std::string &UNOrganization, const std::vector<int32_t> &UNNumbers, const std::string &ExplicitText);
+
+		void CreateExtendedEPES(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, const std::vector<uint8_t> &PolicyID, int32_t PolicyHashAlg, const std::vector<uint8_t> &PolicyHash, const std::string &URI, const std::string &UNOrganization, const std::vector<int32_t> &UNNumbers, const std::string &ExplicitText);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedT(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateExtendedT(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedT(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateExtendedT(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedC(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateExtendedC(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedC(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, bool InsertCertAndRevValues);
+
+		void CreateExtendedC(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, bool InsertCertAndRevValues);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXType1(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXType1(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXType1(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXType1(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXType2(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXType2(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXType2(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXType2(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedX(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedX(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedX(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedX(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLType1(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXLType1(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLType1(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXLType1(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLType2(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXLType2(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLType2(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXLType2(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXL(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXL(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXL(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void CreateExtendedXL(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLBase(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient);
+
+		void CreateExtendedXLBase(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedXLBase(TElX509Certificate &Cert, TElCustomCertStorage &Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient &TSPClient);
+
+		void CreateExtendedXLBase(TElX509Certificate *Cert, TElCustomCertStorage *Chain, const std::vector<uint8_t> &ContentType, TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedA(TElX509Certificate &Cert, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void CreateExtendedA(TElX509Certificate *Cert, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE
+		void CreateExtendedA(TElX509Certificate &Cert, TElCustomCertStorage &Chain, TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void CreateExtendedA(TElX509Certificate *Cert, TElCustomCertStorage *Chain, TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELCUSTOMTSPCLIENT_AND_TELX509CERTIFICATE */
+
+		bool CanUpgradeToT();
+
+		bool CanUpgradeToC();
+
+		bool CanUpgradeToX();
+
+		bool CanUpgradeToXType1();
+
+		bool CanUpgradeToXType2();
+
+		bool CanUpgradeToXL();
+
+		bool CanUpgradeToXLType1();
+
+		bool CanUpgradeToXLType2();
+
+		bool CanUpgradeToA();
+
+		bool CanUpgradeToBaselineLTA();
+
+		bool CanUpgradeToExtendedT();
+
+		bool CanUpgradeToExtendedC();
+
+		bool CanUpgradeToExtendedX();
+
+		bool CanUpgradeToExtendedXType1();
+
+		bool CanUpgradeToExtendedXType2();
+
+		bool CanUpgradeToExtendedXL();
+
+		bool CanUpgradeToExtendedXLType1();
+
+		bool CanUpgradeToExtendedXLType2();
+
+		bool CanUpgradeToExtendedA();
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToT(TElCustomTSPClient &TSPClient);
+
+		void UpgradeToT(TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+		void UpgradeToC();
+
+		void UpgradeToC(bool InsertCertAndRevValues);
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToC(TElCustomTSPClient &TSPClient);
+
+		void UpgradeToC(TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToC(TElCustomTSPClient &TSPClient, bool InsertCertAndRevValues);
+
+		void UpgradeToC(TElCustomTSPClient *TSPClient, bool InsertCertAndRevValues);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToX(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToX(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToX(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToX(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXType1(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXType1(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXType1(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXType1(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXType2(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXType2(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXType2(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXType2(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXL(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXL(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXL(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXL(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+		void UpgradeToXLBase();
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXLBase(TElCustomTSPClient &TSPClient);
+
+		void UpgradeToXLBase(TElCustomTSPClient *TSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXLType1(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXLType1(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXLType1(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXLType1(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXLType2(TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXLType2(TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToXLType2(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient);
+
+		void UpgradeToXLType2(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToA(TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToA(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToA(TElCustomTSPClient &ValidationTSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToA(TElCustomTSPClient *ValidationTSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToA(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ValidationTSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToA(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ValidationTSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToBaselineLTA(TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToBaselineLTA(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToBaselineLTA(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToBaselineLTA(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToExtendedA(TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToExtendedA(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void UpgradeToExtendedA(TElCustomTSPClient &TSPClient, TElCustomTSPClient &ArchivalTSPClient);
+
+		void UpgradeToExtendedA(TElCustomTSPClient *TSPClient, TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void Archive(TElCustomTSPClient &ArchivalTSPClient);
+
+		void Archive(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void ArchiveBaseline(TElCustomTSPClient &ArchivalTSPClient);
+
+		void ArchiveBaseline(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+#ifdef SB_USE_CLASS_TELCUSTOMTSPCLIENT
+		void ArchiveExtended(TElCustomTSPClient &ArchivalTSPClient);
+
+		void ArchiveExtended(TElCustomTSPClient *ArchivalTSPClient);
+#endif /* SB_USE_CLASS_TELCUSTOMTSPCLIENT */
+
+		bool IsBES();
+
+		bool IsEPES();
+
+		bool IsT();
+
+		bool IsC();
+
+		bool IsC(bool DeepCheck);
+
+		bool IsX();
+
+		bool IsX(bool DeepCheck);
+
+		bool IsXType1();
+
+		bool IsXType1(bool DeepCheck);
+
+		bool IsXType2();
+
+		bool IsXType2(bool DeepCheck);
+
+		bool IsXL();
+
+		bool IsXL(bool DeepCheck);
+
+		bool IsXLType1();
+
+		bool IsXLType1(bool DeepCheck);
+
+		bool IsXLType2();
+
+		bool IsXLType2(bool DeepCheck);
+
+		bool IsTimestampedXL();
+
+		bool IsTimestampedXL(bool DeepCheck);
+
+		bool IsA();
+
+		bool IsA(bool DeepCheck);
+
+		bool IsBaselineB();
+
+		bool IsBaselineT();
+
+		bool IsBaselineLT();
+
+		bool IsBaselineLT(bool DeepCheck);
+
+		bool IsBaselineLTA();
+
+		bool IsBaselineLTA(bool DeepCheck);
+
+		bool IsExtendedBES();
+
+		bool IsExtendedEPES();
+
+		bool IsExtendedT();
+
+		bool IsExtendedC();
+
+		bool IsExtendedC(bool DeepCheck);
+
+		bool IsExtendedX();
+
+		bool IsExtendedX(bool DeepCheck);
+
+		bool IsExtendedXType1();
+
+		bool IsExtendedXType1(bool DeepCheck);
+
+		bool IsExtendedXType2();
+
+		bool IsExtendedXType2(bool DeepCheck);
+
+		bool IsExtendedXL();
+
+		bool IsExtendedXL(bool DeepCheck);
+
+		bool IsExtendedXLType1();
+
+		bool IsExtendedXLType1(bool DeepCheck);
+
+		bool IsExtendedXLType2();
+
+		bool IsExtendedXLType2(bool DeepCheck);
+
+		bool IsTimestampedExtendedXL();
+
+		bool IsTimestampedExtendedXL(bool DeepCheck);
+
+		bool IsExtendedA();
+
+		bool IsExtendedA(bool DeepCheck);
+
+#ifdef SB_USE_CLASS_TELCMSSIGNATURE
+		virtual TElCMSSignature* get_Signature();
+
+		virtual void set_Signature(TElCMSSignature &Value);
+
+		virtual void set_Signature(TElCMSSignature *Value);
+
+		SB_DECLARE_PROPERTY(TElCMSSignature*, get_Signature, set_Signature, TElCAdESSignatureProcessor, Signature);
+#endif /* SB_USE_CLASS_TELCMSSIGNATURE */
+
+		virtual TSBCAdESCompatibilityErrors get_CompatibilityErrors();
+
+		SB_DECLARE_PROPERTY_GET(TSBCAdESCompatibilityErrors, get_CompatibilityErrors, TElCAdESSignatureProcessor, CompatibilityErrors);
+
+		virtual bool get_ForceSigningCertificateV2();
+
+		virtual void set_ForceSigningCertificateV2(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceSigningCertificateV2, set_ForceSigningCertificateV2, TElCAdESSignatureProcessor, ForceSigningCertificateV2);
+
+		virtual int64_t get_ValidationMoment();
+
+		virtual void set_ValidationMoment(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_ValidationMoment, set_ValidationMoment, TElCAdESSignatureProcessor, ValidationMoment);
+
+		virtual bool get_ForceCompleteChainValidation();
+
+		virtual void set_ForceCompleteChainValidation(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceCompleteChainValidation, set_ForceCompleteChainValidation, TElCAdESSignatureProcessor, ForceCompleteChainValidation);
+
+		virtual bool get_IgnoreChainValidationErrors();
+
+		virtual void set_IgnoreChainValidationErrors(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreChainValidationErrors, set_IgnoreChainValidationErrors, TElCAdESSignatureProcessor, IgnoreChainValidationErrors);
+
+		virtual bool get_PerformRevocationCheck();
+
+		virtual void set_PerformRevocationCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_PerformRevocationCheck, set_PerformRevocationCheck, TElCAdESSignatureProcessor, PerformRevocationCheck);
+
+		virtual bool get_OfflineMode();
+
+		virtual void set_OfflineMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OfflineMode, set_OfflineMode, TElCAdESSignatureProcessor, OfflineMode);
+
+		virtual int64_t get_ClaimedSigningTime();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_ClaimedSigningTime, TElCAdESSignatureProcessor, ClaimedSigningTime);
+
+		virtual int64_t get_CertifiedSigningTime();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_CertifiedSigningTime, TElCAdESSignatureProcessor, CertifiedSigningTime);
+
+		virtual int64_t get_LastArchivalTime();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_LastArchivalTime, TElCAdESSignatureProcessor, LastArchivalTime);
+
+		virtual int64_t get_CertifiedValidationTime();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_CertifiedValidationTime, TElCAdESSignatureProcessor, CertifiedValidationTime);
+
+		virtual bool get_DeepTimestampValidation();
+
+		virtual void set_DeepTimestampValidation(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_DeepTimestampValidation, set_DeepTimestampValidation, TElCAdESSignatureProcessor, DeepTimestampValidation);
+
+		virtual bool get_DeepCountersignatureValidation();
+
+		virtual void set_DeepCountersignatureValidation(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_DeepCountersignatureValidation, set_DeepCountersignatureValidation, TElCAdESSignatureProcessor, DeepCountersignatureValidation);
+
+#ifdef SB_USE_CLASS_TELCADESREVOCATIONINFO
+		virtual TElCAdESRevocationInfo* get_CustomRevocationInfo();
+
+		SB_DECLARE_PROPERTY_GET(TElCAdESRevocationInfo*, get_CustomRevocationInfo, TElCAdESSignatureProcessor, CustomRevocationInfo);
+#endif /* SB_USE_CLASS_TELCADESREVOCATIONINFO */
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		virtual TElCustomCertStorage* get_TrustedCertificates();
+
+		virtual void set_TrustedCertificates(TElCustomCertStorage &Value);
+
+		virtual void set_TrustedCertificates(TElCustomCertStorage *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomCertStorage*, get_TrustedCertificates, set_TrustedCertificates, TElCAdESSignatureProcessor, TrustedCertificates);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		virtual bool get_AllowPartialValidationInfo();
+
+		virtual void set_AllowPartialValidationInfo(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AllowPartialValidationInfo, set_AllowPartialValidationInfo, TElCAdESSignatureProcessor, AllowPartialValidationInfo);
+
+		virtual bool get_SkipValidationTimestampedSignatures();
+
+		virtual void set_SkipValidationTimestampedSignatures(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SkipValidationTimestampedSignatures, set_SkipValidationTimestampedSignatures, TElCAdESSignatureProcessor, SkipValidationTimestampedSignatures);
+
+		virtual int32_t get_GracePeriod();
+
+		virtual void set_GracePeriod(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_GracePeriod, set_GracePeriod, TElCAdESSignatureProcessor, GracePeriod);
+
+		virtual bool get_ReportInvalidTimestamps();
+
+		virtual void set_ReportInvalidTimestamps(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ReportInvalidTimestamps, set_ReportInvalidTimestamps, TElCAdESSignatureProcessor, ReportInvalidTimestamps);
+
+		virtual bool get_AddReferenceToSigningCert();
+
+		virtual void set_AddReferenceToSigningCert(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AddReferenceToSigningCert, set_AddReferenceToSigningCert, TElCAdESSignatureProcessor, AddReferenceToSigningCert);
+
+		virtual bool get_AddReferencesToIrrevocableCerts();
+
+		virtual void set_AddReferencesToIrrevocableCerts(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AddReferencesToIrrevocableCerts, set_AddReferencesToIrrevocableCerts, TElCAdESSignatureProcessor, AddReferencesToIrrevocableCerts);
+
+		virtual bool get_AddReferencesToAllUsedCertsAndRevInfo();
+
+		virtual void set_AddReferencesToAllUsedCertsAndRevInfo(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AddReferencesToAllUsedCertsAndRevInfo, set_AddReferencesToAllUsedCertsAndRevInfo, TElCAdESSignatureProcessor, AddReferencesToAllUsedCertsAndRevInfo);
+
+		virtual TSBCMSAdvancedSignatureValidity get_LastValidationResult();
+
+		SB_DECLARE_PROPERTY_GET(TSBCMSAdvancedSignatureValidity, get_LastValidationResult, TElCAdESSignatureProcessor, LastValidationResult);
+
+		virtual bool get_UseArchivalTimestampV3();
+
+		virtual void set_UseArchivalTimestampV3(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseArchivalTimestampV3, set_UseArchivalTimestampV3, TElCAdESSignatureProcessor, UseArchivalTimestampV3);
+
+		virtual void get_OnCertValidatorPrepared(TSBCAdESCertValidatorPreparedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCertValidatorPrepared(TSBCAdESCertValidatorPreparedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCertValidatorFinished(TSBCAdESCertValidatorFinishedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCertValidatorFinished(TSBCAdESCertValidatorFinishedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeSign(TSBCAdESBeforeSignEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeSign(TSBCAdESBeforeSignEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeAddTimestamp(TSBCAdESBeforeAddTimestampEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeAddTimestamp(TSBCAdESBeforeAddTimestampEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeAddValidationTimestamp(TSBCAdESBeforeAddValidationTimestampEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeAddValidationTimestamp(TSBCAdESBeforeAddValidationTimestampEvent pMethodValue, void * pDataValue);
+
+		TElCAdESSignatureProcessor(TElCAdESSignatureProcessorHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELCMSSIGNATURE
+		explicit TElCAdESSignatureProcessor(TElCMSSignature &Sig);
+
+		explicit TElCAdESSignatureProcessor(TElCMSSignature *Sig);
+#endif /* SB_USE_CLASS_TELCMSSIGNATURE */
+
+		TElCAdESSignatureProcessor();
+
+		virtual ~TElCAdESSignatureProcessor();
+
+};
+#endif /* SB_USE_CLASS_TELCADESSIGNATUREPROCESSOR */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBCADES */
+

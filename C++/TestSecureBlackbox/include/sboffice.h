@@ -1,0 +1,1907 @@
+#ifndef __INC_SBOFFICE
+#define __INC_SBOFFICE
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbcompoundfile.h"
+#include "sbofficebinarycore.h"
+#include "sbofficeconstants.h"
+#include "sbofficecommon.h"
+#include "sbofficepackage.h"
+#include "sbofficeresources.h"
+#include "sbofficexmlcore.h"
+#include "sbxmlcore.h"
+#include "sbxmldefs.h"
+#include "sbxmlutils.h"
+#include "sbarczip.h"
+#include "sbcryptoprov.h"
+#include "sbcustomcertstorage.h"
+#include "sbdc.h"
+#include "sbstreams.h"
+#include "sbx509.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+typedef TElClassHandle TElOfficeOpenXMLSignatureViewHandle;
+
+typedef TElClassHandle TElOfficeCustomSecurityHandlerHandle;
+
+typedef TElClassHandle TElOfficeCustomEncryptionHandlerHandle;
+
+typedef TElClassHandle TElOfficeBinaryCustomEncryptionHandlerHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLCustomEncryptionHandlerHandle;
+
+typedef TElClassHandle TElOpenOfficeCustomEncryptionHandlerHandle;
+
+typedef TElClassHandle TElOfficeCustomSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeBinaryCustomSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeBinaryUnsupportedSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeBinaryInvalidSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLCustomSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLUnsupportedSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLInvalidSignatureHandlerHandle;
+
+typedef TElClassHandle TElOpenOfficeCustomSignatureHandlerHandle;
+
+typedef TElClassHandle TElOpenOfficeUnsupportedSignatureHandlerHandle;
+
+typedef TElClassHandle TElOpenOfficeInvalidSignatureHandlerHandle;
+
+typedef TElClassHandle TElOfficeBinaryDocumentHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLPackageHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLSignatureLineHandle;
+
+typedef TElClassHandle TElOfficeOpenXMLDocumentHandle;
+
+typedef TElClassHandle TElOfficeOpenXPSSignatureDefinitionHandle;
+
+typedef TElClassHandle TElOfficeOpenXPSPageContentHandle;
+
+typedef TElClassHandle TElOfficeOpenXPSFixedDocumentHandle;
+
+typedef TElClassHandle TElOfficeOpenXPSDocumentHandle;
+
+typedef TElClassHandle TElOpenOfficeDocumentHandle;
+
+typedef TElClassHandle TElOfficeDocumentHandle;
+
+typedef TElClassHandle TElOfficeSecurityHandlerClassHandle;
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATUREVIEW
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureView_get_SignatureHandler(TElOfficeOpenXMLSignatureViewHandle _Handle, TElOfficeOpenXMLCustomSignatureHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureView_set_SignatureHandler(TElOfficeOpenXMLSignatureViewHandle _Handle, TElOfficeOpenXMLCustomSignatureHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureView_get_Package(TElOfficeOpenXMLSignatureViewHandle _Handle, TElOfficeOpenXMLPackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureView_Create(TElOfficeOpenXMLPackageHandle APackage, TElOfficeOpenXMLSignatureViewHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATUREVIEW */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSECURITYHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_GetName_1(TElOfficeCustomSecurityHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_Reset(TElOfficeCustomSecurityHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_get_CryptoProviderManager(TElOfficeCustomSecurityHandlerHandle _Handle, TElCustomCryptoProviderManagerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_set_CryptoProviderManager(TElOfficeCustomSecurityHandlerHandle _Handle, TElCustomCryptoProviderManagerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSecurityHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomEncryptionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomEncryptionHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMENCRYPTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomEncryptionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomEncryptionHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMENCRYPTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomEncryptionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomEncryptionHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMENCRYPTIONHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomEncryptionHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomEncryptionHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSignatureHandler_Reset(TElOfficeCustomSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSignatureHandler_CompleteAsyncSign(TElOfficeCustomSignatureHandlerHandle _Handle, TElDCAsyncStateHandle State);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSignatureHandler_get_IsCalculated(TElOfficeCustomSignatureHandlerHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCustomSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomSignatureHandler_Reset(TElOfficeBinaryCustomSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomSignatureHandler_get_Storage(TElOfficeBinaryCustomSignatureHandlerHandle _Handle, TElCompoundFileStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomSignatureHandler_get_SignatureStreamEntry(TElOfficeBinaryCustomSignatureHandlerHandle _Handle, TElCompoundFileStreamEntryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryCustomSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYUNSUPPORTEDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryUnsupportedSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryUnsupportedSignatureHandler_GetName_1(TElOfficeBinaryUnsupportedSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryUnsupportedSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryUnsupportedSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYINVALIDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_Reset(TElOfficeBinaryInvalidSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_GetName_1(TElOfficeBinaryInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_get_ErrorMessage(TElOfficeBinaryInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryInvalidSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomSignatureHandler_Reset(TElOfficeOpenXMLCustomSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomSignatureHandler_get_Package(TElOfficeOpenXMLCustomSignatureHandlerHandle _Handle, TElOfficePackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomSignatureHandler_get_SignaturePart(TElOfficeOpenXMLCustomSignatureHandlerHandle _Handle, TElOfficePackagePartHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLCustomSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLUNSUPPORTEDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLUnsupportedSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLUnsupportedSignatureHandler_GetName_1(TElOfficeOpenXMLUnsupportedSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLUnsupportedSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLUnsupportedSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLINVALIDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_Reset(TElOfficeOpenXMLInvalidSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_GetName_1(TElOfficeOpenXMLInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_get_ErrorMessage(TElOfficeOpenXMLInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLInvalidSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_Reset(TElOpenOfficeCustomSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_get_Package(TElOpenOfficeCustomSignatureHandlerHandle _Handle, TElOpenOfficePackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_get_XMLElement(TElOpenOfficeCustomSignatureHandlerHandle _Handle, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_get_SignaturePath(TElOpenOfficeCustomSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeCustomSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEUNSUPPORTEDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeUnsupportedSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeUnsupportedSignatureHandler_GetName_1(TElOpenOfficeUnsupportedSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeUnsupportedSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeUnsupportedSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOPENOFFICEUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEINVALIDSIGNATUREHANDLER
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_Reset(TElOpenOfficeInvalidSignatureHandlerHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_GetName(char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_GetName_1(TElOpenOfficeInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_get_ErrorMessage(TElOpenOfficeInvalidSignatureHandlerHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeInvalidSignatureHandler_Create(TComponentHandle Owner, TElOfficeCustomSecurityHandlerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOPENOFFICEINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Open(TElOfficeBinaryDocumentHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Open_1(TElOfficeBinaryDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Open_2(TElOfficeBinaryDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream, int8_t ReadOnly);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Close(TElOfficeBinaryDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Flush(TElOfficeBinaryDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_DecryptTo(TElOfficeBinaryDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_EncryptTo(TElOfficeBinaryDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_AddSignature(TElOfficeBinaryDocumentHandle _Handle, TElOfficeBinaryCustomSignatureHandlerHandle Handler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_AddSignature_1(TElOfficeBinaryDocumentHandle _Handle, TElOfficeBinaryCustomSignatureHandlerHandle Handler, int8_t OwnHandler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_RemoveSignature(TElOfficeBinaryDocumentHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_CompleteAsyncSign(TElOfficeBinaryDocumentHandle _Handle, TElOfficeBinaryCustomSignatureHandlerHandle Handler, TElDCAsyncStateHandle State);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_Encryptable(TElOfficeBinaryDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_Signable(TElOfficeBinaryDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_IsEncrypted(TElOfficeBinaryDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_IsSigned(TElOfficeBinaryDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_DocumentFormat(TElOfficeBinaryDocumentHandle _Handle, TSBOfficeDocumentFormatRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_DocumentType(TElOfficeBinaryDocumentHandle _Handle, TSBOfficeBinaryDocumentTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_EncryptionHandler(TElOfficeBinaryDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_set_EncryptionHandler(TElOfficeBinaryDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_OwnEncryptionHandler(TElOfficeBinaryDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_set_OwnEncryptionHandler(TElOfficeBinaryDocumentHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_SignatureHandlerCount(TElOfficeBinaryDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_SignatureHandlers(TElOfficeBinaryDocumentHandle _Handle, int32_t Index, TElOfficeBinaryCustomSignatureHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_get_Storage(TElOfficeBinaryDocumentHandle _Handle, TElCompoundFileStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryDocument_Create(TElOfficeBinaryDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Open(TElOfficeOpenXMLPackageHandle _Handle, TElOfficePackageHandle APackage);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Open_1(TElOfficeOpenXMLPackageHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Open_2(TElOfficeOpenXMLPackageHandle _Handle, TStreamHandle Stream, int8_t OwnStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Open_3(TElOfficeOpenXMLPackageHandle _Handle, TStreamHandle Stream, int8_t OwnStream, int8_t ReadOnly);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Close(TElOfficeOpenXMLPackageHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Flush(TElOfficeOpenXMLPackageHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_AddSignature(TElOfficeOpenXMLPackageHandle _Handle, TElOfficeOpenXMLCustomSignatureHandlerHandle Handler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_AddSignature_1(TElOfficeOpenXMLPackageHandle _Handle, TElOfficeOpenXMLCustomSignatureHandlerHandle Handler, int8_t OwnHandler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_RemoveSignature(TElOfficeOpenXMLPackageHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_CompleteAsyncSign(TElOfficeOpenXMLPackageHandle _Handle, TElOfficeOpenXMLCustomSignatureHandlerHandle Handler, TElDCAsyncStateHandle State);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_SignatureHandlerCount(TElOfficeOpenXMLPackageHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_SignatureHandlers(TElOfficeOpenXMLPackageHandle _Handle, int32_t Index, TElOfficeOpenXMLCustomSignatureHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_Encryptable(TElOfficeOpenXMLPackageHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_Signable(TElOfficeOpenXMLPackageHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_IsSigned(TElOfficeOpenXMLPackageHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_Package(TElOfficeOpenXMLPackageHandle _Handle, TElOfficePackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_CoreProperties(TElOfficeOpenXMLPackageHandle _Handle, TElOfficeOpenXMLCorePropertiesHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_ThumbnailPart(TElOfficeOpenXMLPackageHandle _Handle, TElOfficePackagePartHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_OnCreateTemporaryStream(TElOfficeOpenXMLPackageHandle _Handle, TSBOfficeCreateTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_set_OnCreateTemporaryStream(TElOfficeOpenXMLPackageHandle _Handle, TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_get_OnCloseTemporaryStream(TElOfficeOpenXMLPackageHandle _Handle, TSBOfficeCloseTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_set_OnCloseTemporaryStream(TElOfficeOpenXMLPackageHandle _Handle, TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLPackage_Create(TElOfficeOpenXMLPackageHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_AdditionalSignatureInfo(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_AllowComments(TElOfficeOpenXMLSignatureLineHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_ID(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_ImageData(TElOfficeOpenXMLSignatureLineHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SignatureProviderId(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SignatureProviderUrl(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_ShowSignDate(TElOfficeOpenXMLSignatureLineHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SigningInstructions(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SuggestedSigner(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SuggestedSigner2(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_get_SuggestedSignerEmail(TElOfficeOpenXMLSignatureLineHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLSignatureLine_Create(TElOfficeOpenXMLPackageHandle APackage, TElOfficeOpenXMLSignatureLineHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_Close(TElOfficeOpenXMLDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_EncryptTo(TElOfficeOpenXMLDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_DocumentType(TElOfficeOpenXMLDocumentHandle _Handle, TSBOfficeOpenXMLDocumentTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_OfficeDocumentPart(TElOfficeOpenXMLDocumentHandle _Handle, TElOfficePackagePartHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_EncryptionHandler(TElOfficeOpenXMLDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_set_EncryptionHandler(TElOfficeOpenXMLDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_OwnEncryptionHandler(TElOfficeOpenXMLDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_set_OwnEncryptionHandler(TElOfficeOpenXMLDocumentHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_SignatureLineCount(TElOfficeOpenXMLDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_get_SignatureLines(TElOfficeOpenXMLDocumentHandle _Handle, int32_t Index, TElOfficeOpenXMLSignatureLineHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXMLDocument_Create(TElOfficeOpenXMLDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_Intent(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_Intent(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_PageURI(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_PageURI(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SignBy(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SignByUTC(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_SignByUTC(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SigningLocation(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_SigningLocation(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SignerName(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_SignerName(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SpotID(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_SpotID(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_SpotIDGUID(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, TGuid * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_SpotIDGUID(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, TGuid * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_StartX(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, double * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_StartX(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, double Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_get_StartY(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, double * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_set_StartY(TElOfficeOpenXPSSignatureDefinitionHandle _Handle, double Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSSignatureDefinition_Create(TElOfficeOpenXMLPackageHandle APackage, TElOfficeOpenXPSSignatureDefinitionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSPageContent_get_Package(TElOfficeOpenXPSPageContentHandle _Handle, TElOfficeOpenXMLPackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSPageContent_get_Source(TElOfficeOpenXPSPageContentHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSPageContent_get_Width(TElOfficeOpenXPSPageContentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSPageContent_get_Height(TElOfficeOpenXPSPageContentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSPageContent_Create(TElOfficeOpenXMLPackageHandle APackage, TElOfficeOpenXPSPageContentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSFixedDocument_get_Package(TElOfficeOpenXPSFixedDocumentHandle _Handle, TElOfficeOpenXMLPackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSFixedDocument_get_URI(TElOfficeOpenXPSFixedDocumentHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSFixedDocument_get_Count(TElOfficeOpenXPSFixedDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSFixedDocument_get_PageContents(TElOfficeOpenXPSFixedDocumentHandle _Handle, int32_t Index, TElOfficeOpenXPSPageContentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSFixedDocument_Create(TElOfficeOpenXMLPackageHandle APackage, TElOfficeOpenXPSFixedDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_AddSignatureDefinition(TElOfficeOpenXPSDocumentHandle _Handle, const sb_char16_t * pcIntent, int32_t szIntent, const sb_char16_t * pcSignerName, int32_t szSignerName, const sb_char16_t * pcSignerLocation, int32_t szSignerLocation, int64_t SignBy, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_AddSignatureDefinition_1(TElOfficeOpenXPSDocumentHandle _Handle, const sb_char16_t * pcIntent, int32_t szIntent, const sb_char16_t * pcSignerName, int32_t szSignerName, const sb_char16_t * pcSignerLocation, int32_t szSignerLocation, int64_t SignBy, const char * pcPageURI, int32_t szPageURI, double StartX, double StartY, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_AddSignatureDefinition_2(TElOfficeOpenXPSDocumentHandle _Handle, TElOfficeOpenXPSSignatureDefinitionHandle SigDef, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_Close(TElOfficeOpenXPSDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_get_FixedDocumentCount(TElOfficeOpenXPSDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_get_SignatureDefinitionCount(TElOfficeOpenXPSDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_get_FixedDocuments(TElOfficeOpenXPSDocumentHandle _Handle, int32_t Index, TElOfficeOpenXPSFixedDocumentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_get_SignatureDefinitions(TElOfficeOpenXPSDocumentHandle _Handle, int32_t Index, TElOfficeOpenXPSSignatureDefinitionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeOpenXPSDocument_Create(TElOfficeOpenXPSDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Open(TElOpenOfficeDocumentHandle _Handle, TElOpenOfficePackageHandle APackage);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Open_1(TElOpenOfficeDocumentHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Open_2(TElOpenOfficeDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Open_3(TElOpenOfficeDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream, int8_t ReadOnly);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Open_4(TElOpenOfficeDocumentHandle _Handle, TStreamHandle Stream, int64_t StreamOffset, int8_t OwnStream, int8_t ReadOnly, TElZipReaderHandle ZipReader);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Close(TElOpenOfficeDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Flush(TElOpenOfficeDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_DecryptTo(TElOpenOfficeDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_EncryptTo(TElOpenOfficeDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_AddSignature(TElOpenOfficeDocumentHandle _Handle, TElOpenOfficeCustomSignatureHandlerHandle Handler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_AddSignature_1(TElOpenOfficeDocumentHandle _Handle, TElOpenOfficeCustomSignatureHandlerHandle Handler, int8_t OwnHandler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_RemoveSignature(TElOpenOfficeDocumentHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_CompleteAsyncSign(TElOpenOfficeDocumentHandle _Handle, TElOpenOfficeCustomSignatureHandlerHandle Handler, TElDCAsyncStateHandle State);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_DocumentType(TElOpenOfficeDocumentHandle _Handle, TSBOpenOfficeDocumentTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_Encryptable(TElOpenOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_Signable(TElOpenOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_IsEncrypted(TElOpenOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_IsSigned(TElOpenOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_EncryptionHandler(TElOpenOfficeDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_set_EncryptionHandler(TElOpenOfficeDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_OwnEncryptionHandler(TElOpenOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_set_OwnEncryptionHandler(TElOpenOfficeDocumentHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_SignatureHandlerCount(TElOpenOfficeDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_SignatureHandlers(TElOpenOfficeDocumentHandle _Handle, int32_t Index, TElOpenOfficeCustomSignatureHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_Package(TElOpenOfficeDocumentHandle _Handle, TElOpenOfficePackageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_OnCreateTemporaryStream(TElOpenOfficeDocumentHandle _Handle, TSBOfficeCreateTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_set_OnCreateTemporaryStream(TElOpenOfficeDocumentHandle _Handle, TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_get_OnCloseTemporaryStream(TElOpenOfficeDocumentHandle _Handle, TSBOfficeCloseTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_set_OnCloseTemporaryStream(TElOpenOfficeDocumentHandle _Handle, TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOpenOfficeDocument_Create(TElOpenOfficeDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOPENOFFICEDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDOCUMENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Open(TElOfficeDocumentHandle _Handle, const char * pcFileName, int32_t szFileName);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Open_1(TElOfficeDocumentHandle _Handle, const char * pcFileName, int32_t szFileName, int8_t ReadOnly);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Open_2(TElOfficeDocumentHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Open_3(TElOfficeDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Open_4(TElOfficeDocumentHandle _Handle, TStreamHandle Stream, int8_t OwnStream, int8_t ReadOnly);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Close(TElOfficeDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Flush(TElOfficeDocumentHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_DecryptTo(TElOfficeDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_EncryptTo(TElOfficeDocumentHandle _Handle, TStreamHandle NewStream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_AddSignature(TElOfficeDocumentHandle _Handle, TElOfficeCustomSignatureHandlerHandle Handler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_AddSignature_1(TElOfficeDocumentHandle _Handle, TElOfficeCustomSignatureHandlerHandle Handler, int8_t OwnHandler, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_RemoveSignature(TElOfficeDocumentHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_CompleteAsyncSign(TElOfficeDocumentHandle _Handle, TElOfficeCustomSignatureHandlerHandle Handler, TElDCAsyncStateHandle State);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_DocumentFormat(TElOfficeDocumentHandle _Handle, TSBOfficeDocumentFormatRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_IsEncrypted(TElOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_IsSigned(TElOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_Encryptable(TElOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_Signable(TElOfficeDocumentHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_SignatureHandlerCount(TElOfficeDocumentHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_SignatureHandlers(TElOfficeDocumentHandle _Handle, int32_t Index, TElOfficeCustomSignatureHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_BinaryDocument(TElOfficeDocumentHandle _Handle, TElOfficeBinaryDocumentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_OpenXMLDocument(TElOfficeDocumentHandle _Handle, TElOfficeOpenXMLDocumentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_OpenXPSDocument(TElOfficeDocumentHandle _Handle, TElOfficeOpenXPSDocumentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_OpenDocument(TElOfficeDocumentHandle _Handle, TElOpenOfficeDocumentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_EncryptionHandler(TElOfficeDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_set_EncryptionHandler(TElOfficeDocumentHandle _Handle, TElOfficeCustomEncryptionHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_OnCreateTemporaryStream(TElOfficeDocumentHandle _Handle, TSBOfficeCreateTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_set_OnCreateTemporaryStream(TElOfficeDocumentHandle _Handle, TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_get_OnCloseTemporaryStream(TElOfficeDocumentHandle _Handle, TSBOfficeCloseTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_set_OnCloseTemporaryStream(TElOfficeDocumentHandle _Handle, TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocument_Create(TComponentHandle AOwner, TElOfficeDocumentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDOCUMENT */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElOfficeOpenXMLSignatureView;
+class TElOfficeCustomSecurityHandler;
+class TElOfficeCustomEncryptionHandler;
+class TElOfficeBinaryCustomEncryptionHandler;
+class TElOfficeOpenXMLCustomEncryptionHandler;
+class TElOpenOfficeCustomEncryptionHandler;
+class TElOfficeCustomSignatureHandler;
+class TElOfficeBinaryCustomSignatureHandler;
+class TElOfficeBinaryUnsupportedSignatureHandler;
+class TElOfficeBinaryInvalidSignatureHandler;
+class TElOfficeOpenXMLCustomSignatureHandler;
+class TElOfficeOpenXMLUnsupportedSignatureHandler;
+class TElOfficeOpenXMLInvalidSignatureHandler;
+class TElOpenOfficeCustomSignatureHandler;
+class TElOpenOfficeUnsupportedSignatureHandler;
+class TElOpenOfficeInvalidSignatureHandler;
+class TElOfficeBinaryDocument;
+class TElOfficeOpenXMLPackage;
+class TElOfficeOpenXMLSignatureLine;
+class TElOfficeOpenXMLDocument;
+class TElOfficeOpenXPSSignatureDefinition;
+class TElOfficeOpenXPSPageContent;
+class TElOfficeOpenXPSFixedDocument;
+class TElOfficeOpenXPSDocument;
+class TElOpenOfficeDocument;
+class TElOfficeDocument;
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATUREVIEW
+class TElOfficeOpenXMLSignatureView: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLSignatureView)
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		TElOfficeOpenXMLCustomSignatureHandler* _Inst_SignatureHandler;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		TElOfficeOpenXMLPackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		virtual TElOfficeOpenXMLCustomSignatureHandler* get_SignatureHandler();
+
+		virtual void set_SignatureHandler(TElOfficeOpenXMLCustomSignatureHandler &Value);
+
+		virtual void set_SignatureHandler(TElOfficeOpenXMLCustomSignatureHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeOpenXMLCustomSignatureHandler*, get_SignatureHandler, set_SignatureHandler, TElOfficeOpenXMLSignatureView, SignatureHandler);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		virtual TElOfficeOpenXMLPackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXMLPackage*, get_Package, TElOfficeOpenXMLSignatureView, Package);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		TElOfficeOpenXMLSignatureView(TElOfficeOpenXMLSignatureViewHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		explicit TElOfficeOpenXMLSignatureView(TElOfficeOpenXMLPackage &APackage);
+
+		explicit TElOfficeOpenXMLSignatureView(TElOfficeOpenXMLPackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		virtual ~TElOfficeOpenXMLSignatureView();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATUREVIEW */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSECURITYHANDLER
+class TElOfficeCustomSecurityHandler: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCustomSecurityHandler)
+#ifdef SB_USE_CLASS_TELCUSTOMCRYPTOPROVIDERMANAGER
+		TElCustomCryptoProviderManager* _Inst_CryptoProviderManager;
+#endif /* SB_USE_CLASS_TELCUSTOMCRYPTOPROVIDERMANAGER */
+
+		void initInstances();
+
+	public:
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		virtual void Reset();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELCUSTOMCRYPTOPROVIDERMANAGER
+		virtual TElCustomCryptoProviderManager* get_CryptoProviderManager();
+
+		virtual void set_CryptoProviderManager(TElCustomCryptoProviderManager &Value);
+
+		virtual void set_CryptoProviderManager(TElCustomCryptoProviderManager *Value);
+
+		SB_DECLARE_PROPERTY(TElCustomCryptoProviderManager*, get_CryptoProviderManager, set_CryptoProviderManager, TElOfficeCustomSecurityHandler, CryptoProviderManager);
+#endif /* SB_USE_CLASS_TELCUSTOMCRYPTOPROVIDERMANAGER */
+
+		TElOfficeCustomSecurityHandler(TElOfficeCustomSecurityHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeCustomSecurityHandler(TComponent &Owner);
+
+		explicit TElOfficeCustomSecurityHandler(TComponent *Owner);
+
+		virtual ~TElOfficeCustomSecurityHandler();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSECURITYHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+class TElOfficeCustomEncryptionHandler: public TElOfficeCustomSecurityHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCustomEncryptionHandler)
+	public:
+		static TClassHandle ClassType();
+
+		TElOfficeCustomEncryptionHandler(TElOfficeCustomEncryptionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeCustomEncryptionHandler(TComponent &Owner);
+
+		explicit TElOfficeCustomEncryptionHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMENCRYPTIONHANDLER
+class TElOfficeBinaryCustomEncryptionHandler: public TElOfficeCustomEncryptionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryCustomEncryptionHandler)
+	public:
+		static TClassHandle ClassType();
+
+		TElOfficeBinaryCustomEncryptionHandler(TElOfficeBinaryCustomEncryptionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeBinaryCustomEncryptionHandler(TComponent &Owner);
+
+		explicit TElOfficeBinaryCustomEncryptionHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMENCRYPTIONHANDLER
+class TElOfficeOpenXMLCustomEncryptionHandler: public TElOfficeCustomEncryptionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLCustomEncryptionHandler)
+	public:
+		static TClassHandle ClassType();
+
+		TElOfficeOpenXMLCustomEncryptionHandler(TElOfficeOpenXMLCustomEncryptionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeOpenXMLCustomEncryptionHandler(TComponent &Owner);
+
+		explicit TElOfficeOpenXMLCustomEncryptionHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMENCRYPTIONHANDLER
+class TElOpenOfficeCustomEncryptionHandler: public TElOfficeCustomEncryptionHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOpenOfficeCustomEncryptionHandler)
+	public:
+		static TClassHandle ClassType();
+
+		TElOpenOfficeCustomEncryptionHandler(TElOpenOfficeCustomEncryptionHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOpenOfficeCustomEncryptionHandler(TComponent &Owner);
+
+		explicit TElOpenOfficeCustomEncryptionHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMENCRYPTIONHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+class TElOfficeCustomSignatureHandler: public TElOfficeCustomSecurityHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCustomSignatureHandler)
+	public:
+		virtual void Reset();
+
+#ifdef SB_USE_CLASS_TELDCASYNCSTATE
+		virtual void CompleteAsyncSign(TElDCAsyncState &State);
+
+		virtual void CompleteAsyncSign(TElDCAsyncState *State);
+#endif /* SB_USE_CLASS_TELDCASYNCSTATE */
+
+		static TClassHandle ClassType();
+
+		virtual bool get_IsCalculated();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsCalculated, TElOfficeCustomSignatureHandler, IsCalculated);
+
+		TElOfficeCustomSignatureHandler(TElOfficeCustomSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeCustomSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeCustomSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+class TElOfficeBinaryCustomSignatureHandler: public TElOfficeCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryCustomSignatureHandler)
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTORAGE
+		TElCompoundFileStorage* _Inst_Storage;
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTORAGE */
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTREAMENTRY
+		TElCompoundFileStreamEntry* _Inst_SignatureStreamEntry;
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTREAMENTRY */
+
+		void initInstances();
+
+	public:
+		virtual void Reset();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTORAGE
+		virtual TElCompoundFileStorage* get_Storage();
+
+		SB_DECLARE_PROPERTY_GET(TElCompoundFileStorage*, get_Storage, TElOfficeBinaryCustomSignatureHandler, Storage);
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTORAGE */
+
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTREAMENTRY
+		virtual TElCompoundFileStreamEntry* get_SignatureStreamEntry();
+
+		SB_DECLARE_PROPERTY_GET(TElCompoundFileStreamEntry*, get_SignatureStreamEntry, TElOfficeBinaryCustomSignatureHandler, SignatureStreamEntry);
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTREAMENTRY */
+
+		TElOfficeBinaryCustomSignatureHandler(TElOfficeBinaryCustomSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeBinaryCustomSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeBinaryCustomSignatureHandler(TComponent *Owner);
+
+		virtual ~TElOfficeBinaryCustomSignatureHandler();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYUNSUPPORTEDSIGNATUREHANDLER
+class TElOfficeBinaryUnsupportedSignatureHandler: public TElOfficeBinaryCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryUnsupportedSignatureHandler)
+	public:
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		TElOfficeBinaryUnsupportedSignatureHandler(TElOfficeBinaryUnsupportedSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeBinaryUnsupportedSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeBinaryUnsupportedSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYINVALIDSIGNATUREHANDLER
+class TElOfficeBinaryInvalidSignatureHandler: public TElOfficeBinaryCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryInvalidSignatureHandler)
+	public:
+		virtual void Reset();
+
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		virtual void get_ErrorMessage(std::string &OutResult);
+
+		TElOfficeBinaryInvalidSignatureHandler(TElOfficeBinaryInvalidSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeBinaryInvalidSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeBinaryInvalidSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+class TElOfficeOpenXMLCustomSignatureHandler: public TElOfficeCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLCustomSignatureHandler)
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGE
+		TElOfficePackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGE */
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		TElOfficePackagePart* _Inst_SignaturePart;
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+
+		void initInstances();
+
+	public:
+		virtual void Reset();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGE
+		virtual TElOfficePackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficePackage*, get_Package, TElOfficeOpenXMLCustomSignatureHandler, Package);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGE */
+
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		virtual TElOfficePackagePart* get_SignaturePart();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficePackagePart*, get_SignaturePart, TElOfficeOpenXMLCustomSignatureHandler, SignaturePart);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+
+		TElOfficeOpenXMLCustomSignatureHandler(TElOfficeOpenXMLCustomSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeOpenXMLCustomSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeOpenXMLCustomSignatureHandler(TComponent *Owner);
+
+		virtual ~TElOfficeOpenXMLCustomSignatureHandler();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLUNSUPPORTEDSIGNATUREHANDLER
+class TElOfficeOpenXMLUnsupportedSignatureHandler: public TElOfficeOpenXMLCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLUnsupportedSignatureHandler)
+	public:
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		TElOfficeOpenXMLUnsupportedSignatureHandler(TElOfficeOpenXMLUnsupportedSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeOpenXMLUnsupportedSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeOpenXMLUnsupportedSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLINVALIDSIGNATUREHANDLER
+class TElOfficeOpenXMLInvalidSignatureHandler: public TElOfficeOpenXMLCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLInvalidSignatureHandler)
+	public:
+		virtual void Reset();
+
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		virtual void get_ErrorMessage(std::string &OutResult);
+
+		TElOfficeOpenXMLInvalidSignatureHandler(TElOfficeOpenXMLInvalidSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeOpenXMLInvalidSignatureHandler(TComponent &Owner);
+
+		explicit TElOfficeOpenXMLInvalidSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+class TElOpenOfficeCustomSignatureHandler: public TElOfficeCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOpenOfficeCustomSignatureHandler)
+#ifdef SB_USE_CLASS_TELOPENOFFICEPACKAGE
+		TElOpenOfficePackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOPENOFFICEPACKAGE */
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		TElXMLDOMElement* _Inst_XMLElement;
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+		void initInstances();
+
+	public:
+		virtual void Reset();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEPACKAGE
+		virtual TElOpenOfficePackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOpenOfficePackage*, get_Package, TElOpenOfficeCustomSignatureHandler, Package);
+#endif /* SB_USE_CLASS_TELOPENOFFICEPACKAGE */
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual TElXMLDOMElement* get_XMLElement();
+
+		SB_DECLARE_PROPERTY_GET(TElXMLDOMElement*, get_XMLElement, TElOpenOfficeCustomSignatureHandler, XMLElement);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+		virtual void get_SignaturePath(std::string &OutResult);
+
+		TElOpenOfficeCustomSignatureHandler(TElOpenOfficeCustomSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOpenOfficeCustomSignatureHandler(TComponent &Owner);
+
+		explicit TElOpenOfficeCustomSignatureHandler(TComponent *Owner);
+
+		virtual ~TElOpenOfficeCustomSignatureHandler();
+
+};
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEUNSUPPORTEDSIGNATUREHANDLER
+class TElOpenOfficeUnsupportedSignatureHandler: public TElOpenOfficeCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOpenOfficeUnsupportedSignatureHandler)
+	public:
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		TElOpenOfficeUnsupportedSignatureHandler(TElOpenOfficeUnsupportedSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOpenOfficeUnsupportedSignatureHandler(TComponent &Owner);
+
+		explicit TElOpenOfficeUnsupportedSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOPENOFFICEUNSUPPORTEDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEINVALIDSIGNATUREHANDLER
+class TElOpenOfficeInvalidSignatureHandler: public TElOpenOfficeCustomSignatureHandler
+{
+	private:
+		SB_DISABLE_COPY(TElOpenOfficeInvalidSignatureHandler)
+	public:
+		virtual void Reset();
+
+		static void GetName(std::string &OutResult);
+
+		virtual void GetName_Inst(std::string &OutResult);
+
+		static TClassHandle ClassType();
+
+		virtual void get_ErrorMessage(std::string &OutResult);
+
+		TElOpenOfficeInvalidSignatureHandler(TElOpenOfficeInvalidSignatureHandlerHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOpenOfficeInvalidSignatureHandler(TComponent &Owner);
+
+		explicit TElOpenOfficeInvalidSignatureHandler(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELOPENOFFICEINVALIDSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYDOCUMENT
+class TElOfficeBinaryDocument: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryDocument)
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		TElOfficeCustomEncryptionHandler* _Inst_EncryptionHandler;
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+		TElOfficeBinaryCustomSignatureHandler* _Inst_SignatureHandlers;
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTORAGE
+		TElCompoundFileStorage* _Inst_Storage;
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTORAGE */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream);
+
+		void Open(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream);
+
+		void Open(TStream *Stream, bool OwnStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream, bool ReadOnly);
+
+		void Open(TStream *Stream, bool OwnStream, bool ReadOnly);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Close();
+
+		void Flush();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void DecryptTo(TStream &NewStream);
+
+		void DecryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void EncryptTo(TStream &NewStream);
+
+		void EncryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeBinaryCustomSignatureHandler &Handler);
+
+		int32_t AddSignature(TElOfficeBinaryCustomSignatureHandler *Handler);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeBinaryCustomSignatureHandler &Handler, bool OwnHandler);
+
+		int32_t AddSignature(TElOfficeBinaryCustomSignatureHandler *Handler, bool OwnHandler);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+		void RemoveSignature(int32_t Index);
+
+#ifdef SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+		void CompleteAsyncSign(TElOfficeBinaryCustomSignatureHandler &Handler, TElDCAsyncState &State);
+
+		void CompleteAsyncSign(TElOfficeBinaryCustomSignatureHandler *Handler, TElDCAsyncState *State);
+#endif /* SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+		virtual bool get_Encryptable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Encryptable, TElOfficeBinaryDocument, Encryptable);
+
+		virtual bool get_Signable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Signable, TElOfficeBinaryDocument, Signable);
+
+		virtual bool get_IsEncrypted();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsEncrypted, TElOfficeBinaryDocument, IsEncrypted);
+
+		virtual bool get_IsSigned();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsSigned, TElOfficeBinaryDocument, IsSigned);
+
+		virtual TSBOfficeDocumentFormat get_DocumentFormat();
+
+		SB_DECLARE_PROPERTY_GET(TSBOfficeDocumentFormat, get_DocumentFormat, TElOfficeBinaryDocument, DocumentFormat);
+
+		virtual TSBOfficeBinaryDocumentType get_DocumentType();
+
+		SB_DECLARE_PROPERTY_GET(TSBOfficeBinaryDocumentType, get_DocumentType, TElOfficeBinaryDocument, DocumentType);
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		virtual TElOfficeCustomEncryptionHandler* get_EncryptionHandler();
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler &Value);
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeCustomEncryptionHandler*, get_EncryptionHandler, set_EncryptionHandler, TElOfficeBinaryDocument, EncryptionHandler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+		virtual bool get_OwnEncryptionHandler();
+
+		virtual void set_OwnEncryptionHandler(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OwnEncryptionHandler, set_OwnEncryptionHandler, TElOfficeBinaryDocument, OwnEncryptionHandler);
+
+		virtual int32_t get_SignatureHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureHandlerCount, TElOfficeBinaryDocument, SignatureHandlerCount);
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER
+		virtual TElOfficeBinaryCustomSignatureHandler* get_SignatureHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTORAGE
+		virtual TElCompoundFileStorage* get_Storage();
+
+		SB_DECLARE_PROPERTY_GET(TElCompoundFileStorage*, get_Storage, TElOfficeBinaryDocument, Storage);
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTORAGE */
+
+		TElOfficeBinaryDocument(TElOfficeBinaryDocumentHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeBinaryDocument();
+
+		virtual ~TElOfficeBinaryDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+class TElOfficeOpenXMLPackage: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLPackage)
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		TElOfficeOpenXMLCustomSignatureHandler* _Inst_SignatureHandlers;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGE
+		TElOfficePackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGE */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCOREPROPERTIES
+		TElOfficeOpenXMLCoreProperties* _Inst_CoreProperties;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCOREPROPERTIES */
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		TElOfficePackagePart* _Inst_ThumbnailPart;
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGE
+		void Open(TElOfficePackage &APackage);
+
+		void Open(TElOfficePackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGE */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream);
+
+		void Open(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream);
+
+		void Open(TStream *Stream, bool OwnStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream, bool ReadOnly);
+
+		void Open(TStream *Stream, bool OwnStream, bool ReadOnly);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void Close();
+
+		void Flush();
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeOpenXMLCustomSignatureHandler &Handler);
+
+		int32_t AddSignature(TElOfficeOpenXMLCustomSignatureHandler *Handler);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeOpenXMLCustomSignatureHandler &Handler, bool OwnHandler);
+
+		int32_t AddSignature(TElOfficeOpenXMLCustomSignatureHandler *Handler, bool OwnHandler);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+		void RemoveSignature(int32_t Index);
+
+#ifdef SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		void CompleteAsyncSign(TElOfficeOpenXMLCustomSignatureHandler &Handler, TElDCAsyncState &State);
+
+		void CompleteAsyncSign(TElOfficeOpenXMLCustomSignatureHandler *Handler, TElDCAsyncState *State);
+#endif /* SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+		virtual int32_t get_SignatureHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureHandlerCount, TElOfficeOpenXMLPackage, SignatureHandlerCount);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER
+		virtual TElOfficeOpenXMLCustomSignatureHandler* get_SignatureHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCUSTOMSIGNATUREHANDLER */
+
+		virtual bool get_Encryptable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Encryptable, TElOfficeOpenXMLPackage, Encryptable);
+
+		virtual bool get_Signable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Signable, TElOfficeOpenXMLPackage, Signable);
+
+		virtual bool get_IsSigned();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsSigned, TElOfficeOpenXMLPackage, IsSigned);
+
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGE
+		virtual TElOfficePackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficePackage*, get_Package, TElOfficeOpenXMLPackage, Package);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGE */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLCOREPROPERTIES
+		virtual TElOfficeOpenXMLCoreProperties* get_CoreProperties();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXMLCoreProperties*, get_CoreProperties, TElOfficeOpenXMLPackage, CoreProperties);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLCOREPROPERTIES */
+
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		virtual TElOfficePackagePart* get_ThumbnailPart();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficePackagePart*, get_ThumbnailPart, TElOfficeOpenXMLPackage, ThumbnailPart);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+
+		virtual void get_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		TElOfficeOpenXMLPackage(TElOfficeOpenXMLPackageHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeOpenXMLPackage();
+
+		virtual ~TElOfficeOpenXMLPackage();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE
+class TElOfficeOpenXMLSignatureLine: public TElOfficeOpenXMLSignatureView
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLSignatureLine)
+	public:
+		virtual void get_AdditionalSignatureInfo(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_AdditionalSignatureInfo(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual bool get_AllowComments();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_AllowComments, TElOfficeOpenXMLSignatureLine, AllowComments);
+
+		virtual void get_ID(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_ID(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_ImageData(std::vector<uint8_t> &OutResult);
+
+		virtual void get_SignatureProviderId(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SignatureProviderId(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SignatureProviderUrl(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SignatureProviderUrl(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual bool get_ShowSignDate();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_ShowSignDate, TElOfficeOpenXMLSignatureLine, ShowSignDate);
+
+		virtual void get_SigningInstructions(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SigningInstructions(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SuggestedSigner(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SuggestedSigner(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SuggestedSigner2(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SuggestedSigner2(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SuggestedSignerEmail(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SuggestedSignerEmail(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeOpenXMLSignatureLine(TElOfficeOpenXMLSignatureLineHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		explicit TElOfficeOpenXMLSignatureLine(TElOfficeOpenXMLPackage &APackage);
+
+		explicit TElOfficeOpenXMLSignatureLine(TElOfficeOpenXMLPackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT
+class TElOfficeOpenXMLDocument: public TElOfficeOpenXMLPackage
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXMLDocument)
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		TElOfficePackagePart* _Inst_OfficeDocumentPart;
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		TElOfficeCustomEncryptionHandler* _Inst_EncryptionHandler;
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE
+		TElOfficeOpenXMLSignatureLine* _Inst_SignatureLines;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE */
+
+		void initInstances();
+
+	public:
+		virtual void Close();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void EncryptTo(TStream &NewStream);
+
+		void EncryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual TSBOfficeOpenXMLDocumentType get_DocumentType();
+
+		SB_DECLARE_PROPERTY_GET(TSBOfficeOpenXMLDocumentType, get_DocumentType, TElOfficeOpenXMLDocument, DocumentType);
+
+#ifdef SB_USE_CLASS_TELOFFICEPACKAGEPART
+		virtual TElOfficePackagePart* get_OfficeDocumentPart();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficePackagePart*, get_OfficeDocumentPart, TElOfficeOpenXMLDocument, OfficeDocumentPart);
+#endif /* SB_USE_CLASS_TELOFFICEPACKAGEPART */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		virtual TElOfficeCustomEncryptionHandler* get_EncryptionHandler();
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler &Value);
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeCustomEncryptionHandler*, get_EncryptionHandler, set_EncryptionHandler, TElOfficeOpenXMLDocument, EncryptionHandler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+		virtual bool get_OwnEncryptionHandler();
+
+		virtual void set_OwnEncryptionHandler(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OwnEncryptionHandler, set_OwnEncryptionHandler, TElOfficeOpenXMLDocument, OwnEncryptionHandler);
+
+		virtual int32_t get_SignatureLineCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureLineCount, TElOfficeOpenXMLDocument, SignatureLineCount);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE
+		virtual TElOfficeOpenXMLSignatureLine* get_SignatureLines(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLSIGNATURELINE */
+
+		TElOfficeOpenXMLDocument(TElOfficeOpenXMLDocumentHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeOpenXMLDocument();
+
+		virtual ~TElOfficeOpenXMLDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION
+class TElOfficeOpenXPSSignatureDefinition: public TElOfficeOpenXMLSignatureView
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXPSSignatureDefinition)
+	public:
+		virtual void get_Intent(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_Intent(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_Intent(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_Intent(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_PageURI(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_PageURI(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_PageURI(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_PageURI(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SignBy(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SignBy(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual int64_t get_SignByUTC();
+
+		virtual void set_SignByUTC(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_SignByUTC, set_SignByUTC, TElOfficeOpenXPSSignatureDefinition, SignByUTC);
+
+		virtual void get_SigningLocation(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SigningLocation(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_SigningLocation(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_SigningLocation(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SignerName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SignerName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_SignerName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_SignerName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SpotID(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SpotID(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_SpotID(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_SpotID(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_SpotIDGUID(TGuid &OutResult);
+
+		virtual void set_SpotIDGUID(TGuid &Value);
+
+		virtual double get_StartX();
+
+		virtual void set_StartX(double Value);
+
+		SB_DECLARE_PROPERTY(double, get_StartX, set_StartX, TElOfficeOpenXPSSignatureDefinition, StartX);
+
+		virtual double get_StartY();
+
+		virtual void set_StartY(double Value);
+
+		SB_DECLARE_PROPERTY(double, get_StartY, set_StartY, TElOfficeOpenXPSSignatureDefinition, StartY);
+
+		TElOfficeOpenXPSSignatureDefinition(TElOfficeOpenXPSSignatureDefinitionHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		explicit TElOfficeOpenXPSSignatureDefinition(TElOfficeOpenXMLPackage &APackage);
+
+		explicit TElOfficeOpenXPSSignatureDefinition(TElOfficeOpenXMLPackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT
+class TElOfficeOpenXPSPageContent: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXPSPageContent)
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		TElOfficeOpenXMLPackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		virtual TElOfficeOpenXMLPackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXMLPackage*, get_Package, TElOfficeOpenXPSPageContent, Package);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		virtual void get_Source(std::string &OutResult);
+
+		virtual int32_t get_Width();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Width, TElOfficeOpenXPSPageContent, Width);
+
+		virtual int32_t get_Height();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Height, TElOfficeOpenXPSPageContent, Height);
+
+		TElOfficeOpenXPSPageContent(TElOfficeOpenXPSPageContentHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		explicit TElOfficeOpenXPSPageContent(TElOfficeOpenXMLPackage &APackage);
+
+		explicit TElOfficeOpenXPSPageContent(TElOfficeOpenXMLPackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		virtual ~TElOfficeOpenXPSPageContent();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT
+class TElOfficeOpenXPSFixedDocument: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXPSFixedDocument)
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		TElOfficeOpenXMLPackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT
+		TElOfficeOpenXPSPageContent* _Inst_PageContents;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		virtual TElOfficeOpenXMLPackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXMLPackage*, get_Package, TElOfficeOpenXPSFixedDocument, Package);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		virtual void get_URI(std::string &OutResult);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficeOpenXPSFixedDocument, Count);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT
+		virtual TElOfficeOpenXPSPageContent* get_PageContents(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSPAGECONTENT */
+
+		TElOfficeOpenXPSFixedDocument(TElOfficeOpenXPSFixedDocumentHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE
+		explicit TElOfficeOpenXPSFixedDocument(TElOfficeOpenXMLPackage &APackage);
+
+		explicit TElOfficeOpenXPSFixedDocument(TElOfficeOpenXMLPackage *APackage);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLPACKAGE */
+
+		virtual ~TElOfficeOpenXPSFixedDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT
+class TElOfficeOpenXPSDocument: public TElOfficeOpenXMLPackage
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeOpenXPSDocument)
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT
+		TElOfficeOpenXPSFixedDocument* _Inst_FixedDocuments;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION
+		TElOfficeOpenXPSSignatureDefinition* _Inst_SignatureDefinitions;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION */
+
+		void initInstances();
+
+	public:
+		int32_t AddSignatureDefinition(const sb_u16string &Intent, const sb_u16string &SignerName, const sb_u16string &SignerLocation, int64_t SignBy);
+#ifdef SB_U16STRING_USED
+		int32_t AddSignatureDefinition(const std::wstring &Intent, const std::wstring &SignerName, const std::wstring &SignerLocation, int64_t SignBy);
+#endif /* SB_U16STRING_USED */
+
+		int32_t AddSignatureDefinition(const sb_u16string &Intent, const sb_u16string &SignerName, const sb_u16string &SignerLocation, int64_t SignBy, const std::string &PageURI, double StartX, double StartY);
+#ifdef SB_U16STRING_USED
+		int32_t AddSignatureDefinition(const std::wstring &Intent, const std::wstring &SignerName, const std::wstring &SignerLocation, int64_t SignBy, const std::string &PageURI, double StartX, double StartY);
+#endif /* SB_U16STRING_USED */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION
+		int32_t AddSignatureDefinition(TElOfficeOpenXPSSignatureDefinition &SigDef);
+
+		int32_t AddSignatureDefinition(TElOfficeOpenXPSSignatureDefinition *SigDef);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION */
+
+		virtual void Close();
+
+		virtual int32_t get_FixedDocumentCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_FixedDocumentCount, TElOfficeOpenXPSDocument, FixedDocumentCount);
+
+		virtual int32_t get_SignatureDefinitionCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureDefinitionCount, TElOfficeOpenXPSDocument, SignatureDefinitionCount);
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT
+		virtual TElOfficeOpenXPSFixedDocument* get_FixedDocuments(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSFIXEDDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION
+		virtual TElOfficeOpenXPSSignatureDefinition* get_SignatureDefinitions(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSSIGNATUREDEFINITION */
+
+		TElOfficeOpenXPSDocument(TElOfficeOpenXPSDocumentHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeOpenXPSDocument();
+
+		virtual ~TElOfficeOpenXPSDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEDOCUMENT
+class TElOpenOfficeDocument: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOpenOfficeDocument)
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		TElOfficeCustomEncryptionHandler* _Inst_EncryptionHandler;
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+		TElOpenOfficeCustomSignatureHandler* _Inst_SignatureHandlers;
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+#ifdef SB_USE_CLASS_TELOPENOFFICEPACKAGE
+		TElOpenOfficePackage* _Inst_Package;
+#endif /* SB_USE_CLASS_TELOPENOFFICEPACKAGE */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELOPENOFFICEPACKAGE
+		void Open(TElOpenOfficePackage &APackage);
+
+		void Open(TElOpenOfficePackage *APackage);
+#endif /* SB_USE_CLASS_TELOPENOFFICEPACKAGE */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream);
+
+		void Open(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream);
+
+		void Open(TStream *Stream, bool OwnStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream, bool ReadOnly);
+
+		void Open(TStream *Stream, bool OwnStream, bool ReadOnly);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASSES_TELZIPREADER_AND_TSTREAM
+		void Open(TStream &Stream, int64_t StreamOffset, bool OwnStream, bool ReadOnly, TElZipReader &ZipReader);
+
+		void Open(TStream *Stream, int64_t StreamOffset, bool OwnStream, bool ReadOnly, TElZipReader *ZipReader);
+#endif /* SB_USE_CLASSES_TELZIPREADER_AND_TSTREAM */
+
+		void Close();
+
+		void Flush();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void DecryptTo(TStream &NewStream);
+
+		void DecryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void EncryptTo(TStream &NewStream);
+
+		void EncryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOpenOfficeCustomSignatureHandler &Handler);
+
+		int32_t AddSignature(TElOpenOfficeCustomSignatureHandler *Handler);
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOpenOfficeCustomSignatureHandler &Handler, bool OwnHandler);
+
+		int32_t AddSignature(TElOpenOfficeCustomSignatureHandler *Handler, bool OwnHandler);
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+		void RemoveSignature(int32_t Index);
+
+#ifdef SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+		void CompleteAsyncSign(TElOpenOfficeCustomSignatureHandler &Handler, TElDCAsyncState &State);
+
+		void CompleteAsyncSign(TElOpenOfficeCustomSignatureHandler *Handler, TElDCAsyncState *State);
+#endif /* SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+		virtual TSBOpenOfficeDocumentType get_DocumentType();
+
+		SB_DECLARE_PROPERTY_GET(TSBOpenOfficeDocumentType, get_DocumentType, TElOpenOfficeDocument, DocumentType);
+
+		virtual bool get_Encryptable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Encryptable, TElOpenOfficeDocument, Encryptable);
+
+		virtual bool get_Signable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Signable, TElOpenOfficeDocument, Signable);
+
+		virtual bool get_IsEncrypted();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsEncrypted, TElOpenOfficeDocument, IsEncrypted);
+
+		virtual bool get_IsSigned();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsSigned, TElOpenOfficeDocument, IsSigned);
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		virtual TElOfficeCustomEncryptionHandler* get_EncryptionHandler();
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler &Value);
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeCustomEncryptionHandler*, get_EncryptionHandler, set_EncryptionHandler, TElOpenOfficeDocument, EncryptionHandler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+		virtual bool get_OwnEncryptionHandler();
+
+		virtual void set_OwnEncryptionHandler(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OwnEncryptionHandler, set_OwnEncryptionHandler, TElOpenOfficeDocument, OwnEncryptionHandler);
+
+		virtual int32_t get_SignatureHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureHandlerCount, TElOpenOfficeDocument, SignatureHandlerCount);
+
+#ifdef SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER
+		virtual TElOpenOfficeCustomSignatureHandler* get_SignatureHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELOPENOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEPACKAGE
+		virtual TElOpenOfficePackage* get_Package();
+
+		SB_DECLARE_PROPERTY_GET(TElOpenOfficePackage*, get_Package, TElOpenOfficeDocument, Package);
+#endif /* SB_USE_CLASS_TELOPENOFFICEPACKAGE */
+
+		virtual void get_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		TElOpenOfficeDocument(TElOpenOfficeDocumentHandle handle, TElOwnHandle ownHandle);
+
+		TElOpenOfficeDocument();
+
+		virtual ~TElOpenOfficeDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOPENOFFICEDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDOCUMENT
+class TElOfficeDocument: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDocument)
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+		TElOfficeCustomSignatureHandler* _Inst_SignatureHandlers;
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+#ifdef SB_USE_CLASS_TELOFFICEBINARYDOCUMENT
+		TElOfficeBinaryDocument* _Inst_BinaryDocument;
+#endif /* SB_USE_CLASS_TELOFFICEBINARYDOCUMENT */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT
+		TElOfficeOpenXMLDocument* _Inst_OpenXMLDocument;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT */
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT
+		TElOfficeOpenXPSDocument* _Inst_OpenXPSDocument;
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT */
+#ifdef SB_USE_CLASS_TELOPENOFFICEDOCUMENT
+		TElOpenOfficeDocument* _Inst_OpenDocument;
+#endif /* SB_USE_CLASS_TELOPENOFFICEDOCUMENT */
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		TElOfficeCustomEncryptionHandler* _Inst_EncryptionHandler;
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+		void initInstances();
+
+	public:
+		void Open(const std::string &FileName);
+
+		void Open(const std::string &FileName, bool ReadOnly);
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream);
+
+		void Open(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream);
+
+		void Open(TStream *Stream, bool OwnStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void Open(TStream &Stream, bool OwnStream, bool ReadOnly);
+
+		void Open(TStream *Stream, bool OwnStream, bool ReadOnly);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Close();
+
+		void Flush();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void DecryptTo(TStream &NewStream);
+
+		void DecryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void EncryptTo(TStream &NewStream);
+
+		void EncryptTo(TStream *NewStream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeCustomSignatureHandler &Handler);
+
+		int32_t AddSignature(TElOfficeCustomSignatureHandler *Handler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+		int32_t AddSignature(TElOfficeCustomSignatureHandler &Handler, bool OwnHandler);
+
+		int32_t AddSignature(TElOfficeCustomSignatureHandler *Handler, bool OwnHandler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+		void RemoveSignature(int32_t Index);
+
+#ifdef SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICECUSTOMSIGNATUREHANDLER
+		void CompleteAsyncSign(TElOfficeCustomSignatureHandler &Handler, TElDCAsyncState &State);
+
+		void CompleteAsyncSign(TElOfficeCustomSignatureHandler *Handler, TElDCAsyncState *State);
+#endif /* SB_USE_CLASSES_TELDCASYNCSTATE_AND_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+		virtual TSBOfficeDocumentFormat get_DocumentFormat();
+
+		SB_DECLARE_PROPERTY_GET(TSBOfficeDocumentFormat, get_DocumentFormat, TElOfficeDocument, DocumentFormat);
+
+		virtual bool get_IsEncrypted();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsEncrypted, TElOfficeDocument, IsEncrypted);
+
+		virtual bool get_IsSigned();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_IsSigned, TElOfficeDocument, IsSigned);
+
+		virtual bool get_Encryptable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Encryptable, TElOfficeDocument, Encryptable);
+
+		virtual bool get_Signable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Signable, TElOfficeDocument, Signable);
+
+		virtual int32_t get_SignatureHandlerCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureHandlerCount, TElOfficeDocument, SignatureHandlerCount);
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER
+		virtual TElOfficeCustomSignatureHandler* get_SignatureHandlers(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMSIGNATUREHANDLER */
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYDOCUMENT
+		virtual TElOfficeBinaryDocument* get_BinaryDocument();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeBinaryDocument*, get_BinaryDocument, TElOfficeDocument, BinaryDocument);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT
+		virtual TElOfficeOpenXMLDocument* get_OpenXMLDocument();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXMLDocument*, get_OpenXMLDocument, TElOfficeDocument, OpenXMLDocument);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXMLDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT
+		virtual TElOfficeOpenXPSDocument* get_OpenXPSDocument();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeOpenXPSDocument*, get_OpenXPSDocument, TElOfficeDocument, OpenXPSDocument);
+#endif /* SB_USE_CLASS_TELOFFICEOPENXPSDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOPENOFFICEDOCUMENT
+		virtual TElOpenOfficeDocument* get_OpenDocument();
+
+		SB_DECLARE_PROPERTY_GET(TElOpenOfficeDocument*, get_OpenDocument, TElOfficeDocument, OpenDocument);
+#endif /* SB_USE_CLASS_TELOPENOFFICEDOCUMENT */
+
+#ifdef SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER
+		virtual TElOfficeCustomEncryptionHandler* get_EncryptionHandler();
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler &Value);
+
+		virtual void set_EncryptionHandler(TElOfficeCustomEncryptionHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeCustomEncryptionHandler*, get_EncryptionHandler, set_EncryptionHandler, TElOfficeDocument, EncryptionHandler);
+#endif /* SB_USE_CLASS_TELOFFICECUSTOMENCRYPTIONHANDLER */
+
+		virtual void get_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCreateTemporaryStream(TSBOfficeCreateTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCloseTemporaryStream(TSBOfficeCloseTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		TElOfficeDocument(TElOfficeDocumentHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElOfficeDocument(TComponent &AOwner);
+
+		explicit TElOfficeDocument(TComponent *AOwner);
+
+		virtual ~TElOfficeDocument();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDOCUMENT */
+
+#ifdef SB_USE_GLOBAL_PROCS_OFFICE
+
+void DocumentFormatToString(TSBOfficeDocumentFormat DocumentFormat, std::string &OutResult);
+
+void BinaryDocumentTypeToString(TSBOfficeBinaryDocumentType DocumentType, std::string &OutResult);
+
+void OpenXMLDocumentTypeToString(TSBOfficeOpenXMLDocumentType DocumentType, std::string &OutResult);
+
+void OpenDocumentTypeToString(TSBOpenOfficeDocumentType DocumentType, std::string &OutResult);
+
+#ifdef SB_USE_CLASS_TELCOMPOUNDFILESTORAGE
+bool IsSharedWorkbook(TElCompoundFileStorage &Storage);
+bool IsSharedWorkbook(TElCompoundFileStorage *Storage);
+#endif /* SB_USE_CLASS_TELCOMPOUNDFILESTORAGE */
+
+#endif /* SB_USE_GLOBAL_PROCS_OFFICE */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_OFFICE
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_RegisterSecurityHandler(TElOfficeSecurityHandlerClassHandle HandlerClass);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_UnregisterSecurityHandler(TElOfficeSecurityHandlerClassHandle HandlerClass);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_DocumentFormatToString(TSBOfficeDocumentFormatRaw DocumentFormat, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_BinaryDocumentTypeToString(TSBOfficeBinaryDocumentTypeRaw DocumentType, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_OpenXMLDocumentTypeToString(TSBOfficeOpenXMLDocumentTypeRaw DocumentType, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_OpenDocumentTypeToString(TSBOpenOfficeDocumentTypeRaw DocumentType, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_IsSharedWorkbook(TElCompoundFileStorageHandle Storage, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOffice_Initialize(void);
+#endif /* SB_USE_GLOBAL_PROCS_OFFICE */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBOFFICE */
+
