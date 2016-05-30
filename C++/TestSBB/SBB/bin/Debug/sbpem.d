@@ -1,0 +1,31 @@
+/home/leovan/git/code_samples/C++/TestSBB/SBB/bin/Debug/sbpem.o: \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/cpp/sbpem.cpp \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpem.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdefs.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/all/sbcustom.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcore.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsystem.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbtypes.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbutils.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbconstants.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmath.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbencoding.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsymmetriccrypto.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcustomcrypto.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcryptoprov.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbrdn.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstringlist.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstrutils.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbchsunicode.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbasn1tree.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstreams.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbasn1.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsharedresource.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbrandom.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsha2.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcryptoprovmanager.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcryptoprovutils.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcryptoprovrs.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpoly1305.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhashfunction.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmd.h

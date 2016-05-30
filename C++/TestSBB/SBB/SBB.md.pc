@@ -1,0 +1,5 @@
+Name: SBB
+Description: 
+Version: 0.1
+Libs: -L"/home/leovan/git/code_samples/C++/TestSBB/SBB/bin/Debug" -lSBB
+Cflags: -I"/home/leovan/git/code_samples/C++/TestSBB/SBB/include" -I"/home/leovan/git/code_samples/C++/TestSBB/SBB/include/all"

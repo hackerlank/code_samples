@@ -1,0 +1,27 @@
+/home/leovan/git/code_samples/C++/TestSBB/SBB/bin/Debug/sbdcxmlenc.o: \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/cpp/sbdcxmlenc.cpp \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdcxmlenc.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdefs.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/all/sbcustom.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcore.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsystem.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbconstants.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbtypes.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbutils.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmath.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstrutils.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstreams.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbxmlcore.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbxmldefs.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbxmlcharsets.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbchsconvbase.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbchsconv.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbsharedresource.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbrandom.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdcenc.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbrdn.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbstringlist.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbchsunicode.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbasn1tree.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbasn1.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbencoding.h
