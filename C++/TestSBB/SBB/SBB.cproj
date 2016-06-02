@@ -17,7 +17,7 @@
     <CompileTarget>SharedLibrary</CompileTarget>
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
-    <ExtraCompilerArguments>-fdata-sections -ffunction-sections  -std=c++11 -fPIC  -DLINUX -DCPU64</ExtraCompilerArguments>
+    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
     <Includes>
       <Includes>
         <Include>${ProjectDir}/include</Include>
@@ -25,6 +25,7 @@
       </Includes>
     </Includes>
     <OptimizationLevel>2</OptimizationLevel>
+    <WarningLevel>All</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -33,6 +34,13 @@
     <OptimizationLevel>3</OptimizationLevel>
     <DefineSymbols>MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
+    <Includes>
+      <Includes>
+        <Include>${ProjectDir}/include</Include>
+        <Include>${ProjectDir}/include/all</Include>
+      </Includes>
+    </Includes>
+    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="include\" />

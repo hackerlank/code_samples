@@ -2,21 +2,24 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
     <Files>
-      <File FileName="TestSBB/main.cpp" Line="20" Column="20" />
+      <File FileName="TestSBB/main.cpp" Line="36" Column="36" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="SBB" expanded="True" />
-          <Node name="TestSBB" expanded="True" selected="True">
-            <Node name="Packages" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.TestSBB>
+    <MonoDevelop.Ide.CustomExecutionModes>
+      <Data Name="Smartcard (Personalizado)" Id="2d55c605-7215-49d2-892f-e9273adb168b" ModeId="Default" PromptForParameters="True">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value Arguments="-ignoreerrors -inv -f &quot;/tmp/doc.pdf&quot; -usesmartcard &quot;/usr/lib/libaetpkss.so&quot; 1234" ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+        </CommandData>
+      </Data>
+    </MonoDevelop.Ide.CustomExecutionModes>
+  </MonoDevelop.Ide.ItemProperties.TestSBB>
 </Properties>

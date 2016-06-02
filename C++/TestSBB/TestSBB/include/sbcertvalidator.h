@@ -1,0 +1,1113 @@
+#ifndef __INC_SBCERTVALIDATOR
+#define __INC_SBCERTVALIDATOR
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+#include "sbstrutils.h"
+#include "sbrdn.h"
+#include "sbconstants.h"
+#include "sbx509.h"
+#include "sbx509ext.h"
+#include "sbocspcommon.h"
+#include "sbocspclient.h"
+#include "sbrandom.h"
+#include "sbpkicommon.h"
+#include "sbcrl.h"
+#include "sbcrlstorage.h"
+#include "sbcertretriever.h"
+#include "sbstringlist.h"
+#include "sbpunycode.h"
+#ifdef SB_WINDOWS
+#include "sbwincertstorage.h"
+#endif
+#ifndef SB_NOT_MACOS_OR_IOS
+#include "sbapplecommon.h"
+#include "sbapplecertstorage.h"
+#endif
+#include "sbcustomcertstorage.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_VALIDATOR_CRL_ERROR_BASE 	1000
+#define SB_VALIDATOR_OCSP_ERROR_BASE 	2000
+#define SB_VALIDATOR_CRL_ERROR_VALIDATION_FAILED 	1001
+#define SB_VALIDATOR_CRL_ERROR_NO_RETRIEVER 	1002
+#define SB_VALIDATOR_CRL_ERROR_RETRIEVER_FAILED 	1003
+#define SB_VALIDATOR_CRL_ERROR_NO_CRLS_RETRIEVED 	1004
+#define SB_VALIDATOR_CRL_ERROR_CERT_REVOKED 	1005
+#define SB_VALIDATOR_OCSP_ERROR_VALIDATION_FAILED 	2001
+#define SB_VALIDATOR_OCSP_ERROR_NO_CLIENT 	2002
+#define SB_VALIDATOR_OCSP_ERROR_CLIENT_FAILED 	2003
+#define SB_VALIDATOR_OCSP_ERROR_INVALID_RESPONSE 	2004
+#define SB_VALIDATOR_OCSP_ERROR_CERT_REVOKED 	2005
+
+typedef TElClassHandle TElX509CertificateValidatorHandle;
+
+typedef TElClassHandle TElX509CertificateValidatorLoggerHandle;
+
+typedef TElClassHandle TElX509CertificateValidationResultHandle;
+
+typedef TElClassHandle TElX509CachedCertificateHandle;
+
+typedef TElClassHandle TElCacheCertStorageHandle;
+
+typedef void (SB_CALLBACK *TSBCRLNeededEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TElCustomCRLStorageHandle * CRLs);
+
+typedef void (SB_CALLBACK *TSBCACertificateRetrievedEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TSBGeneralNameRaw NameType, const char * pcLocation, int32_t szLocation, TElX509CertificateHandle CACertificate);
+
+typedef void (SB_CALLBACK *TSBCRLRetrievedEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TSBGeneralNameRaw NameType, const char * pcLocation, int32_t szLocation, TElCertificateRevocationListHandle CRL);
+
+typedef void (SB_CALLBACK *TSBAfterCRLUseEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TElCertificateRevocationListHandle CRL);
+
+typedef void (SB_CALLBACK *TSBAfterOCSPResponseUseEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TElOCSPResponseHandle Response);
+
+typedef void (SB_CALLBACK *TSBOCSPResponseSignerValidEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TElOCSPResponseHandle Response, TElX509CertificateHandle SignerCertificate, int8_t * SignerValid);
+
+typedef void (SB_CALLBACK *TSBBeforeCertificateRetrieverUseEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TSBGeneralNameRaw NameType, const char * pcLocation, int32_t szLocation, TElCustomCertificateRetrieverHandle * Retriever);
+
+typedef void (SB_CALLBACK *TSBBeforeCRLRetrieverUseEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TSBGeneralNameRaw NameType, const char * pcLocation, int32_t szLocation, TElCustomCRLRetrieverHandle * Retriever);
+
+typedef void (SB_CALLBACK *TSBBeforeOCSPClientUseEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, const char * pcOCSPLocation, int32_t szOCSPLocation, TElOCSPClientHandle * OCSPClient);
+
+typedef void (SB_CALLBACK *TSBCertificateValidatorCRLErrorEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, const char * pcLocation, int32_t szLocation, TElCustomCRLRetrieverHandle Retriever, int32_t ErrorCode);
+
+typedef void (SB_CALLBACK *TSBCertificateValidatorOCSPErrorEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, const char * pcLocation, int32_t szLocation, TElOCSPClientHandle Client, int32_t ErrorCode);
+
+typedef void (SB_CALLBACK *TSBCACertificateNeededEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle * CACertificate);
+
+typedef void (SB_CALLBACK *TSBBeforeCertificateValidationEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate);
+
+typedef void (SB_CALLBACK *TSBAfterCertificateValidationEvent)(void * _ObjectData, TObjectHandle Sender, TElX509CertificateHandle Certificate, TElX509CertificateHandle CACertificate, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason, int8_t * DoContinue);
+
+typedef uint8_t TSBX509RevocationCheckPreferenceRaw;
+
+typedef enum
+{
+	rcpPreferCRL = 0,
+	rcpPreferOCSP = 1,
+	rcpCheckBoth = 2
+} TSBX509RevocationCheckPreference;
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_InitializeWinStorages(TElX509CertificateValidatorHandle _Handle);
+#endif
+#ifndef SB_NOT_MACOS_OR_IOS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_InitializeAppleStorages(TElX509CertificateValidatorHandle _Handle);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_Validate(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, TElCustomCertStorageHandle AdditionalCertificates, int8_t CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_Validate_1(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ValidateForSMIME(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, const char * pcEMailAddress, int32_t szEMailAddress, TElCustomCertStorageHandle AdditionalCertificates, int8_t CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ValidateForSSL(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, const char * pcDomainName, int32_t szDomainName, const char * pcIPAddress, int32_t szIPAddress, TSBHostRoleRaw HostRole, TElCustomCertStorageHandle AdditionalCertificates, int8_t CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ValidateForSSL_1(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, const char * pcDomainName, int32_t szDomainName, const char * pcIPAddress, int32_t szIPAddress, TSBHostRoleRaw HostRole, TElCustomCertStorageHandle AdditionalCertificates, int8_t CompleteChainValidation, int64_t ValidityMoment, int8_t InternalValidation, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ValidateForTimestamping(TElX509CertificateValidatorHandle _Handle, TElX509CertificateHandle Certificate, TElCustomCertStorageHandle AdditionalCertificates, int8_t CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_AddTrustedCertificates(TElX509CertificateValidatorHandle _Handle, TElCustomCertStorageHandle Storage);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearTrustedCertificates(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_AddBlockedCertificates(TElX509CertificateValidatorHandle _Handle, TElCustomCertStorageHandle Storage);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearBlockedCertificates(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_AddKnownCertificates(TElX509CertificateValidatorHandle _Handle, TElCustomCertStorageHandle Storage);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearKnownCertificates(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_AddKnownCRLs(TElX509CertificateValidatorHandle _Handle, TElCustomCRLStorageHandle Storage);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearKnownCRLs(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_AddKnownOCSPResponses(TElX509CertificateValidatorHandle _Handle, TElOCSPResponseHandle Response);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearKnownOCSPResponses(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ResetCertificateCache();
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ResetCertificateCache_1(TElX509CertificateValidatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearOutdatedCacheRecords(int64_t ClearMoment, int32_t CacheValidityTime);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_ClearOutdatedCacheRecords_1(TElX509CertificateValidatorHandle _Handle, int64_t ClearMoment, int32_t CacheValidityTime);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_UsedCertificates(TElX509CertificateValidatorHandle _Handle, TElMemoryCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_UsedCRLs(TElX509CertificateValidatorHandle _Handle, TElMemoryCRLStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_UsedOCSPResponses(TElX509CertificateValidatorHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_WinStorageTrust(TElX509CertificateValidatorHandle _Handle, TElWinCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_WinStorageCA(TElX509CertificateValidatorHandle _Handle, TElWinCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_WinStorageBlocked(TElX509CertificateValidatorHandle _Handle, TElWinCertStorageHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_Logger(TElX509CertificateValidatorHandle _Handle, TElX509CertificateValidatorLoggerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_Logger(TElX509CertificateValidatorHandle _Handle, TElX509CertificateValidatorLoggerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_InternalLogger(TElX509CertificateValidatorHandle _Handle, TElX509CertificateValidatorLoggerHandle * OutResult);
+#ifndef SB_NOT_MACOS_OR_IOS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_AppleStorageCA(TElX509CertificateValidatorHandle _Handle, TElAppleCertStorageHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_AppleStorageTrust(TElX509CertificateValidatorHandle _Handle, TElAppleCertStorageHandle * OutResult);
+#endif
+#ifndef SB_LINUX_OR_IOS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreSystemTrust(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreSystemTrust(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_UseSystemStorages(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_UseSystemStorages(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_CheckCRL(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_CheckCRL(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_CheckOCSP(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_CheckOCSP(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_CheckValidityPeriodForTrusted(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_CheckValidityPeriodForTrusted(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreCAKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreCAKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreRevocationKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreRevocationKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreSSLKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreSSLKeyUsage(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreBadOCSPChains(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreBadOCSPChains(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreCABasicConstraints(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreCABasicConstraints(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_IgnoreCANameConstraints(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_IgnoreCANameConstraints(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_MandatoryCRLCheck(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_MandatoryCRLCheck(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_MandatoryOCSPCheck(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_MandatoryOCSPCheck(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_MandatoryRevocationCheck(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_MandatoryRevocationCheck(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_ValidateInvalidCertificates(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_ValidateInvalidCertificates(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_ForceCompleteChainValidationForTrusted(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_ForceCompleteChainValidationForTrusted(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_ForceRevocationCheckForRoot(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_ForceRevocationCheckForRoot(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OfflineMode(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OfflineMode(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_RevocationMomentGracePeriod(TElX509CertificateValidatorHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_RevocationMomentGracePeriod(TElX509CertificateValidatorHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_ImplicitlyTrustSelfSignedCertificates(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_ImplicitlyTrustSelfSignedCertificates(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_PromoteLongOCSPResponses(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_PromoteLongOCSPResponses(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_RevocationCheckPreference(TElX509CertificateValidatorHandle _Handle, TSBX509RevocationCheckPreferenceRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_RevocationCheckPreference(TElX509CertificateValidatorHandle _Handle, TSBX509RevocationCheckPreferenceRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_LookupCRLByNameIfDPNotPresent(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_LookupCRLByNameIfDPNotPresent(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_SkipSubjectNameIfAltNameExists(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_SkipSubjectNameIfAltNameExists(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_CacheValidityTime(TElX509CertificateValidatorHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_CacheValidityTime(TElX509CertificateValidatorHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_CacheValidationResults(TElX509CertificateValidatorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_CacheValidationResults(TElX509CertificateValidatorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnCRLNeeded(TElX509CertificateValidatorHandle _Handle, TSBCRLNeededEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnCRLNeeded(TElX509CertificateValidatorHandle _Handle, TSBCRLNeededEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnCRLRetrieved(TElX509CertificateValidatorHandle _Handle, TSBCRLRetrievedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnCRLRetrieved(TElX509CertificateValidatorHandle _Handle, TSBCRLRetrievedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnBeforeCRLRetrieverUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeCRLRetrieverUseEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnBeforeCRLRetrieverUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeCRLRetrieverUseEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnBeforeCertificateRetrieverUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeCertificateRetrieverUseEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnBeforeCertificateRetrieverUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeCertificateRetrieverUseEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnCACertificateRetrieved(TElX509CertificateValidatorHandle _Handle, TSBCACertificateRetrievedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnCACertificateRetrieved(TElX509CertificateValidatorHandle _Handle, TSBCACertificateRetrievedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnBeforeOCSPClientUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeOCSPClientUseEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnBeforeOCSPClientUse(TElX509CertificateValidatorHandle _Handle, TSBBeforeOCSPClientUseEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnBeforeCertificateValidation(TElX509CertificateValidatorHandle _Handle, TSBBeforeCertificateValidationEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnBeforeCertificateValidation(TElX509CertificateValidatorHandle _Handle, TSBBeforeCertificateValidationEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnAfterCertificateValidation(TElX509CertificateValidatorHandle _Handle, TSBAfterCertificateValidationEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnAfterCertificateValidation(TElX509CertificateValidatorHandle _Handle, TSBAfterCertificateValidationEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnCACertificateNeeded(TElX509CertificateValidatorHandle _Handle, TSBCACertificateNeededEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnCACertificateNeeded(TElX509CertificateValidatorHandle _Handle, TSBCACertificateNeededEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnAfterCRLUse(TElX509CertificateValidatorHandle _Handle, TSBAfterCRLUseEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnAfterCRLUse(TElX509CertificateValidatorHandle _Handle, TSBAfterCRLUseEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnAfterOCSPResponseUse(TElX509CertificateValidatorHandle _Handle, TSBAfterOCSPResponseUseEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnAfterOCSPResponseUse(TElX509CertificateValidatorHandle _Handle, TSBAfterOCSPResponseUseEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnOCSPResponseSignerValid(TElX509CertificateValidatorHandle _Handle, TSBOCSPResponseSignerValidEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnOCSPResponseSignerValid(TElX509CertificateValidatorHandle _Handle, TSBOCSPResponseSignerValidEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnCRLError(TElX509CertificateValidatorHandle _Handle, TSBCertificateValidatorCRLErrorEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnCRLError(TElX509CertificateValidatorHandle _Handle, TSBCertificateValidatorCRLErrorEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_get_OnOCSPError(TElX509CertificateValidatorHandle _Handle, TSBCertificateValidatorOCSPErrorEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_set_OnOCSPError(TElX509CertificateValidatorHandle _Handle, TSBCertificateValidatorOCSPErrorEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidator_Create(TComponentHandle AOwner, TElX509CertificateValidatorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidatorLogger_Reset(TElX509CertificateValidatorLoggerHandle _Handle);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidatorLogger_get_Log(TElX509CertificateValidatorLoggerHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidatorLogger_get_Log(TElX509CertificateValidatorLoggerHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidatorLogger_Create(TElX509CertificateValidatorLoggerHandle * OutResult);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_EqualParams(TElX509CertificateValidationResultHandle _Handle, TElX509CertificateValidationResultHandle Value, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_LastValidatedTime(TElX509CertificateValidationResultHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_LastValidatedTime(TElX509CertificateValidationResultHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_Validity(TElX509CertificateValidationResultHandle _Handle, TSBCertificateValidityRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_Validity(TElX509CertificateValidationResultHandle _Handle, TSBCertificateValidityRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_Reason(TElX509CertificateValidationResultHandle _Handle, TSBCertificateValidityReasonRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_Reason(TElX509CertificateValidationResultHandle _Handle, TSBCertificateValidityReasonRaw Value);
+#ifndef SB_LINUX_OR_IOS
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreSystemTrust(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreSystemTrust(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_UseSystemStorages(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_UseSystemStorages(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_CheckCRL(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_CheckCRL(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_CheckOCSP(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_CheckOCSP(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_CheckValidityPeriodForTrusted(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_CheckValidityPeriodForTrusted(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreCAKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreCAKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreRevocationKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreRevocationKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreSSLKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreSSLKeyUsage(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreBadOCSPChains(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreBadOCSPChains(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreCABasicConstraints(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreCABasicConstraints(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_IgnoreCANameConstraints(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_IgnoreCANameConstraints(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_MandatoryCRLCheck(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_MandatoryCRLCheck(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_MandatoryOCSPCheck(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_MandatoryOCSPCheck(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_MandatoryRevocationCheck(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_MandatoryRevocationCheck(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_ValidateInvalidCertificates(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_ValidateInvalidCertificates(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_ForceCompleteChainValidationForTrusted(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_ForceCompleteChainValidationForTrusted(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_ForceRevocationCheckForRoot(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_ForceRevocationCheckForRoot(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_OfflineMode(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_OfflineMode(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_RevocationMomentGracePeriod(TElX509CertificateValidationResultHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_RevocationMomentGracePeriod(TElX509CertificateValidationResultHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_ImplicitlyTrustSelfSignedCertificates(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_ImplicitlyTrustSelfSignedCertificates(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_PromoteLongOCSPResponses(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_PromoteLongOCSPResponses(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_RevocationCheckPreference(TElX509CertificateValidationResultHandle _Handle, TSBX509RevocationCheckPreferenceRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_RevocationCheckPreference(TElX509CertificateValidationResultHandle _Handle, TSBX509RevocationCheckPreferenceRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_LookupCRLByNameIfDPNotPresent(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_LookupCRLByNameIfDPNotPresent(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_get_SkipSubjectNameIfAltNameExists(TElX509CertificateValidationResultHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_set_SkipSubjectNameIfAltNameExists(TElX509CertificateValidationResultHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CertificateValidationResult_Create(TElX509CertificateValidatorHandle Validator, TElX509CertificateValidationResultHandle * OutResult);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+#ifdef SB_USE_CLASS_TELX509CACHEDCERTIFICATE
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_AddValidationResult(TElX509CachedCertificateHandle _Handle, TElX509CertificateValidationResultHandle Res, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_RemoveValidationResult(TElX509CachedCertificateHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_FindResultByValidityMoment(TElX509CachedCertificateHandle _Handle, int64_t ValidityMoment, int32_t CacheValidityTime, TElX509CertificateValidationResultHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_IsRevoked(TElX509CachedCertificateHandle _Handle, int64_t ValidityMoment, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_IsPermanentlyInvalid(TElX509CachedCertificateHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_ClassType(TClassHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_get_ValidationResults(TElX509CachedCertificateHandle _Handle, int32_t Index, TElX509CertificateValidationResultHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_get_ValidationResultCount(TElX509CachedCertificateHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElX509CachedCertificate_Create(TComponentHandle AOwner, TElX509CachedCertificateHandle * OutResult);
+#endif /* SB_USE_CLASS_TELX509CACHEDCERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELCACHECERTSTORAGE
+SB_IMPORT uint32_t SB_APIENTRY TElCacheCertStorage_BeginWrite(TElCacheCertStorageHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCacheCertStorage_EndWrite(TElCacheCertStorageHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElCacheCertStorage_Add(TElCacheCertStorageHandle _Handle, TElX509CertificateHandle X509Certificate, int64_t ValidityMoment, TSBCertificateValidityRaw Validity, TSBCertificateValidityReasonRaw Reason, TElX509CertificateValidatorHandle Validator);
+SB_IMPORT uint32_t SB_APIENTRY TElCacheCertStorage_Create(TComponentHandle Owner, TElMemoryCertStorageHandle * OutResult);
+#endif /* SB_USE_CLASS_TELCACHECERTSTORAGE */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElX509CertificateValidator;
+class TElX509CertificateValidatorLogger;
+class TElX509CertificateValidationResult;
+class TElX509CachedCertificate;
+class TElCacheCertStorage;
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR
+class TElX509CertificateValidator: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElX509CertificateValidator)
+#ifdef SB_USE_CLASS_TELMEMORYCERTSTORAGE
+		TElMemoryCertStorage* _Inst_UsedCertificates;
+#endif /* SB_USE_CLASS_TELMEMORYCERTSTORAGE */
+#ifdef SB_USE_CLASS_TELMEMORYCRLSTORAGE
+		TElMemoryCRLStorage* _Inst_UsedCRLs;
+#endif /* SB_USE_CLASS_TELMEMORYCRLSTORAGE */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_UsedOCSPResponses;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		TElWinCertStorage* _Inst_WinStorageTrust;
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		TElWinCertStorage* _Inst_WinStorageCA;
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		TElWinCertStorage* _Inst_WinStorageBlocked;
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+#endif
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		TElX509CertificateValidatorLogger* _Inst_Logger;
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		TElX509CertificateValidatorLogger* _Inst_InternalLogger;
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+#ifndef SB_NOT_MACOS_OR_IOS
+#ifdef SB_USE_CLASS_TELAPPLECERTSTORAGE
+		TElAppleCertStorage* _Inst_AppleStorageCA;
+#endif /* SB_USE_CLASS_TELAPPLECERTSTORAGE */
+#ifdef SB_USE_CLASS_TELAPPLECERTSTORAGE
+		TElAppleCertStorage* _Inst_AppleStorageTrust;
+#endif /* SB_USE_CLASS_TELAPPLECERTSTORAGE */
+#endif
+
+		void initInstances();
+
+	public:
+#ifdef SB_WINDOWS
+		void InitializeWinStorages();
+#endif
+#ifndef SB_NOT_MACOS_OR_IOS
+		void InitializeAppleStorages();
+#endif
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void Validate(TElX509Certificate &Certificate, TElCustomCertStorage &AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void Validate(TElX509Certificate *Certificate, TElCustomCertStorage *AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void Validate(TElX509Certificate &Certificate, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void Validate(TElX509Certificate *Certificate, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void ValidateForSMIME(TElX509Certificate &Certificate, const std::string &EMailAddress, TElCustomCertStorage &AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void ValidateForSMIME(TElX509Certificate *Certificate, const std::string &EMailAddress, TElCustomCertStorage *AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void ValidateForSSL(TElX509Certificate &Certificate, const std::string &DomainName, const std::string &IPAddress, TSBHostRole HostRole, TElCustomCertStorage &AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void ValidateForSSL(TElX509Certificate *Certificate, const std::string &DomainName, const std::string &IPAddress, TSBHostRole HostRole, TElCustomCertStorage *AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void ValidateForSSL(TElX509Certificate &Certificate, const std::string &DomainName, const std::string &IPAddress, TSBHostRole HostRole, TElCustomCertStorage &AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, bool InternalValidation, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void ValidateForSSL(TElX509Certificate *Certificate, const std::string &DomainName, const std::string &IPAddress, TSBHostRole HostRole, TElCustomCertStorage *AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, bool InternalValidation, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE
+		void ValidateForTimestamping(TElX509Certificate &Certificate, TElCustomCertStorage &AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+
+		void ValidateForTimestamping(TElX509Certificate *Certificate, TElCustomCertStorage *AdditionalCertificates, bool CompleteChainValidation, int64_t ValidityMoment, TSBCertificateValidity &Validity, TSBCertificateValidityReason &Reason);
+#endif /* SB_USE_CLASSES_TELCUSTOMCERTSTORAGE_AND_TELX509CERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		void AddTrustedCertificates(TElCustomCertStorage &Storage);
+
+		void AddTrustedCertificates(TElCustomCertStorage *Storage);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void ClearTrustedCertificates();
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		void AddBlockedCertificates(TElCustomCertStorage &Storage);
+
+		void AddBlockedCertificates(TElCustomCertStorage *Storage);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void ClearBlockedCertificates();
+
+#ifdef SB_USE_CLASS_TELCUSTOMCERTSTORAGE
+		void AddKnownCertificates(TElCustomCertStorage &Storage);
+
+		void AddKnownCertificates(TElCustomCertStorage *Storage);
+#endif /* SB_USE_CLASS_TELCUSTOMCERTSTORAGE */
+
+		void ClearKnownCertificates();
+
+#ifdef SB_USE_CLASS_TELCUSTOMCRLSTORAGE
+		void AddKnownCRLs(TElCustomCRLStorage &Storage);
+
+		void AddKnownCRLs(TElCustomCRLStorage *Storage);
+#endif /* SB_USE_CLASS_TELCUSTOMCRLSTORAGE */
+
+		void ClearKnownCRLs();
+
+#ifdef SB_USE_CLASS_TELOCSPRESPONSE
+		void AddKnownOCSPResponses(TElOCSPResponse &Response);
+
+		void AddKnownOCSPResponses(TElOCSPResponse *Response);
+#endif /* SB_USE_CLASS_TELOCSPRESPONSE */
+
+		void ClearKnownOCSPResponses();
+
+		static void ResetCertificateCache();
+
+		void ResetCertificateCache_Inst();
+
+		static void ClearOutdatedCacheRecords(int64_t ClearMoment, int32_t CacheValidityTime);
+
+		void ClearOutdatedCacheRecords_Inst(int64_t ClearMoment, int32_t CacheValidityTime);
+
+#ifdef SB_USE_CLASS_TELMEMORYCERTSTORAGE
+		virtual TElMemoryCertStorage* get_UsedCertificates();
+
+		SB_DECLARE_PROPERTY_GET(TElMemoryCertStorage*, get_UsedCertificates, TElX509CertificateValidator, UsedCertificates);
+#endif /* SB_USE_CLASS_TELMEMORYCERTSTORAGE */
+
+#ifdef SB_USE_CLASS_TELMEMORYCRLSTORAGE
+		virtual TElMemoryCRLStorage* get_UsedCRLs();
+
+		SB_DECLARE_PROPERTY_GET(TElMemoryCRLStorage*, get_UsedCRLs, TElX509CertificateValidator, UsedCRLs);
+#endif /* SB_USE_CLASS_TELMEMORYCRLSTORAGE */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_UsedOCSPResponses();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_UsedOCSPResponses, TElX509CertificateValidator, UsedOCSPResponses);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		virtual TElWinCertStorage* get_WinStorageTrust();
+
+		SB_DECLARE_PROPERTY_GET(TElWinCertStorage*, get_WinStorageTrust, TElX509CertificateValidator, WinStorageTrust);
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+#else
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		virtual TElX509CertificateValidatorLogger* get_Logger();
+
+		virtual void set_Logger(TElX509CertificateValidatorLogger &Value);
+
+		virtual void set_Logger(TElX509CertificateValidatorLogger *Value);
+
+		SB_DECLARE_PROPERTY(TElX509CertificateValidatorLogger*, get_Logger, set_Logger, TElX509CertificateValidator, Logger);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+#endif
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		virtual TElWinCertStorage* get_WinStorageCA();
+
+		SB_DECLARE_PROPERTY_GET(TElWinCertStorage*, get_WinStorageCA, TElX509CertificateValidator, WinStorageCA);
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+#endif
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TELWINCERTSTORAGE
+		virtual TElWinCertStorage* get_WinStorageBlocked();
+
+		SB_DECLARE_PROPERTY_GET(TElWinCertStorage*, get_WinStorageBlocked, TElX509CertificateValidator, WinStorageBlocked);
+#endif /* SB_USE_CLASS_TELWINCERTSTORAGE */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		virtual TElX509CertificateValidatorLogger* get_Logger();
+
+		virtual void set_Logger(TElX509CertificateValidatorLogger &Value);
+
+		virtual void set_Logger(TElX509CertificateValidatorLogger *Value);
+
+		SB_DECLARE_PROPERTY(TElX509CertificateValidatorLogger*, get_Logger, set_Logger, TElX509CertificateValidator, Logger);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		virtual TElX509CertificateValidatorLogger* get_InternalLogger();
+
+		SB_DECLARE_PROPERTY_GET(TElX509CertificateValidatorLogger*, get_InternalLogger, TElX509CertificateValidator, InternalLogger);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+
+#else
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+		virtual TElX509CertificateValidatorLogger* get_InternalLogger();
+
+		SB_DECLARE_PROPERTY_GET(TElX509CertificateValidatorLogger*, get_InternalLogger, TElX509CertificateValidator, InternalLogger);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+
+#ifndef SB_LINUX_OR_IOS
+#ifdef SB_USE_CLASS_TELAPPLECERTSTORAGE
+		virtual TElAppleCertStorage* get_AppleStorageCA();
+
+		SB_DECLARE_PROPERTY_GET(TElAppleCertStorage*, get_AppleStorageCA, TElX509CertificateValidator, AppleStorageCA);
+#endif /* SB_USE_CLASS_TELAPPLECERTSTORAGE */
+
+#ifdef SB_USE_CLASS_TELAPPLECERTSTORAGE
+		virtual TElAppleCertStorage* get_AppleStorageTrust();
+
+		SB_DECLARE_PROPERTY_GET(TElAppleCertStorage*, get_AppleStorageTrust, TElX509CertificateValidator, AppleStorageTrust);
+#endif /* SB_USE_CLASS_TELAPPLECERTSTORAGE */
+
+#endif
+#endif
+#ifndef SB_LINUX_OR_IOS
+		virtual bool get_IgnoreSystemTrust();
+
+		virtual void set_IgnoreSystemTrust(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreSystemTrust, set_IgnoreSystemTrust, TElX509CertificateValidator, IgnoreSystemTrust);
+
+		virtual bool get_UseSystemStorages();
+
+		virtual void set_UseSystemStorages(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseSystemStorages, set_UseSystemStorages, TElX509CertificateValidator, UseSystemStorages);
+#endif
+
+		virtual bool get_CheckCRL();
+
+		virtual void set_CheckCRL(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckCRL, set_CheckCRL, TElX509CertificateValidator, CheckCRL);
+
+		virtual bool get_CheckOCSP();
+
+		virtual void set_CheckOCSP(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckOCSP, set_CheckOCSP, TElX509CertificateValidator, CheckOCSP);
+
+		virtual bool get_CheckValidityPeriodForTrusted();
+
+		virtual void set_CheckValidityPeriodForTrusted(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckValidityPeriodForTrusted, set_CheckValidityPeriodForTrusted, TElX509CertificateValidator, CheckValidityPeriodForTrusted);
+
+		virtual bool get_IgnoreCAKeyUsage();
+
+		virtual void set_IgnoreCAKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCAKeyUsage, set_IgnoreCAKeyUsage, TElX509CertificateValidator, IgnoreCAKeyUsage);
+
+		virtual bool get_IgnoreRevocationKeyUsage();
+
+		virtual void set_IgnoreRevocationKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreRevocationKeyUsage, set_IgnoreRevocationKeyUsage, TElX509CertificateValidator, IgnoreRevocationKeyUsage);
+
+		virtual bool get_IgnoreSSLKeyUsage();
+
+		virtual void set_IgnoreSSLKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreSSLKeyUsage, set_IgnoreSSLKeyUsage, TElX509CertificateValidator, IgnoreSSLKeyUsage);
+
+		virtual bool get_IgnoreBadOCSPChains();
+
+		virtual void set_IgnoreBadOCSPChains(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreBadOCSPChains, set_IgnoreBadOCSPChains, TElX509CertificateValidator, IgnoreBadOCSPChains);
+
+		virtual bool get_IgnoreCABasicConstraints();
+
+		virtual void set_IgnoreCABasicConstraints(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCABasicConstraints, set_IgnoreCABasicConstraints, TElX509CertificateValidator, IgnoreCABasicConstraints);
+
+		virtual bool get_IgnoreCANameConstraints();
+
+		virtual void set_IgnoreCANameConstraints(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCANameConstraints, set_IgnoreCANameConstraints, TElX509CertificateValidator, IgnoreCANameConstraints);
+
+		virtual bool get_MandatoryCRLCheck();
+
+		virtual void set_MandatoryCRLCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryCRLCheck, set_MandatoryCRLCheck, TElX509CertificateValidator, MandatoryCRLCheck);
+
+		virtual bool get_MandatoryOCSPCheck();
+
+		virtual void set_MandatoryOCSPCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryOCSPCheck, set_MandatoryOCSPCheck, TElX509CertificateValidator, MandatoryOCSPCheck);
+
+		virtual bool get_MandatoryRevocationCheck();
+
+		virtual void set_MandatoryRevocationCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryRevocationCheck, set_MandatoryRevocationCheck, TElX509CertificateValidator, MandatoryRevocationCheck);
+
+		virtual bool get_ValidateInvalidCertificates();
+
+		virtual void set_ValidateInvalidCertificates(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ValidateInvalidCertificates, set_ValidateInvalidCertificates, TElX509CertificateValidator, ValidateInvalidCertificates);
+
+		virtual bool get_ForceCompleteChainValidationForTrusted();
+
+		virtual void set_ForceCompleteChainValidationForTrusted(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceCompleteChainValidationForTrusted, set_ForceCompleteChainValidationForTrusted, TElX509CertificateValidator, ForceCompleteChainValidationForTrusted);
+
+		virtual bool get_ForceRevocationCheckForRoot();
+
+		virtual void set_ForceRevocationCheckForRoot(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceRevocationCheckForRoot, set_ForceRevocationCheckForRoot, TElX509CertificateValidator, ForceRevocationCheckForRoot);
+
+		virtual bool get_OfflineMode();
+
+		virtual void set_OfflineMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OfflineMode, set_OfflineMode, TElX509CertificateValidator, OfflineMode);
+
+		virtual int32_t get_RevocationMomentGracePeriod();
+
+		virtual void set_RevocationMomentGracePeriod(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_RevocationMomentGracePeriod, set_RevocationMomentGracePeriod, TElX509CertificateValidator, RevocationMomentGracePeriod);
+
+		virtual bool get_ImplicitlyTrustSelfSignedCertificates();
+
+		virtual void set_ImplicitlyTrustSelfSignedCertificates(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ImplicitlyTrustSelfSignedCertificates, set_ImplicitlyTrustSelfSignedCertificates, TElX509CertificateValidator, ImplicitlyTrustSelfSignedCertificates);
+
+		virtual bool get_PromoteLongOCSPResponses();
+
+		virtual void set_PromoteLongOCSPResponses(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_PromoteLongOCSPResponses, set_PromoteLongOCSPResponses, TElX509CertificateValidator, PromoteLongOCSPResponses);
+
+		virtual TSBX509RevocationCheckPreference get_RevocationCheckPreference();
+
+		virtual void set_RevocationCheckPreference(TSBX509RevocationCheckPreference Value);
+
+		SB_DECLARE_PROPERTY(TSBX509RevocationCheckPreference, get_RevocationCheckPreference, set_RevocationCheckPreference, TElX509CertificateValidator, RevocationCheckPreference);
+
+		virtual bool get_LookupCRLByNameIfDPNotPresent();
+
+		virtual void set_LookupCRLByNameIfDPNotPresent(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_LookupCRLByNameIfDPNotPresent, set_LookupCRLByNameIfDPNotPresent, TElX509CertificateValidator, LookupCRLByNameIfDPNotPresent);
+
+		virtual bool get_SkipSubjectNameIfAltNameExists();
+
+		virtual void set_SkipSubjectNameIfAltNameExists(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SkipSubjectNameIfAltNameExists, set_SkipSubjectNameIfAltNameExists, TElX509CertificateValidator, SkipSubjectNameIfAltNameExists);
+
+		virtual int32_t get_CacheValidityTime();
+
+		virtual void set_CacheValidityTime(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_CacheValidityTime, set_CacheValidityTime, TElX509CertificateValidator, CacheValidityTime);
+
+		virtual bool get_CacheValidationResults();
+
+		virtual void set_CacheValidationResults(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CacheValidationResults, set_CacheValidationResults, TElX509CertificateValidator, CacheValidationResults);
+
+		virtual void get_OnCRLNeeded(TSBCRLNeededEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCRLNeeded(TSBCRLNeededEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCRLRetrieved(TSBCRLRetrievedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCRLRetrieved(TSBCRLRetrievedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeCRLRetrieverUse(TSBBeforeCRLRetrieverUseEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeCRLRetrieverUse(TSBBeforeCRLRetrieverUseEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeCertificateRetrieverUse(TSBBeforeCertificateRetrieverUseEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeCertificateRetrieverUse(TSBBeforeCertificateRetrieverUseEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCACertificateRetrieved(TSBCACertificateRetrievedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCACertificateRetrieved(TSBCACertificateRetrievedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeOCSPClientUse(TSBBeforeOCSPClientUseEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeOCSPClientUse(TSBBeforeOCSPClientUseEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnBeforeCertificateValidation(TSBBeforeCertificateValidationEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnBeforeCertificateValidation(TSBBeforeCertificateValidationEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnAfterCertificateValidation(TSBAfterCertificateValidationEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnAfterCertificateValidation(TSBAfterCertificateValidationEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCACertificateNeeded(TSBCACertificateNeededEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCACertificateNeeded(TSBCACertificateNeededEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnAfterCRLUse(TSBAfterCRLUseEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnAfterCRLUse(TSBAfterCRLUseEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnAfterOCSPResponseUse(TSBAfterOCSPResponseUseEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnAfterOCSPResponseUse(TSBAfterOCSPResponseUseEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnOCSPResponseSignerValid(TSBOCSPResponseSignerValidEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnOCSPResponseSignerValid(TSBOCSPResponseSignerValidEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCRLError(TSBCertificateValidatorCRLErrorEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCRLError(TSBCertificateValidatorCRLErrorEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnOCSPError(TSBCertificateValidatorOCSPErrorEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnOCSPError(TSBCertificateValidatorOCSPErrorEvent pMethodValue, void * pDataValue);
+
+		TElX509CertificateValidator(TElX509CertificateValidatorHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElX509CertificateValidator(TComponent &AOwner);
+
+		explicit TElX509CertificateValidator(TComponent *AOwner);
+
+		virtual ~TElX509CertificateValidator();
+
+};
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER
+class TElX509CertificateValidatorLogger: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElX509CertificateValidatorLogger)
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_Log;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_Log;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		void initInstances();
+
+	public:
+		virtual void Reset();
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_Log();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_Log, TElX509CertificateValidatorLogger, Log);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_Log();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_Log, TElX509CertificateValidatorLogger, Log);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		TElX509CertificateValidatorLogger(TElX509CertificateValidatorLoggerHandle handle, TElOwnHandle ownHandle);
+
+		TElX509CertificateValidatorLogger();
+
+		virtual ~TElX509CertificateValidatorLogger();
+
+};
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATORLOGGER */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+class TElX509CertificateValidationResult: public TComponent
+{
+	private:
+		SB_DISABLE_COPY(TElX509CertificateValidationResult)
+	public:
+		bool EqualParams(TElX509CertificateValidationResult &Value);
+
+		bool EqualParams(TElX509CertificateValidationResult *Value);
+
+		virtual int64_t get_LastValidatedTime();
+
+		virtual void set_LastValidatedTime(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_LastValidatedTime, set_LastValidatedTime, TElX509CertificateValidationResult, LastValidatedTime);
+
+		virtual TSBCertificateValidity get_Validity();
+
+		virtual void set_Validity(TSBCertificateValidity Value);
+
+		SB_DECLARE_PROPERTY(TSBCertificateValidity, get_Validity, set_Validity, TElX509CertificateValidationResult, Validity);
+
+		virtual TSBCertificateValidityReason get_Reason();
+
+		virtual void set_Reason(TSBCertificateValidityReason Value);
+
+		SB_DECLARE_PROPERTY(TSBCertificateValidityReason, get_Reason, set_Reason, TElX509CertificateValidationResult, Reason);
+
+#ifndef SB_LINUX_OR_IOS
+		virtual bool get_IgnoreSystemTrust();
+
+		virtual void set_IgnoreSystemTrust(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreSystemTrust, set_IgnoreSystemTrust, TElX509CertificateValidationResult, IgnoreSystemTrust);
+
+		virtual bool get_UseSystemStorages();
+
+		virtual void set_UseSystemStorages(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseSystemStorages, set_UseSystemStorages, TElX509CertificateValidationResult, UseSystemStorages);
+#endif
+
+		virtual bool get_CheckCRL();
+
+		virtual void set_CheckCRL(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckCRL, set_CheckCRL, TElX509CertificateValidationResult, CheckCRL);
+
+		virtual bool get_CheckOCSP();
+
+		virtual void set_CheckOCSP(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckOCSP, set_CheckOCSP, TElX509CertificateValidationResult, CheckOCSP);
+
+		virtual bool get_CheckValidityPeriodForTrusted();
+
+		virtual void set_CheckValidityPeriodForTrusted(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CheckValidityPeriodForTrusted, set_CheckValidityPeriodForTrusted, TElX509CertificateValidationResult, CheckValidityPeriodForTrusted);
+
+		virtual bool get_IgnoreCAKeyUsage();
+
+		virtual void set_IgnoreCAKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCAKeyUsage, set_IgnoreCAKeyUsage, TElX509CertificateValidationResult, IgnoreCAKeyUsage);
+
+		virtual bool get_IgnoreRevocationKeyUsage();
+
+		virtual void set_IgnoreRevocationKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreRevocationKeyUsage, set_IgnoreRevocationKeyUsage, TElX509CertificateValidationResult, IgnoreRevocationKeyUsage);
+
+		virtual bool get_IgnoreSSLKeyUsage();
+
+		virtual void set_IgnoreSSLKeyUsage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreSSLKeyUsage, set_IgnoreSSLKeyUsage, TElX509CertificateValidationResult, IgnoreSSLKeyUsage);
+
+		virtual bool get_IgnoreBadOCSPChains();
+
+		virtual void set_IgnoreBadOCSPChains(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreBadOCSPChains, set_IgnoreBadOCSPChains, TElX509CertificateValidationResult, IgnoreBadOCSPChains);
+
+		virtual bool get_IgnoreCABasicConstraints();
+
+		virtual void set_IgnoreCABasicConstraints(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCABasicConstraints, set_IgnoreCABasicConstraints, TElX509CertificateValidationResult, IgnoreCABasicConstraints);
+
+		virtual bool get_IgnoreCANameConstraints();
+
+		virtual void set_IgnoreCANameConstraints(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IgnoreCANameConstraints, set_IgnoreCANameConstraints, TElX509CertificateValidationResult, IgnoreCANameConstraints);
+
+		virtual bool get_MandatoryCRLCheck();
+
+		virtual void set_MandatoryCRLCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryCRLCheck, set_MandatoryCRLCheck, TElX509CertificateValidationResult, MandatoryCRLCheck);
+
+		virtual bool get_MandatoryOCSPCheck();
+
+		virtual void set_MandatoryOCSPCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryOCSPCheck, set_MandatoryOCSPCheck, TElX509CertificateValidationResult, MandatoryOCSPCheck);
+
+		virtual bool get_MandatoryRevocationCheck();
+
+		virtual void set_MandatoryRevocationCheck(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_MandatoryRevocationCheck, set_MandatoryRevocationCheck, TElX509CertificateValidationResult, MandatoryRevocationCheck);
+
+		virtual bool get_ValidateInvalidCertificates();
+
+		virtual void set_ValidateInvalidCertificates(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ValidateInvalidCertificates, set_ValidateInvalidCertificates, TElX509CertificateValidationResult, ValidateInvalidCertificates);
+
+		virtual bool get_ForceCompleteChainValidationForTrusted();
+
+		virtual void set_ForceCompleteChainValidationForTrusted(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceCompleteChainValidationForTrusted, set_ForceCompleteChainValidationForTrusted, TElX509CertificateValidationResult, ForceCompleteChainValidationForTrusted);
+
+		virtual bool get_ForceRevocationCheckForRoot();
+
+		virtual void set_ForceRevocationCheckForRoot(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceRevocationCheckForRoot, set_ForceRevocationCheckForRoot, TElX509CertificateValidationResult, ForceRevocationCheckForRoot);
+
+		virtual bool get_OfflineMode();
+
+		virtual void set_OfflineMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OfflineMode, set_OfflineMode, TElX509CertificateValidationResult, OfflineMode);
+
+		virtual int32_t get_RevocationMomentGracePeriod();
+
+		virtual void set_RevocationMomentGracePeriod(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_RevocationMomentGracePeriod, set_RevocationMomentGracePeriod, TElX509CertificateValidationResult, RevocationMomentGracePeriod);
+
+		virtual bool get_ImplicitlyTrustSelfSignedCertificates();
+
+		virtual void set_ImplicitlyTrustSelfSignedCertificates(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ImplicitlyTrustSelfSignedCertificates, set_ImplicitlyTrustSelfSignedCertificates, TElX509CertificateValidationResult, ImplicitlyTrustSelfSignedCertificates);
+
+		virtual bool get_PromoteLongOCSPResponses();
+
+		virtual void set_PromoteLongOCSPResponses(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_PromoteLongOCSPResponses, set_PromoteLongOCSPResponses, TElX509CertificateValidationResult, PromoteLongOCSPResponses);
+
+		virtual TSBX509RevocationCheckPreference get_RevocationCheckPreference();
+
+		virtual void set_RevocationCheckPreference(TSBX509RevocationCheckPreference Value);
+
+		SB_DECLARE_PROPERTY(TSBX509RevocationCheckPreference, get_RevocationCheckPreference, set_RevocationCheckPreference, TElX509CertificateValidationResult, RevocationCheckPreference);
+
+		virtual bool get_LookupCRLByNameIfDPNotPresent();
+
+		virtual void set_LookupCRLByNameIfDPNotPresent(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_LookupCRLByNameIfDPNotPresent, set_LookupCRLByNameIfDPNotPresent, TElX509CertificateValidationResult, LookupCRLByNameIfDPNotPresent);
+
+		virtual bool get_SkipSubjectNameIfAltNameExists();
+
+		virtual void set_SkipSubjectNameIfAltNameExists(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SkipSubjectNameIfAltNameExists, set_SkipSubjectNameIfAltNameExists, TElX509CertificateValidationResult, SkipSubjectNameIfAltNameExists);
+
+		TElX509CertificateValidationResult(TElX509CertificateValidationResultHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR
+		explicit TElX509CertificateValidationResult(TElX509CertificateValidator &Validator);
+
+		explicit TElX509CertificateValidationResult(TElX509CertificateValidator *Validator);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATOR */
+
+};
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+#ifdef SB_USE_CLASS_TELX509CACHEDCERTIFICATE
+class TElX509CachedCertificate: public TElX509Certificate
+{
+	private:
+		SB_DISABLE_COPY(TElX509CachedCertificate)
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+		TElX509CertificateValidationResult* _Inst_ValidationResults;
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+		int32_t AddValidationResult(TElX509CertificateValidationResult &Res);
+
+		int32_t AddValidationResult(TElX509CertificateValidationResult *Res);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+		void RemoveValidationResult(int32_t Index);
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+		TElX509CertificateValidationResultHandle FindResultByValidityMoment(int64_t ValidityMoment, int32_t CacheValidityTime);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+		bool IsRevoked(int64_t ValidityMoment);
+
+		bool IsPermanentlyInvalid();
+
+		static TClassHandle ClassType();
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT
+		virtual TElX509CertificateValidationResult* get_ValidationResults(int32_t Index);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATEVALIDATIONRESULT */
+
+		virtual int32_t get_ValidationResultCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_ValidationResultCount, TElX509CachedCertificate, ValidationResultCount);
+
+		TElX509CachedCertificate(TElX509CachedCertificateHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElX509CachedCertificate(TComponent &AOwner);
+
+		explicit TElX509CachedCertificate(TComponent *AOwner);
+
+		virtual ~TElX509CachedCertificate();
+
+};
+#endif /* SB_USE_CLASS_TELX509CACHEDCERTIFICATE */
+
+#ifdef SB_USE_CLASS_TELCACHECERTSTORAGE
+class TElCacheCertStorage: public TElMemoryCertStorage
+{
+	private:
+		SB_DISABLE_COPY(TElCacheCertStorage)
+	public:
+		void BeginWrite();
+
+		void EndWrite();
+
+#ifdef SB_USE_CLASSES_TELX509CERTIFICATE_AND_TELX509CERTIFICATEVALIDATOR
+		void Add(TElX509Certificate &X509Certificate, int64_t ValidityMoment, TSBCertificateValidity Validity, TSBCertificateValidityReason Reason, TElX509CertificateValidator &Validator);
+
+		void Add(TElX509Certificate *X509Certificate, int64_t ValidityMoment, TSBCertificateValidity Validity, TSBCertificateValidityReason Reason, TElX509CertificateValidator *Validator);
+#endif /* SB_USE_CLASSES_TELX509CERTIFICATE_AND_TELX509CERTIFICATEVALIDATOR */
+
+		TElCacheCertStorage(TElCacheCertStorageHandle handle, TElOwnHandle ownHandle);
+
+		explicit TElCacheCertStorage(TComponent &Owner);
+
+		explicit TElCacheCertStorage(TComponent *Owner);
+
+};
+#endif /* SB_USE_CLASS_TELCACHECERTSTORAGE */
+
+#ifdef SB_USE_GLOBAL_PROCS_CERTVALIDATOR
+
+#ifdef SB_USE_CLASS_TELCACHECERTSTORAGE
+TElCacheCertStorageHandle GetCertificateCache();
+#endif /* SB_USE_CLASS_TELCACHECERTSTORAGE */
+
+#endif /* SB_USE_GLOBAL_PROCS_CERTVALIDATOR */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_CERTVALIDATOR
+SB_IMPORT uint32_t SB_APIENTRY SBCertValidator_GetCertificateCache(TElCacheCertStorageHandle * OutResult);
+#endif /* SB_USE_GLOBAL_PROCS_CERTVALIDATOR */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBCERTVALIDATOR */

@@ -1,0 +1,2415 @@
+#ifndef __INC_SBOFFICEBINARYCORE
+#define __INC_SBOFFICEBINARYCORE
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbofficeconstants.h"
+#include "sbofficecommon.h"
+#include "sbofficeresources.h"
+#include "sbstreams.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAG_CRYPTOAPI 	4
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAG_DOC_PROPS 	8
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAG_EXTERNAL 	16
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAG_AES 	32
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAGS_CRYPTOAPI_AES 	36
+#define SB_OFFICE_ENCRYPTION_HEADER_FLAGS_CRYPTOAPI_DOCPROPS_AES 	44
+#define SB_OFFICE_ENCRYPTED_STREAM_DESCRIPTOR_FLAG_STREAM 	1
+#define SB_OFFICE_WORD_DOCUMENT_FIB_BASE_FLAG_ENCRYPTED 	256
+#define SB_OFFICE_WORD_DOCUMENT_FIB_BASE_FLAG_OBFUSCATED 	32768
+#define SB_OFFICE_WORD_DOCUMENT_FIB_BASE_FLAG_WHICH_TABLE_STREAM 	512
+#define SB_OFFICE_WORKBOOK_RECORD_INFO_SIZE 	4
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_BOF 	2057
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_BOUND_SHEET8 	133
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_EOF 	10
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_EXT_SST 	255
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_FILE_LOCK 	405
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_FILE_PASS 	47
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_INDEX 	523
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_INTERFACE_HDR 	225
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_RRD_HEAD 	312
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_RRD_INFO 	406
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_USR_EXCL 	404
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_WRITE_ACCESS 	92
+#define SB_OFFICE_WORKBOOK_RECORD_TYPE_WRITE_PROTECT 	134
+#define SB_OFFICE_WORKBOOK_ENCRYPTION_TYPE_XOR_OBFUSCATION 	0
+#define SB_OFFICE_WORKBOOK_ENCRYPTION_TYPE_RC4 	1
+#define SB_OFFICE_POWERPOINT_RECORD_HEADER_SIZE 	8
+#define SB_OFFICE_ART_RECORD_HEADER_SIZE 	8
+#define SB_OFFICE_POWERPOINT_RECORD_TYPE_USER_EDIT_ATOM 	4085
+#define SB_OFFICE_POWERPOINT_RECORD_TYPE_PERSIST_DIRECTORY_ATOM 	6002
+#define SB_OFFICE_POWERPOINT_RECORD_TYPE_CRYPT_SESSION10_CONTAINER 	12052
+
+typedef TElClassHandle TElOfficeBinaryObjectHandle;
+
+typedef TElClassHandle TElOfficeDataSpaceVersionInfoHandle;
+
+typedef TElClassHandle TElOfficeDataSpaceReferenceComponentHandle;
+
+typedef TElClassHandle TElOfficeDataSpaceMapEntryHandle;
+
+typedef TElClassHandle TElOfficeDataSpaceMapHandle;
+
+typedef TElClassHandle TElOfficeDataSpaceDefinitionHandle;
+
+typedef TElClassHandle TElOfficeTransformInfoHeaderHandle;
+
+typedef TElClassHandle TElOfficeEncryptionTransformInfoHandle;
+
+typedef TElClassHandle TElOfficeExtensibilityHeaderHandle;
+
+typedef TElClassHandle TElOfficeIRMDSTransformInfoHandle;
+
+typedef TElClassHandle TElOfficeEndUserLicenseHeaderHandle;
+
+typedef TElClassHandle TElOfficeEncryptionHeaderHandle;
+
+typedef TElClassHandle TElOfficeEncryptionVerifierHandle;
+
+typedef TElClassHandle TElOfficeEncryptionInfoHandle;
+
+typedef TElClassHandle TElOfficeEncryptionInfoV1Handle;
+
+typedef TElClassHandle TElOfficeEncryptionInfoV2Handle;
+
+typedef TElClassHandle TElOfficeEncryptionInfoV3Handle;
+
+typedef TElClassHandle TElOfficeEncryptionInfoV4Handle;
+
+typedef TElClassHandle TElOfficeXORObfuscationHandle;
+
+typedef TElClassHandle TElOfficeEncryptedStreamDescriptorHandle;
+
+typedef TElClassHandle TElOfficeCertificateInfoHandle;
+
+typedef TElClassHandle TElOfficeCertStoreCertificateGroupHandle;
+
+typedef TElClassHandle TElOfficeDocSigSerializedCertStoreHandle;
+
+typedef TElClassHandle TElOfficeCryptoAPIDigitalSignatureHandle;
+
+typedef TElClassHandle TElOfficeWordFIBBaseHandle;
+
+typedef TElClassHandle TElOfficeWordFIBRgFcLcbHandle;
+
+typedef TElClassHandle TElOfficeWordFIBHandle;
+
+typedef TElClassHandle TElOfficeWorkbookRecordInfoHandle;
+
+typedef TElClassHandle TElOfficeWorkbookBOFHandle;
+
+typedef TElClassHandle TElOfficeWorkbookFilePassHandle;
+
+typedef TElClassHandle TElOfficePowerPointRecordHeaderHandle;
+
+typedef TElOfficePowerPointRecordHeaderHandle TElOfficeArtRecordHeaderHandle;
+
+typedef TElClassHandle TElOfficePowerPointUserEditAtomHandle;
+
+typedef TElClassHandle TElOfficePowerPointPersistDirectoryEntryHandle;
+
+typedef TElClassHandle TElOfficePowerPointPersistDirectoryAtomHandle;
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYOBJECT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryObject_LoadFromStream(TElOfficeBinaryObjectHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryObject_SaveToStream(TElOfficeBinaryObjectHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeBinaryObject_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEBINARYOBJECT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEVERSIONINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceVersionInfo_LoadFromStream(TElOfficeDataSpaceVersionInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceVersionInfo_SaveToStream(TElOfficeDataSpaceVersionInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceVersionInfo_get_FeatureIdentifier(TElOfficeDataSpaceVersionInfoHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceVersionInfo_set_FeatureIdentifier(TElOfficeDataSpaceVersionInfoHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceVersionInfo_Create(TElOfficeDataSpaceVersionInfoHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEVERSIONINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_LoadFromStream(TElOfficeDataSpaceReferenceComponentHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_SaveToStream(TElOfficeDataSpaceReferenceComponentHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_get_ReferenceComponentType(TElOfficeDataSpaceReferenceComponentHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_set_ReferenceComponentType(TElOfficeDataSpaceReferenceComponentHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_get_ReferenceComponent(TElOfficeDataSpaceReferenceComponentHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_set_ReferenceComponent(TElOfficeDataSpaceReferenceComponentHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceReferenceComponent_Create(TElOfficeDataSpaceReferenceComponentHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_LoadFromStream(TElOfficeDataSpaceMapEntryHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_SaveToStream(TElOfficeDataSpaceMapEntryHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_Clear(TElOfficeDataSpaceMapEntryHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_Add(TElOfficeDataSpaceMapEntryHandle _Handle, TElOfficeDataSpaceReferenceComponentHandle ARef, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_Insert(TElOfficeDataSpaceMapEntryHandle _Handle, int32_t Index, TElOfficeDataSpaceReferenceComponentHandle ARef);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_Delete(TElOfficeDataSpaceMapEntryHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_get_Count(TElOfficeDataSpaceMapEntryHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_get_ReferenceComponents(TElOfficeDataSpaceMapEntryHandle _Handle, int32_t Index, TElOfficeDataSpaceReferenceComponentHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_get_DataSpaceName(TElOfficeDataSpaceMapEntryHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_set_DataSpaceName(TElOfficeDataSpaceMapEntryHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMapEntry_Create(TElOfficeDataSpaceMapEntryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAP
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_LoadFromStream(TElOfficeDataSpaceMapHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_SaveToStream(TElOfficeDataSpaceMapHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_Clear(TElOfficeDataSpaceMapHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_Add(TElOfficeDataSpaceMapHandle _Handle, TElOfficeDataSpaceMapEntryHandle AEntry, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_Insert(TElOfficeDataSpaceMapHandle _Handle, int32_t Index, TElOfficeDataSpaceMapEntryHandle AEntry);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_Delete(TElOfficeDataSpaceMapHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_get_Count(TElOfficeDataSpaceMapHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_get_MapEntries(TElOfficeDataSpaceMapHandle _Handle, int32_t Index, TElOfficeDataSpaceMapEntryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceMap_Create(TElOfficeDataSpaceMapHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAP */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEDEFINITION
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_LoadFromStream(TElOfficeDataSpaceDefinitionHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_SaveToStream(TElOfficeDataSpaceDefinitionHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_Clear(TElOfficeDataSpaceDefinitionHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_Add(TElOfficeDataSpaceDefinitionHandle _Handle, const sb_char16_t * pcARef, int32_t szARef, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_Insert(TElOfficeDataSpaceDefinitionHandle _Handle, int32_t Index, const sb_char16_t * pcARef, int32_t szARef);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_Delete(TElOfficeDataSpaceDefinitionHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_get_Count(TElOfficeDataSpaceDefinitionHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_get_TransformReferences(TElOfficeDataSpaceDefinitionHandle _Handle, int32_t Index, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDataSpaceDefinition_Create(TElOfficeDataSpaceDefinitionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEDEFINITION */
+
+#ifdef SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_LoadFromStream(TElOfficeTransformInfoHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_SaveToStream(TElOfficeTransformInfoHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_TransformID(TElOfficeTransformInfoHeaderHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_TransformID(TElOfficeTransformInfoHeaderHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_TransformName(TElOfficeTransformInfoHeaderHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_TransformName(TElOfficeTransformInfoHeaderHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_TransformType(TElOfficeTransformInfoHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_TransformType(TElOfficeTransformInfoHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_ReaderVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_ReaderVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_UpdaterVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_UpdaterVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_get_WriterVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_set_WriterVersion(TElOfficeTransformInfoHeaderHandle _Handle, TSBOfficeVersion Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeTransformInfoHeader_Create(TElOfficeTransformInfoHeaderHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONTRANSFORMINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_LoadFromStream(TElOfficeEncryptionTransformInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_SaveToStream(TElOfficeEncryptionTransformInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_get_EncryptionName(TElOfficeEncryptionTransformInfoHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_set_EncryptionName(TElOfficeEncryptionTransformInfoHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_get_EncryptionBlockSize(TElOfficeEncryptionTransformInfoHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_set_EncryptionBlockSize(TElOfficeEncryptionTransformInfoHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_get_CipherMode(TElOfficeEncryptionTransformInfoHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_set_CipherMode(TElOfficeEncryptionTransformInfoHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionTransformInfo_Create(TElOfficeEncryptionTransformInfoHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONTRANSFORMINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeExtensibilityHeader_LoadFromStream(TElOfficeExtensibilityHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeExtensibilityHeader_SaveToStream(TElOfficeExtensibilityHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeExtensibilityHeader_get_Length(TElOfficeExtensibilityHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeExtensibilityHeader_set_Length(TElOfficeExtensibilityHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeExtensibilityHeader_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEIRMDSTRANSFORMINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_LoadFromStream(TElOfficeIRMDSTransformInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_SaveToStream(TElOfficeIRMDSTransformInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_get_TransformInfoHeader(TElOfficeIRMDSTransformInfoHandle _Handle, TElOfficeTransformInfoHeaderHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_get_ExtensibilityHeader(TElOfficeIRMDSTransformInfoHandle _Handle, TElOfficeExtensibilityHeaderHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_get_XrMLLicense(TElOfficeIRMDSTransformInfoHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_set_XrMLLicense(TElOfficeIRMDSTransformInfoHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeIRMDSTransformInfo_Create(TElOfficeIRMDSTransformInfoHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEIRMDSTRANSFORMINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEENDUSERLICENSEHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEndUserLicenseHeader_LoadFromStream(TElOfficeEndUserLicenseHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEndUserLicenseHeader_SaveToStream(TElOfficeEndUserLicenseHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEndUserLicenseHeader_get_ID_String(TElOfficeEndUserLicenseHeaderHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEndUserLicenseHeader_set_ID_String(TElOfficeEndUserLicenseHeaderHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEndUserLicenseHeader_Create(TElOfficeEndUserLicenseHeaderHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENDUSERLICENSEHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_LoadFromStream(TElOfficeEncryptionHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_LoadFromStream_1(TElOfficeEncryptionHeaderHandle _Handle, TStreamHandle Stream, uint32_t Length);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_SaveToStream(TElOfficeEncryptionHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_Flags(TElOfficeEncryptionHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_Flags(TElOfficeEncryptionHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_AlgID(TElOfficeEncryptionHeaderHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_AlgID(TElOfficeEncryptionHeaderHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_AlgIDHash(TElOfficeEncryptionHeaderHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_AlgIDHash(TElOfficeEncryptionHeaderHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_KeySize(TElOfficeEncryptionHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_KeySize(TElOfficeEncryptionHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_ProviderType(TElOfficeEncryptionHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_ProviderType(TElOfficeEncryptionHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_get_CSPName(TElOfficeEncryptionHeaderHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_set_CSPName(TElOfficeEncryptionHeaderHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionHeader_Create(TElOfficeEncryptionHeaderHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_LoadFromStream(TElOfficeEncryptionVerifierHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_SaveToStream(TElOfficeEncryptionVerifierHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_get_Salt(TElOfficeEncryptionVerifierHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_set_Salt(TElOfficeEncryptionVerifierHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_get_EncryptedVerifier(TElOfficeEncryptionVerifierHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_set_EncryptedVerifier(TElOfficeEncryptionVerifierHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_get_VerifierHashSize(TElOfficeEncryptionVerifierHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_set_VerifierHashSize(TElOfficeEncryptionVerifierHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_get_EncryptedVerifierHash(TElOfficeEncryptionVerifierHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_set_EncryptedVerifierHash(TElOfficeEncryptionVerifierHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_get_ExpectedEncryptedVerifierHashSize(TElOfficeEncryptionVerifierHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_set_ExpectedEncryptedVerifierHashSize(TElOfficeEncryptionVerifierHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionVerifier_Create(TElOfficeEncryptionVerifierHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfo_LoadFromStream(TElOfficeEncryptionInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfo_SaveToStream(TElOfficeEncryptionInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfo_get_EncryptionVersionInfo(TElOfficeEncryptionInfoHandle _Handle, TSBOfficeVersion * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfo_set_EncryptionVersionInfo(TElOfficeEncryptionInfoHandle _Handle, TSBOfficeVersion Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfo_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV1
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_LoadFromStream(TElOfficeEncryptionInfoV1Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_SaveToStream(TElOfficeEncryptionInfoV1Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_get_Salt(TElOfficeEncryptionInfoV1Handle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_set_Salt(TElOfficeEncryptionInfoV1Handle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_get_EncryptedVerifier(TElOfficeEncryptionInfoV1Handle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_set_EncryptedVerifier(TElOfficeEncryptionInfoV1Handle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_get_EncryptedVerifierHash(TElOfficeEncryptionInfoV1Handle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_set_EncryptedVerifierHash(TElOfficeEncryptionInfoV1Handle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV1_Create(TElOfficeEncryptionInfoV1Handle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV1 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV2
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_LoadFromStream(TElOfficeEncryptionInfoV2Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_SaveToStream(TElOfficeEncryptionInfoV2Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_get_EncryptionHeaderFlags(TElOfficeEncryptionInfoV2Handle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_set_EncryptionHeaderFlags(TElOfficeEncryptionInfoV2Handle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_get_EncryptionHeader(TElOfficeEncryptionInfoV2Handle _Handle, TElOfficeEncryptionHeaderHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_set_EncryptionHeader(TElOfficeEncryptionInfoV2Handle _Handle, TElOfficeEncryptionHeaderHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_get_EncryptionVerifier(TElOfficeEncryptionInfoV2Handle _Handle, TElOfficeEncryptionVerifierHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_set_EncryptionVerifier(TElOfficeEncryptionInfoV2Handle _Handle, TElOfficeEncryptionVerifierHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV2_Create(TElOfficeEncryptionInfoV2Handle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV2 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV3
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_LoadFromStream(TElOfficeEncryptionInfoV3Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_SaveToStream(TElOfficeEncryptionInfoV3Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_get_EncryptionHeaderFlags(TElOfficeEncryptionInfoV3Handle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_set_EncryptionHeaderFlags(TElOfficeEncryptionInfoV3Handle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_get_EncryptionHeader(TElOfficeEncryptionInfoV3Handle _Handle, TElOfficeEncryptionHeaderHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_set_EncryptionHeader(TElOfficeEncryptionInfoV3Handle _Handle, TElOfficeEncryptionHeaderHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_get_EncryptionInfo(TElOfficeEncryptionInfoV3Handle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_set_EncryptionInfo(TElOfficeEncryptionInfoV3Handle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV3_Create(TElOfficeEncryptionInfoV3Handle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV3 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV4
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV4_LoadFromStream(TElOfficeEncryptionInfoV4Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV4_SaveToStream(TElOfficeEncryptionInfoV4Handle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV4_get_XmlEncryptionDescriptor(TElOfficeEncryptionInfoV4Handle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV4_set_XmlEncryptionDescriptor(TElOfficeEncryptionInfoV4Handle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptionInfoV4_Create(TElOfficeEncryptionInfoV4Handle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV4 */
+
+#ifdef SB_USE_CLASS_TELOFFICEXOROBFUSCATION
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_LoadFromStream(TElOfficeXORObfuscationHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_SaveToStream(TElOfficeXORObfuscationHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_get_Key(TElOfficeXORObfuscationHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_set_Key(TElOfficeXORObfuscationHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_get_VerificationBytes(TElOfficeXORObfuscationHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_set_VerificationBytes(TElOfficeXORObfuscationHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeXORObfuscation_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEXOROBFUSCATION */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTEDSTREAMDESCRIPTOR
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_LoadFromStream(TElOfficeEncryptedStreamDescriptorHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_SaveToStream(TElOfficeEncryptedStreamDescriptorHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_get_StreamName(TElOfficeEncryptedStreamDescriptorHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_set_StreamName(TElOfficeEncryptedStreamDescriptorHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_get_StreamOffset(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_set_StreamOffset(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_get_StreamSize(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_set_StreamSize(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_get_Block(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_set_Block(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_get_Flags(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_set_Flags(TElOfficeEncryptedStreamDescriptorHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeEncryptedStreamDescriptor_Create(TElOfficeEncryptedStreamDescriptorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTEDSTREAMDESCRIPTOR */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_LoadFromStream(TElOfficeCertificateInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_SaveToStream(TElOfficeCertificateInfoHandle _Handle, TStreamHandle Stream);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_ExpireTime(TElOfficeCertificateInfoHandle _Handle, windows_FILETIME * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_ExpireTime(TElOfficeCertificateInfoHandle _Handle, windows_FILETIME * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_SignTime(TElOfficeCertificateInfoHandle _Handle, windows_FILETIME * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_SignTime(TElOfficeCertificateInfoHandle _Handle, windows_FILETIME * Value);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_ExpireTime(TElOfficeCertificateInfoHandle _Handle, _FILETIME * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_ExpireTime(TElOfficeCertificateInfoHandle _Handle, _FILETIME * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_SignTime(TElOfficeCertificateInfoHandle _Handle, _FILETIME * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_SignTime(TElOfficeCertificateInfoHandle _Handle, _FILETIME * Value);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_AlgIDHash(TElOfficeCertificateInfoHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_AlgIDHash(TElOfficeCertificateInfoHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_SignerName(TElOfficeCertificateInfoHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_SignerName(TElOfficeCertificateInfoHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_IssuerName(TElOfficeCertificateInfoHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_IssuerName(TElOfficeCertificateInfoHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_Signature(TElOfficeCertificateInfoHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_Signature(TElOfficeCertificateInfoHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_EncodedCertificate(TElOfficeCertificateInfoHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_EncodedCertificate(TElOfficeCertificateInfoHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_SerialNumber(TElOfficeCertificateInfoHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_SerialNumber(TElOfficeCertificateInfoHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_get_IssuerBlob(TElOfficeCertificateInfoHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_set_IssuerBlob(TElOfficeCertificateInfoHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertificateInfo_Create(TElOfficeCertificateInfoHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_LoadFromStream(TElOfficeCertStoreCertificateGroupHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_SaveToStream(TElOfficeCertStoreCertificateGroupHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_get_CertificateData(TElOfficeCertStoreCertificateGroupHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_set_CertificateData(TElOfficeCertStoreCertificateGroupHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_get_EncodingType(TElOfficeCertStoreCertificateGroupHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_set_EncodingType(TElOfficeCertStoreCertificateGroupHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCertStoreCertificateGroup_Create(TElOfficeCertStoreCertificateGroupHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+#ifdef SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_LoadFromStream(TElOfficeDocSigSerializedCertStoreHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_SaveToStream(TElOfficeDocSigSerializedCertStoreHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_Clear(TElOfficeDocSigSerializedCertStoreHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_AddCertificate(TElOfficeDocSigSerializedCertStoreHandle _Handle, const uint8_t pBuf[], int32_t szBuf, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_AddCertificate_1(TElOfficeDocSigSerializedCertStoreHandle _Handle, TElOfficeCertStoreCertificateGroupHandle Cert, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_InsertCertificate(TElOfficeDocSigSerializedCertStoreHandle _Handle, int32_t Index, TElOfficeCertStoreCertificateGroupHandle Cert);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_DeleteCertificate(TElOfficeDocSigSerializedCertStoreHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_get_Count(TElOfficeDocSigSerializedCertStoreHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_get_Certificates(TElOfficeDocSigSerializedCertStoreHandle _Handle, int32_t Index, TElOfficeCertStoreCertificateGroupHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeDocSigSerializedCertStore_Create(TElOfficeDocSigSerializedCertStoreHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE */
+
+#ifdef SB_USE_CLASS_TELOFFICECRYPTOAPIDIGITALSIGNATURE
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_LoadFromStream(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_SaveToStream(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_Clear(TElOfficeCryptoAPIDigitalSignatureHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_AddCertificateInfo(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, TElOfficeCertificateInfoHandle CertInfo, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_InsertCertificateInfo(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, int32_t Index, TElOfficeCertificateInfoHandle CertInfo);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_DeleteCertificateInfo(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_get_CertificateInfoCount(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_get_CertificateInfos(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, int32_t Index, TElOfficeCertificateInfoHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_get_IntermediateCertificatesStore(TElOfficeCryptoAPIDigitalSignatureHandle _Handle, TElOfficeDocSigSerializedCertStoreHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeCryptoAPIDigitalSignature_Create(TElOfficeCryptoAPIDigitalSignatureHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICECRYPTOAPIDIGITALSIGNATURE */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBBASE
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_LoadFromStream(TElOfficeWordFIBBaseHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_SaveToStream(TElOfficeWordFIBBaseHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_Ident(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_Ident(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_FIB(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_FIB(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_LID(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_LID(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_Next(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_Next(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_Flags(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_Flags(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_FibBack(TElOfficeWordFIBBaseHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_FibBack(TElOfficeWordFIBBaseHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_Key(TElOfficeWordFIBBaseHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_Key(TElOfficeWordFIBBaseHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_get_Flags2(TElOfficeWordFIBBaseHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_set_Flags2(TElOfficeWordFIBBaseHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBBase_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBBASE */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_LoadFromStream(TElOfficeWordFIBRgFcLcbHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_SaveToStream(TElOfficeWordFIBRgFcLcbHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_ChangeOffsets(TElOfficeWordFIBRgFcLcbHandle _Handle, int32_t Shift);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_get_Blob(TElOfficeWordFIBRgFcLcbHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_set_Blob(TElOfficeWordFIBRgFcLcbHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIBRgFcLcb_Create(TElOfficeWordFIBRgFcLcbHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIB
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIB_LoadFromStream(TElOfficeWordFIBHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIB_SaveToStream(TElOfficeWordFIBHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIB_get_FIBBase(TElOfficeWordFIBHandle _Handle, TElOfficeWordFIBBaseHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIB_get_FIBRgFcLcb(TElOfficeWordFIBHandle _Handle, TElOfficeWordFIBRgFcLcbHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWordFIB_Create(TElOfficeWordFIBHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIB */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKRECORDINFO
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_LoadFromStream(TElOfficeWorkbookRecordInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_SaveToStream(TElOfficeWorkbookRecordInfoHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_get_RecordType(TElOfficeWorkbookRecordInfoHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_set_RecordType(TElOfficeWorkbookRecordInfoHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_get_RecordSize(TElOfficeWorkbookRecordInfoHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_set_RecordSize(TElOfficeWorkbookRecordInfoHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookRecordInfo_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKRECORDINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKBOF
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_LoadFromStream(TElOfficeWorkbookBOFHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_SaveToStream(TElOfficeWorkbookBOFHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_Version(TElOfficeWorkbookBOFHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_Version(TElOfficeWorkbookBOFHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_DocumentType(TElOfficeWorkbookBOFHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_DocumentType(TElOfficeWorkbookBOFHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_RupBuild(TElOfficeWorkbookBOFHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_RupBuild(TElOfficeWorkbookBOFHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_RupYear(TElOfficeWorkbookBOFHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_RupYear(TElOfficeWorkbookBOFHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_Flags(TElOfficeWorkbookBOFHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_Flags(TElOfficeWorkbookBOFHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_VersionLowestBiff(TElOfficeWorkbookBOFHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_VersionLowestBiff(TElOfficeWorkbookBOFHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_get_VersionLastXLSaved(TElOfficeWorkbookBOFHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_set_VersionLastXLSaved(TElOfficeWorkbookBOFHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookBOF_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKBOF */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKFILEPASS
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookFilePass_LoadFromStream(TElOfficeWorkbookFilePassHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookFilePass_SaveToStream(TElOfficeWorkbookFilePassHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookFilePass_get_EncryptionType(TElOfficeWorkbookFilePassHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookFilePass_set_EncryptionType(TElOfficeWorkbookFilePassHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficeWorkbookFilePass_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKFILEPASS */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTRECORDHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_LoadFromStream(TElOfficePowerPointRecordHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_SaveToStream(TElOfficePowerPointRecordHeaderHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_get_RecordVersion(TElOfficePowerPointRecordHeaderHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_set_RecordVersion(TElOfficePowerPointRecordHeaderHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_get_RecordInstance(TElOfficePowerPointRecordHeaderHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_set_RecordInstance(TElOfficePowerPointRecordHeaderHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_get_RecordType(TElOfficePowerPointRecordHeaderHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_set_RecordType(TElOfficePowerPointRecordHeaderHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_get_RecordLength(TElOfficePowerPointRecordHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_set_RecordLength(TElOfficePowerPointRecordHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointRecordHeader_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTRECORDHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTUSEREDITATOM
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_LoadFromStream(TElOfficePowerPointUserEditAtomHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_LoadFromStream_1(TElOfficePowerPointUserEditAtomHandle _Handle, TStreamHandle Stream, uint32_t RecordSize);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_SaveToStream(TElOfficePowerPointUserEditAtomHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_SaveToStream_1(TElOfficePowerPointUserEditAtomHandle _Handle, TStreamHandle Stream, int8_t IncludeEncryptSession);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_LastSlideIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_LastSlideIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_Version(TElOfficePowerPointUserEditAtomHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_Version(TElOfficePowerPointUserEditAtomHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_MinorVersion(TElOfficePowerPointUserEditAtomHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_MinorVersion(TElOfficePowerPointUserEditAtomHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_MajorVersion(TElOfficePowerPointUserEditAtomHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_MajorVersion(TElOfficePowerPointUserEditAtomHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_OffsetLastEdit(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_OffsetLastEdit(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_OffsetPersistDirectory(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_OffsetPersistDirectory(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_DocPersistIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_DocPersistIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_PersistIdSeed(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_PersistIdSeed(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_LastView(TElOfficePowerPointUserEditAtomHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_LastView(TElOfficePowerPointUserEditAtomHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_get_EncryptSessionPersistIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_set_EncryptSessionPersistIdRef(TElOfficePowerPointUserEditAtomHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointUserEditAtom_Create(TObjectHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTUSEREDITATOM */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_LoadFromStream(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_SaveToStream(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_get_PersistId(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_set_PersistId(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_get_PersistOffsets(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, uint32_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_set_PersistOffsets(TElOfficePowerPointPersistDirectoryEntryHandle _Handle, const uint32_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryEntry_Create(TElOfficePowerPointPersistDirectoryEntryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYATOM
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_LoadFromStream(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_LoadFromStream_1(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, TStreamHandle Stream, uint32_t RecordSize);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_SaveToStream(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_Clear(TElOfficePowerPointPersistDirectoryAtomHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_Add(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, TElOfficePowerPointPersistDirectoryEntryHandle AEntry, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_Insert(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, int32_t Index, TElOfficePowerPointPersistDirectoryEntryHandle AEntry);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_Delete(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_AddPersistId(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, uint32_t PersistId, uint32_t Offset);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_GetOffsetById(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, uint32_t PersistId, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_get_Count(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_get_Entries(TElOfficePowerPointPersistDirectoryAtomHandle _Handle, int32_t Index, TElOfficePowerPointPersistDirectoryEntryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElOfficePowerPointPersistDirectoryAtom_Create(TElOfficePowerPointPersistDirectoryAtomHandle * OutResult);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYATOM */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElOfficeBinaryObject;
+class TElOfficeDataSpaceVersionInfo;
+class TElOfficeDataSpaceReferenceComponent;
+class TElOfficeDataSpaceMapEntry;
+class TElOfficeDataSpaceMap;
+class TElOfficeDataSpaceDefinition;
+class TElOfficeTransformInfoHeader;
+class TElOfficeEncryptionTransformInfo;
+class TElOfficeExtensibilityHeader;
+class TElOfficeIRMDSTransformInfo;
+class TElOfficeEndUserLicenseHeader;
+class TElOfficeEncryptionHeader;
+class TElOfficeEncryptionVerifier;
+class TElOfficeEncryptionInfo;
+class TElOfficeEncryptionInfoV1;
+class TElOfficeEncryptionInfoV2;
+class TElOfficeEncryptionInfoV3;
+class TElOfficeEncryptionInfoV4;
+class TElOfficeXORObfuscation;
+class TElOfficeEncryptedStreamDescriptor;
+class TElOfficeCertificateInfo;
+class TElOfficeCertStoreCertificateGroup;
+class TElOfficeDocSigSerializedCertStore;
+class TElOfficeCryptoAPIDigitalSignature;
+class TElOfficeWordFIBBase;
+class TElOfficeWordFIBRgFcLcb;
+class TElOfficeWordFIB;
+class TElOfficeWorkbookRecordInfo;
+class TElOfficeWorkbookBOF;
+class TElOfficeWorkbookFilePass;
+class TElOfficePowerPointRecordHeader;
+typedef TElOfficePowerPointRecordHeader TElOfficeArtRecordHeader;
+class TElOfficePowerPointUserEditAtom;
+class TElOfficePowerPointPersistDirectoryEntry;
+class TElOfficePowerPointPersistDirectoryAtom;
+
+#ifdef SB_USE_CLASS_TELOFFICEBINARYOBJECT
+class TElOfficeBinaryObject: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeBinaryObject)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		TElOfficeBinaryObject(TElOfficeBinaryObjectHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeBinaryObject();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEBINARYOBJECT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEVERSIONINFO
+class TElOfficeDataSpaceVersionInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDataSpaceVersionInfo)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_FeatureIdentifier(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_FeatureIdentifier(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_FeatureIdentifier(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_FeatureIdentifier(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeDataSpaceVersionInfo(TElOfficeDataSpaceVersionInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDataSpaceVersionInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEVERSIONINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+class TElOfficeDataSpaceReferenceComponent: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDataSpaceReferenceComponent)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_ReferenceComponentType();
+
+		virtual void set_ReferenceComponentType(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ReferenceComponentType, set_ReferenceComponentType, TElOfficeDataSpaceReferenceComponent, ReferenceComponentType);
+
+		virtual void get_ReferenceComponent(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_ReferenceComponent(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_ReferenceComponent(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_ReferenceComponent(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeDataSpaceReferenceComponent(TElOfficeDataSpaceReferenceComponentHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDataSpaceReferenceComponent();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+class TElOfficeDataSpaceMapEntry: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDataSpaceMapEntry)
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+		TElOfficeDataSpaceReferenceComponent* _Inst_ReferenceComponents;
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+		int32_t Add(TElOfficeDataSpaceReferenceComponent &ARef);
+
+		int32_t Add(TElOfficeDataSpaceReferenceComponent *ARef);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+		void Insert(int32_t Index, TElOfficeDataSpaceReferenceComponent &ARef);
+
+		void Insert(int32_t Index, TElOfficeDataSpaceReferenceComponent *ARef);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+		void Delete(int32_t Index);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficeDataSpaceMapEntry, Count);
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT
+		virtual TElOfficeDataSpaceReferenceComponent* get_ReferenceComponents(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEREFERENCECOMPONENT */
+
+		virtual void get_DataSpaceName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_DataSpaceName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_DataSpaceName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_DataSpaceName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeDataSpaceMapEntry(TElOfficeDataSpaceMapEntryHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDataSpaceMapEntry();
+
+		virtual ~TElOfficeDataSpaceMapEntry();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAP
+class TElOfficeDataSpaceMap: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDataSpaceMap)
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+		TElOfficeDataSpaceMapEntry* _Inst_MapEntries;
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+		int32_t Add(TElOfficeDataSpaceMapEntry &AEntry);
+
+		int32_t Add(TElOfficeDataSpaceMapEntry *AEntry);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+		void Insert(int32_t Index, TElOfficeDataSpaceMapEntry &AEntry);
+
+		void Insert(int32_t Index, TElOfficeDataSpaceMapEntry *AEntry);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+		void Delete(int32_t Index);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficeDataSpaceMap, Count);
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY
+		virtual TElOfficeDataSpaceMapEntry* get_MapEntries(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAPENTRY */
+
+		TElOfficeDataSpaceMap(TElOfficeDataSpaceMapHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDataSpaceMap();
+
+		virtual ~TElOfficeDataSpaceMap();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEMAP */
+
+#ifdef SB_USE_CLASS_TELOFFICEDATASPACEDEFINITION
+class TElOfficeDataSpaceDefinition: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDataSpaceDefinition)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+		int32_t Add(const sb_u16string &ARef);
+#ifdef SB_U16STRING_USED
+		int32_t Add(const std::wstring &ARef);
+#endif /* SB_U16STRING_USED */
+
+		void Insert(int32_t Index, const sb_u16string &ARef);
+#ifdef SB_U16STRING_USED
+		void Insert(int32_t Index, const std::wstring &ARef);
+#endif /* SB_U16STRING_USED */
+
+		void Delete(int32_t Index);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficeDataSpaceDefinition, Count);
+
+		virtual void get_TransformReferences(int32_t Index, sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_TransformReferences(int32_t Index, std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeDataSpaceDefinition(TElOfficeDataSpaceDefinitionHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDataSpaceDefinition();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDATASPACEDEFINITION */
+
+#ifdef SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER
+class TElOfficeTransformInfoHeader: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeTransformInfoHeader)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_TransformID(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_TransformID(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_TransformID(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_TransformID(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_TransformName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_TransformName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_TransformName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_TransformName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual uint32_t get_TransformType();
+
+		virtual void set_TransformType(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_TransformType, set_TransformType, TElOfficeTransformInfoHeader, TransformType);
+
+		virtual void get_ReaderVersion(TSBOfficeVersion &OutResult);
+
+		virtual void set_ReaderVersion(TSBOfficeVersion Value);
+
+		virtual void get_UpdaterVersion(TSBOfficeVersion &OutResult);
+
+		virtual void set_UpdaterVersion(TSBOfficeVersion Value);
+
+		virtual void get_WriterVersion(TSBOfficeVersion &OutResult);
+
+		virtual void set_WriterVersion(TSBOfficeVersion Value);
+
+		TElOfficeTransformInfoHeader(TElOfficeTransformInfoHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeTransformInfoHeader();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONTRANSFORMINFO
+class TElOfficeEncryptionTransformInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionTransformInfo)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_EncryptionName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_EncryptionName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_EncryptionName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_EncryptionName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual uint32_t get_EncryptionBlockSize();
+
+		virtual void set_EncryptionBlockSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptionBlockSize, set_EncryptionBlockSize, TElOfficeEncryptionTransformInfo, EncryptionBlockSize);
+
+		virtual uint32_t get_CipherMode();
+
+		virtual void set_CipherMode(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CipherMode, set_CipherMode, TElOfficeEncryptionTransformInfo, CipherMode);
+
+		TElOfficeEncryptionTransformInfo(TElOfficeEncryptionTransformInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionTransformInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONTRANSFORMINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER
+class TElOfficeExtensibilityHeader: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeExtensibilityHeader)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_Length();
+
+		virtual void set_Length(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Length, set_Length, TElOfficeExtensibilityHeader, Length);
+
+		TElOfficeExtensibilityHeader(TElOfficeExtensibilityHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeExtensibilityHeader();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEIRMDSTRANSFORMINFO
+class TElOfficeIRMDSTransformInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeIRMDSTransformInfo)
+#ifdef SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER
+		TElOfficeTransformInfoHeader* _Inst_TransformInfoHeader;
+#endif /* SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER */
+#ifdef SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER
+		TElOfficeExtensibilityHeader* _Inst_ExtensibilityHeader;
+#endif /* SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER
+		virtual TElOfficeTransformInfoHeader* get_TransformInfoHeader();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeTransformInfoHeader*, get_TransformInfoHeader, TElOfficeIRMDSTransformInfo, TransformInfoHeader);
+#endif /* SB_USE_CLASS_TELOFFICETRANSFORMINFOHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER
+		virtual TElOfficeExtensibilityHeader* get_ExtensibilityHeader();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeExtensibilityHeader*, get_ExtensibilityHeader, TElOfficeIRMDSTransformInfo, ExtensibilityHeader);
+#endif /* SB_USE_CLASS_TELOFFICEEXTENSIBILITYHEADER */
+
+		virtual void get_XrMLLicense(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_XrMLLicense(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_XrMLLicense(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_XrMLLicense(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeIRMDSTransformInfo(TElOfficeIRMDSTransformInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeIRMDSTransformInfo();
+
+		virtual ~TElOfficeIRMDSTransformInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEIRMDSTRANSFORMINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEENDUSERLICENSEHEADER
+class TElOfficeEndUserLicenseHeader: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEndUserLicenseHeader)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_ID_String(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_ID_String(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_ID_String(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_ID_String(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeEndUserLicenseHeader(TElOfficeEndUserLicenseHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEndUserLicenseHeader();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENDUSERLICENSEHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+class TElOfficeEncryptionHeader: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionHeader)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void LoadFromStream(TStream &Stream, uint32_t Length);
+
+		void LoadFromStream(TStream *Stream, uint32_t Length);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_Flags();
+
+		virtual void set_Flags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Flags, set_Flags, TElOfficeEncryptionHeader, Flags);
+
+		virtual int32_t get_AlgID();
+
+		virtual void set_AlgID(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AlgID, set_AlgID, TElOfficeEncryptionHeader, AlgID);
+
+		virtual int32_t get_AlgIDHash();
+
+		virtual void set_AlgIDHash(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AlgIDHash, set_AlgIDHash, TElOfficeEncryptionHeader, AlgIDHash);
+
+		virtual uint32_t get_KeySize();
+
+		virtual void set_KeySize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_KeySize, set_KeySize, TElOfficeEncryptionHeader, KeySize);
+
+		virtual uint32_t get_ProviderType();
+
+		virtual void set_ProviderType(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ProviderType, set_ProviderType, TElOfficeEncryptionHeader, ProviderType);
+
+		virtual void get_CSPName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_CSPName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_CSPName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_CSPName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeEncryptionHeader(TElOfficeEncryptionHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionHeader();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER
+class TElOfficeEncryptionVerifier: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionVerifier)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_Salt(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Salt(const std::vector<uint8_t> &Value);
+
+		virtual void get_EncryptedVerifier(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedVerifier(const std::vector<uint8_t> &Value);
+
+		virtual uint32_t get_VerifierHashSize();
+
+		virtual void set_VerifierHashSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VerifierHashSize, set_VerifierHashSize, TElOfficeEncryptionVerifier, VerifierHashSize);
+
+		virtual void get_EncryptedVerifierHash(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedVerifierHash(const std::vector<uint8_t> &Value);
+
+		virtual int32_t get_ExpectedEncryptedVerifierHashSize();
+
+		virtual void set_ExpectedEncryptedVerifierHashSize(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_ExpectedEncryptedVerifierHashSize, set_ExpectedEncryptedVerifierHashSize, TElOfficeEncryptionVerifier, ExpectedEncryptedVerifierHashSize);
+
+		TElOfficeEncryptionVerifier(TElOfficeEncryptionVerifierHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionVerifier();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFO
+class TElOfficeEncryptionInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionInfo)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_EncryptionVersionInfo(TSBOfficeVersion &OutResult);
+
+		virtual void set_EncryptionVersionInfo(TSBOfficeVersion Value);
+
+		TElOfficeEncryptionInfo(TElOfficeEncryptionInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV1
+class TElOfficeEncryptionInfoV1: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionInfoV1)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_Salt(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Salt(const std::vector<uint8_t> &Value);
+
+		virtual void get_EncryptedVerifier(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedVerifier(const std::vector<uint8_t> &Value);
+
+		virtual void get_EncryptedVerifierHash(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedVerifierHash(const std::vector<uint8_t> &Value);
+
+		TElOfficeEncryptionInfoV1(TElOfficeEncryptionInfoV1Handle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionInfoV1();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV1 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV2
+class TElOfficeEncryptionInfoV2: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionInfoV2)
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+		TElOfficeEncryptionHeader* _Inst_EncryptionHeader;
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER
+		TElOfficeEncryptionVerifier* _Inst_EncryptionVerifier;
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_EncryptionHeaderFlags();
+
+		virtual void set_EncryptionHeaderFlags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptionHeaderFlags, set_EncryptionHeaderFlags, TElOfficeEncryptionInfoV2, EncryptionHeaderFlags);
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+		virtual TElOfficeEncryptionHeader* get_EncryptionHeader();
+
+		virtual void set_EncryptionHeader(TElOfficeEncryptionHeader &Value);
+
+		virtual void set_EncryptionHeader(TElOfficeEncryptionHeader *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeEncryptionHeader*, get_EncryptionHeader, set_EncryptionHeader, TElOfficeEncryptionInfoV2, EncryptionHeader);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER
+		virtual TElOfficeEncryptionVerifier* get_EncryptionVerifier();
+
+		virtual void set_EncryptionVerifier(TElOfficeEncryptionVerifier &Value);
+
+		virtual void set_EncryptionVerifier(TElOfficeEncryptionVerifier *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeEncryptionVerifier*, get_EncryptionVerifier, set_EncryptionVerifier, TElOfficeEncryptionInfoV2, EncryptionVerifier);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONVERIFIER */
+
+		TElOfficeEncryptionInfoV2(TElOfficeEncryptionInfoV2Handle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionInfoV2();
+
+		virtual ~TElOfficeEncryptionInfoV2();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV2 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV3
+class TElOfficeEncryptionInfoV3: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionInfoV3)
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+		TElOfficeEncryptionHeader* _Inst_EncryptionHeader;
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_EncryptionHeaderFlags();
+
+		virtual void set_EncryptionHeaderFlags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptionHeaderFlags, set_EncryptionHeaderFlags, TElOfficeEncryptionInfoV3, EncryptionHeaderFlags);
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER
+		virtual TElOfficeEncryptionHeader* get_EncryptionHeader();
+
+		virtual void set_EncryptionHeader(TElOfficeEncryptionHeader &Value);
+
+		virtual void set_EncryptionHeader(TElOfficeEncryptionHeader *Value);
+
+		SB_DECLARE_PROPERTY(TElOfficeEncryptionHeader*, get_EncryptionHeader, set_EncryptionHeader, TElOfficeEncryptionInfoV3, EncryptionHeader);
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONHEADER */
+
+		virtual void get_EncryptionInfo(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_EncryptionInfo(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_EncryptionInfo(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_EncryptionInfo(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElOfficeEncryptionInfoV3(TElOfficeEncryptionInfoV3Handle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionInfoV3();
+
+		virtual ~TElOfficeEncryptionInfoV3();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV3 */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV4
+class TElOfficeEncryptionInfoV4: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptionInfoV4)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_XmlEncryptionDescriptor(std::vector<uint8_t> &OutResult);
+
+		virtual void set_XmlEncryptionDescriptor(const std::vector<uint8_t> &Value);
+
+		TElOfficeEncryptionInfoV4(TElOfficeEncryptionInfoV4Handle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptionInfoV4();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTIONINFOV4 */
+
+#ifdef SB_USE_CLASS_TELOFFICEXOROBFUSCATION
+class TElOfficeXORObfuscation: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeXORObfuscation)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint16_t get_Key();
+
+		virtual void set_Key(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Key, set_Key, TElOfficeXORObfuscation, Key);
+
+		virtual uint16_t get_VerificationBytes();
+
+		virtual void set_VerificationBytes(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_VerificationBytes, set_VerificationBytes, TElOfficeXORObfuscation, VerificationBytes);
+
+		TElOfficeXORObfuscation(TElOfficeXORObfuscationHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeXORObfuscation();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEXOROBFUSCATION */
+
+#ifdef SB_USE_CLASS_TELOFFICEENCRYPTEDSTREAMDESCRIPTOR
+class TElOfficeEncryptedStreamDescriptor: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeEncryptedStreamDescriptor)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_StreamName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_StreamName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_StreamName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_StreamName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual uint32_t get_StreamOffset();
+
+		virtual void set_StreamOffset(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_StreamOffset, set_StreamOffset, TElOfficeEncryptedStreamDescriptor, StreamOffset);
+
+		virtual uint32_t get_StreamSize();
+
+		virtual void set_StreamSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_StreamSize, set_StreamSize, TElOfficeEncryptedStreamDescriptor, StreamSize);
+
+		virtual uint16_t get_Block();
+
+		virtual void set_Block(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Block, set_Block, TElOfficeEncryptedStreamDescriptor, Block);
+
+		virtual uint8_t get_Flags();
+
+		virtual void set_Flags(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Flags, set_Flags, TElOfficeEncryptedStreamDescriptor, Flags);
+
+		TElOfficeEncryptedStreamDescriptor(TElOfficeEncryptedStreamDescriptorHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeEncryptedStreamDescriptor();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEENCRYPTEDSTREAMDESCRIPTOR */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+class TElOfficeCertificateInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCertificateInfo)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_WINDOWS
+		virtual void get_ExpireTime(windows_FILETIME &OutResult);
+#else
+		virtual void get_ExpireTime(_FILETIME &OutResult);
+#endif
+
+#ifdef SB_WINDOWS
+		virtual void set_ExpireTime(windows_FILETIME &Value);
+#else
+		virtual void set_ExpireTime(_FILETIME &Value);
+#endif
+
+#ifdef SB_WINDOWS
+		virtual void get_SignTime(windows_FILETIME &OutResult);
+#else
+		virtual void get_SignTime(_FILETIME &OutResult);
+#endif
+
+#ifdef SB_WINDOWS
+		virtual void set_SignTime(windows_FILETIME &Value);
+#else
+		virtual void set_SignTime(_FILETIME &Value);
+#endif
+
+		virtual int32_t get_AlgIDHash();
+
+		virtual void set_AlgIDHash(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_AlgIDHash, set_AlgIDHash, TElOfficeCertificateInfo, AlgIDHash);
+
+		virtual void get_SignerName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_SignerName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_SignerName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_SignerName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_IssuerName(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_IssuerName(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_IssuerName(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_IssuerName(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual void get_Signature(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Signature(const std::vector<uint8_t> &Value);
+
+		virtual void get_EncodedCertificate(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncodedCertificate(const std::vector<uint8_t> &Value);
+
+		virtual void get_SerialNumber(std::vector<uint8_t> &OutResult);
+
+		virtual void set_SerialNumber(const std::vector<uint8_t> &Value);
+
+		virtual void get_IssuerBlob(std::vector<uint8_t> &OutResult);
+
+		virtual void set_IssuerBlob(const std::vector<uint8_t> &Value);
+
+		TElOfficeCertificateInfo(TElOfficeCertificateInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeCertificateInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+class TElOfficeCertStoreCertificateGroup: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCertStoreCertificateGroup)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void get_CertificateData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_CertificateData(const std::vector<uint8_t> &Value);
+
+		virtual uint32_t get_EncodingType();
+
+		virtual void set_EncodingType(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncodingType, set_EncodingType, TElOfficeCertStoreCertificateGroup, EncodingType);
+
+		TElOfficeCertStoreCertificateGroup(TElOfficeCertStoreCertificateGroupHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeCertStoreCertificateGroup();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+#ifdef SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE
+class TElOfficeDocSigSerializedCertStore: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeDocSigSerializedCertStore)
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+		TElOfficeCertStoreCertificateGroup* _Inst_Certificates;
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+		int32_t AddCertificate(const std::vector<uint8_t> &Buf);
+
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+		int32_t AddCertificate(TElOfficeCertStoreCertificateGroup &Cert);
+
+		int32_t AddCertificate(TElOfficeCertStoreCertificateGroup *Cert);
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+		void InsertCertificate(int32_t Index, TElOfficeCertStoreCertificateGroup &Cert);
+
+		void InsertCertificate(int32_t Index, TElOfficeCertStoreCertificateGroup *Cert);
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+		void DeleteCertificate(int32_t Index);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficeDocSigSerializedCertStore, Count);
+
+#ifdef SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP
+		virtual TElOfficeCertStoreCertificateGroup* get_Certificates(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICECERTSTORECERTIFICATEGROUP */
+
+		TElOfficeDocSigSerializedCertStore(TElOfficeDocSigSerializedCertStoreHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeDocSigSerializedCertStore();
+
+		virtual ~TElOfficeDocSigSerializedCertStore();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE */
+
+#ifdef SB_USE_CLASS_TELOFFICECRYPTOAPIDIGITALSIGNATURE
+class TElOfficeCryptoAPIDigitalSignature: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeCryptoAPIDigitalSignature)
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+		TElOfficeCertificateInfo* _Inst_CertificateInfos;
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+#ifdef SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE
+		TElOfficeDocSigSerializedCertStore* _Inst_IntermediateCertificatesStore;
+#endif /* SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+		int32_t AddCertificateInfo(TElOfficeCertificateInfo &CertInfo);
+
+		int32_t AddCertificateInfo(TElOfficeCertificateInfo *CertInfo);
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+		void InsertCertificateInfo(int32_t Index, TElOfficeCertificateInfo &CertInfo);
+
+		void InsertCertificateInfo(int32_t Index, TElOfficeCertificateInfo *CertInfo);
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+
+		void DeleteCertificateInfo(int32_t Index);
+
+		virtual int32_t get_CertificateInfoCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_CertificateInfoCount, TElOfficeCryptoAPIDigitalSignature, CertificateInfoCount);
+
+#ifdef SB_USE_CLASS_TELOFFICECERTIFICATEINFO
+		virtual TElOfficeCertificateInfo* get_CertificateInfos(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICECERTIFICATEINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE
+		virtual TElOfficeDocSigSerializedCertStore* get_IntermediateCertificatesStore();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeDocSigSerializedCertStore*, get_IntermediateCertificatesStore, TElOfficeCryptoAPIDigitalSignature, IntermediateCertificatesStore);
+#endif /* SB_USE_CLASS_TELOFFICEDOCSIGSERIALIZEDCERTSTORE */
+
+		TElOfficeCryptoAPIDigitalSignature(TElOfficeCryptoAPIDigitalSignatureHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeCryptoAPIDigitalSignature();
+
+		virtual ~TElOfficeCryptoAPIDigitalSignature();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICECRYPTOAPIDIGITALSIGNATURE */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBBASE
+class TElOfficeWordFIBBase: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWordFIBBase)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint16_t get_Ident();
+
+		virtual void set_Ident(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Ident, set_Ident, TElOfficeWordFIBBase, Ident);
+
+		virtual uint16_t get_FIB();
+
+		virtual void set_FIB(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_FIB, set_FIB, TElOfficeWordFIBBase, FIB);
+
+		virtual uint16_t get_LID();
+
+		virtual void set_LID(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_LID, set_LID, TElOfficeWordFIBBase, LID);
+
+		virtual uint16_t get_Next();
+
+		virtual void set_Next(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Next, set_Next, TElOfficeWordFIBBase, Next);
+
+		virtual uint16_t get_Flags();
+
+		virtual void set_Flags(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Flags, set_Flags, TElOfficeWordFIBBase, Flags);
+
+		virtual uint16_t get_FibBack();
+
+		virtual void set_FibBack(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_FibBack, set_FibBack, TElOfficeWordFIBBase, FibBack);
+
+		virtual uint32_t get_Key();
+
+		virtual void set_Key(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Key, set_Key, TElOfficeWordFIBBase, Key);
+
+		virtual uint8_t get_Flags2();
+
+		virtual void set_Flags2(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Flags2, set_Flags2, TElOfficeWordFIBBase, Flags2);
+
+		TElOfficeWordFIBBase(TElOfficeWordFIBBaseHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWordFIBBase();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBBASE */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB
+class TElOfficeWordFIBRgFcLcb: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWordFIBRgFcLcb)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void ChangeOffsets(int32_t Shift);
+
+		virtual void get_Blob(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Blob(const std::vector<uint8_t> &Value);
+
+		TElOfficeWordFIBRgFcLcb(TElOfficeWordFIBRgFcLcbHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWordFIBRgFcLcb();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIB
+class TElOfficeWordFIB: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWordFIB)
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBBASE
+		TElOfficeWordFIBBase* _Inst_FIBBase;
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBBASE */
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB
+		TElOfficeWordFIBRgFcLcb* _Inst_FIBRgFcLcb;
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBBASE
+		virtual TElOfficeWordFIBBase* get_FIBBase();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeWordFIBBase*, get_FIBBase, TElOfficeWordFIB, FIBBase);
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBBASE */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB
+		virtual TElOfficeWordFIBRgFcLcb* get_FIBRgFcLcb();
+
+		SB_DECLARE_PROPERTY_GET(TElOfficeWordFIBRgFcLcb*, get_FIBRgFcLcb, TElOfficeWordFIB, FIBRgFcLcb);
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIBRGFCLCB */
+
+		TElOfficeWordFIB(TElOfficeWordFIBHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWordFIB();
+
+		virtual ~TElOfficeWordFIB();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORDFIB */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKRECORDINFO
+class TElOfficeWorkbookRecordInfo: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWorkbookRecordInfo)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint16_t get_RecordType();
+
+		virtual void set_RecordType(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RecordType, set_RecordType, TElOfficeWorkbookRecordInfo, RecordType);
+
+		virtual uint16_t get_RecordSize();
+
+		virtual void set_RecordSize(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RecordSize, set_RecordSize, TElOfficeWorkbookRecordInfo, RecordSize);
+
+		TElOfficeWorkbookRecordInfo(TElOfficeWorkbookRecordInfoHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWorkbookRecordInfo();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKRECORDINFO */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKBOF
+class TElOfficeWorkbookBOF: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWorkbookBOF)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint16_t get_Version();
+
+		virtual void set_Version(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Version, set_Version, TElOfficeWorkbookBOF, Version);
+
+		virtual uint16_t get_DocumentType();
+
+		virtual void set_DocumentType(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_DocumentType, set_DocumentType, TElOfficeWorkbookBOF, DocumentType);
+
+		virtual uint16_t get_RupBuild();
+
+		virtual void set_RupBuild(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RupBuild, set_RupBuild, TElOfficeWorkbookBOF, RupBuild);
+
+		virtual uint16_t get_RupYear();
+
+		virtual void set_RupYear(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RupYear, set_RupYear, TElOfficeWorkbookBOF, RupYear);
+
+		virtual uint32_t get_Flags();
+
+		virtual void set_Flags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Flags, set_Flags, TElOfficeWorkbookBOF, Flags);
+
+		virtual uint8_t get_VersionLowestBiff();
+
+		virtual void set_VersionLowestBiff(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_VersionLowestBiff, set_VersionLowestBiff, TElOfficeWorkbookBOF, VersionLowestBiff);
+
+		virtual uint8_t get_VersionLastXLSaved();
+
+		virtual void set_VersionLastXLSaved(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_VersionLastXLSaved, set_VersionLastXLSaved, TElOfficeWorkbookBOF, VersionLastXLSaved);
+
+		TElOfficeWorkbookBOF(TElOfficeWorkbookBOFHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWorkbookBOF();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKBOF */
+
+#ifdef SB_USE_CLASS_TELOFFICEWORKBOOKFILEPASS
+class TElOfficeWorkbookFilePass: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficeWorkbookFilePass)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint16_t get_EncryptionType();
+
+		virtual void set_EncryptionType(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_EncryptionType, set_EncryptionType, TElOfficeWorkbookFilePass, EncryptionType);
+
+		TElOfficeWorkbookFilePass(TElOfficeWorkbookFilePassHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficeWorkbookFilePass();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEWORKBOOKFILEPASS */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTRECORDHEADER
+class TElOfficePowerPointRecordHeader: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficePowerPointRecordHeader)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint8_t get_RecordVersion();
+
+		virtual void set_RecordVersion(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_RecordVersion, set_RecordVersion, TElOfficePowerPointRecordHeader, RecordVersion);
+
+		virtual uint16_t get_RecordInstance();
+
+		virtual void set_RecordInstance(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RecordInstance, set_RecordInstance, TElOfficePowerPointRecordHeader, RecordInstance);
+
+		virtual uint16_t get_RecordType();
+
+		virtual void set_RecordType(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_RecordType, set_RecordType, TElOfficePowerPointRecordHeader, RecordType);
+
+		virtual uint32_t get_RecordLength();
+
+		virtual void set_RecordLength(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_RecordLength, set_RecordLength, TElOfficePowerPointRecordHeader, RecordLength);
+
+		TElOfficePowerPointRecordHeader(TElOfficePowerPointRecordHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficePowerPointRecordHeader();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTRECORDHEADER */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTUSEREDITATOM
+class TElOfficePowerPointUserEditAtom: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficePowerPointUserEditAtom)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void LoadFromStream(TStream &Stream, uint32_t RecordSize);
+
+		void LoadFromStream(TStream *Stream, uint32_t RecordSize);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void SaveToStream(TStream &Stream, bool IncludeEncryptSession);
+
+		void SaveToStream(TStream *Stream, bool IncludeEncryptSession);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_LastSlideIdRef();
+
+		virtual void set_LastSlideIdRef(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LastSlideIdRef, set_LastSlideIdRef, TElOfficePowerPointUserEditAtom, LastSlideIdRef);
+
+		virtual uint16_t get_Version();
+
+		virtual void set_Version(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_Version, set_Version, TElOfficePowerPointUserEditAtom, Version);
+
+		virtual uint8_t get_MinorVersion();
+
+		virtual void set_MinorVersion(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_MinorVersion, set_MinorVersion, TElOfficePowerPointUserEditAtom, MinorVersion);
+
+		virtual uint8_t get_MajorVersion();
+
+		virtual void set_MajorVersion(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_MajorVersion, set_MajorVersion, TElOfficePowerPointUserEditAtom, MajorVersion);
+
+		virtual uint32_t get_OffsetLastEdit();
+
+		virtual void set_OffsetLastEdit(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_OffsetLastEdit, set_OffsetLastEdit, TElOfficePowerPointUserEditAtom, OffsetLastEdit);
+
+		virtual uint32_t get_OffsetPersistDirectory();
+
+		virtual void set_OffsetPersistDirectory(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_OffsetPersistDirectory, set_OffsetPersistDirectory, TElOfficePowerPointUserEditAtom, OffsetPersistDirectory);
+
+		virtual uint32_t get_DocPersistIdRef();
+
+		virtual void set_DocPersistIdRef(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DocPersistIdRef, set_DocPersistIdRef, TElOfficePowerPointUserEditAtom, DocPersistIdRef);
+
+		virtual uint32_t get_PersistIdSeed();
+
+		virtual void set_PersistIdSeed(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_PersistIdSeed, set_PersistIdSeed, TElOfficePowerPointUserEditAtom, PersistIdSeed);
+
+		virtual uint16_t get_LastView();
+
+		virtual void set_LastView(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_LastView, set_LastView, TElOfficePowerPointUserEditAtom, LastView);
+
+		virtual uint32_t get_EncryptSessionPersistIdRef();
+
+		virtual void set_EncryptSessionPersistIdRef(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptSessionPersistIdRef, set_EncryptSessionPersistIdRef, TElOfficePowerPointUserEditAtom, EncryptSessionPersistIdRef);
+
+		TElOfficePowerPointUserEditAtom(TElOfficePowerPointUserEditAtomHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficePowerPointUserEditAtom();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTUSEREDITATOM */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+class TElOfficePowerPointPersistDirectoryEntry: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficePowerPointPersistDirectoryEntry)
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_PersistId();
+
+		virtual void set_PersistId(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_PersistId, set_PersistId, TElOfficePowerPointPersistDirectoryEntry, PersistId);
+
+		virtual void get_PersistOffsets(std::vector<uint32_t> &OutResult);
+
+		virtual void set_PersistOffsets(const std::vector<uint32_t> &Value);
+
+		TElOfficePowerPointPersistDirectoryEntry(TElOfficePowerPointPersistDirectoryEntryHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficePowerPointPersistDirectoryEntry();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYATOM
+class TElOfficePowerPointPersistDirectoryAtom: public TElOfficeBinaryObject
+{
+	private:
+		SB_DISABLE_COPY(TElOfficePowerPointPersistDirectoryAtom)
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+		TElOfficePowerPointPersistDirectoryEntry* _Inst_Entries;
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void LoadFromStream(TStream &Stream, uint32_t RecordSize);
+
+		void LoadFromStream(TStream *Stream, uint32_t RecordSize);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void Clear();
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+		int32_t Add(TElOfficePowerPointPersistDirectoryEntry &AEntry);
+
+		int32_t Add(TElOfficePowerPointPersistDirectoryEntry *AEntry);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+		void Insert(int32_t Index, TElOfficePowerPointPersistDirectoryEntry &AEntry);
+
+		void Insert(int32_t Index, TElOfficePowerPointPersistDirectoryEntry *AEntry);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+		void Delete(int32_t Index);
+
+		void AddPersistId(uint32_t PersistId, uint32_t Offset);
+
+		uint32_t GetOffsetById(uint32_t PersistId);
+
+		virtual int32_t get_Count();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_Count, TElOfficePowerPointPersistDirectoryAtom, Count);
+
+#ifdef SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY
+		virtual TElOfficePowerPointPersistDirectoryEntry* get_Entries(int32_t Index);
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYENTRY */
+
+		TElOfficePowerPointPersistDirectoryAtom(TElOfficePowerPointPersistDirectoryAtomHandle handle, TElOwnHandle ownHandle);
+
+		TElOfficePowerPointPersistDirectoryAtom();
+
+		virtual ~TElOfficePowerPointPersistDirectoryAtom();
+
+};
+#endif /* SB_USE_CLASS_TELOFFICEPOWERPOINTPERSISTDIRECTORYATOM */
+
+#ifdef SB_USE_GLOBAL_PROCS_OFFICEBINARYCORE
+
+int32_t BufferToInt32(const std::vector<uint8_t> &Buffer, int32_t Index);
+
+int64_t BufferToInt64(const std::vector<uint8_t> &Buffer, int32_t Index);
+
+void Int32ToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t Value);
+
+void UInt32ToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, uint32_t Value);
+
+void Int64ToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int64_t Value);
+
+#ifdef SB_WINDOWS
+void SwapTimeEncoding(windows_FILETIME &Value, windows_FILETIME &OutResult);
+#else
+void SwapTimeEncoding(_FILETIME &Value, _FILETIME &OutResult);
+#endif
+
+#endif /* SB_USE_GLOBAL_PROCS_OFFICEBINARYCORE */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_OFFICEBINARYCORE
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_BufferToInt32(const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_BufferToInt64(const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_Int32ToBuffer(uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_UInt32ToBuffer(uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_Int64ToBuffer(uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int64_t Value);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_SwapTimeEncoding(windows_FILETIME * Value, windows_FILETIME * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY SBOfficeBinaryCore_SwapTimeEncoding(_FILETIME * Value, _FILETIME * OutResult);
+#endif
+#endif /* SB_USE_GLOBAL_PROCS_OFFICEBINARYCORE */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBOFFICEBINARYCORE */

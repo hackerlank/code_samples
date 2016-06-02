@@ -1,0 +1,2691 @@
+#ifndef __INC_SBPGPENTITIES
+#define __INC_SBPGPENTITIES
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbpgpexceptions.h"
+#include "sbpgpconstants.h"
+#include "sbpgputils.h"
+#include "sbmath.h"
+#include "sbx509.h"
+#include "sbstreams.h"
+#include "sbstrutils.h"
+#include "sbconstants.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_PGP_BLOCK_SIZE 	65536
+#define SB_PGP_PACKET_BLOCK_BASE_SIZE 	13
+#define SB_PGP_PACKET_BLOCK_SIZE 	8192
+
+typedef TElClassHandle TElPGPEntityHandle;
+
+typedef TElPGPEntityHandle ElPGPEntityHandle;
+
+typedef TElClassHandle TElPGPSecretKeyEntityHandle;
+
+typedef TElPGPSecretKeyEntityHandle ElPGPSecretKeyEntityHandle;
+
+typedef TElClassHandle TElPGPS2KHandle;
+
+typedef TElPGPS2KHandle ElPGPS2KHandle;
+
+typedef TElClassHandle TElPGPUserIDEntityHandle;
+
+typedef TElPGPUserIDEntityHandle ElPGPUserIDEntityHandle;
+
+typedef TElClassHandle TElPGPUserAttrSubpacketHandle;
+
+typedef TElPGPUserAttrSubpacketHandle ElPGPUserAttrSubpacketHandle;
+
+typedef TElClassHandle TElPGPUserAttrImageSubpacketHandle;
+
+typedef TElPGPUserAttrImageSubpacketHandle ElPGPUserAttrImageSubpacketHandle;
+
+typedef TElClassHandle TElPGPUserAttrEntityHandle;
+
+typedef TElPGPUserAttrEntityHandle ElPGPUserAttrEntityHandle;
+
+typedef TElClassHandle TElPGPSignatureEntityHandle;
+
+typedef TElPGPSignatureEntityHandle ElPGPSignatureEntityHandle;
+
+typedef TElClassHandle TElPGPSignatureSubpacketHandle;
+
+typedef TElPGPSignatureSubpacketHandle ElPGPSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPCreationTimeSignatureSubpacketHandle;
+
+typedef TElPGPCreationTimeSignatureSubpacketHandle ElPGPCreationTimeSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPExpirationTimeSignatureSubpacketHandle;
+
+typedef TElPGPExpirationTimeSignatureSubpacketHandle ElPGPExpirationTimeSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPEmbeddedSignatureSignatureSubpacketHandle;
+
+typedef TElPGPEmbeddedSignatureSignatureSubpacketHandle ElPGPEmbeddedSignatureSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPExportableCertificationSignatureSubpacketHandle;
+
+typedef TElPGPExportableCertificationSignatureSubpacketHandle ElPGPExportableCertificationSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPTrustSignatureSubpacketHandle;
+
+typedef TElPGPTrustSignatureSubpacketHandle ElPGPTrustSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPRegularExpressionSignatureSubpacketHandle;
+
+typedef TElPGPRegularExpressionSignatureSubpacketHandle ElPGPRegularExpressionSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPRevocableSignatureSubpacketHandle;
+
+typedef TElPGPRevocableSignatureSubpacketHandle ElPGPRevocableSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPKeyExpirationTimeSignatureSubpacketHandle;
+
+typedef TElPGPKeyExpirationTimeSignatureSubpacketHandle ElPGPKeyExpirationTimeSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle;
+
+typedef TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle ElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPRevocationKeySignatureSubpacketHandle;
+
+typedef TElPGPRevocationKeySignatureSubpacketHandle ElPGPRevocationKeySignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPIssuerKeyIDSignatureSubpacketHandle;
+
+typedef TElPGPIssuerKeyIDSignatureSubpacketHandle ElPGPIssuerKeyIDSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPNotationDataSignatureSubpacketHandle;
+
+typedef TElPGPNotationDataSignatureSubpacketHandle ElPGPNotationDataSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle;
+
+typedef TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle ElPGPPreferredHashAlgorithmsSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle;
+
+typedef TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle ElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPKeyServerPreferencesSignatureSubpacketHandle;
+
+typedef TElPGPKeyServerPreferencesSignatureSubpacketHandle ElPGPKeyServerPreferencesSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPreferredKeyServerSignatureSubpacketHandle;
+
+typedef TElPGPPreferredKeyServerSignatureSubpacketHandle ElPGPPreferredKeyServerSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPrimaryUserIDSignatureSubpacketHandle;
+
+typedef TElPGPPrimaryUserIDSignatureSubpacketHandle ElPGPPrimaryUserIDSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPPolicyURLSignatureSubpacketHandle;
+
+typedef TElPGPPolicyURLSignatureSubpacketHandle ElPGPPolicyURLSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPKeyFlagsSignatureSubpacketHandle;
+
+typedef TElPGPKeyFlagsSignatureSubpacketHandle ElPGPKeyFlagsSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPSignersUserIDSignatureSubpacketHandle;
+
+typedef TElPGPSignersUserIDSignatureSubpacketHandle ElPGPSignersUserIDSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPReasonForRevocationSignatureSubpacketHandle;
+
+typedef TElPGPReasonForRevocationSignatureSubpacketHandle ElPGPReasonForRevocationSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPFeaturesSignatureSubpacketHandle;
+
+typedef TElPGPFeaturesSignatureSubpacketHandle ElPGPFeaturesSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPTargetSignatureSubpacketHandle;
+
+typedef TElPGPTargetSignatureSubpacketHandle ElPGPTargetSignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPX509SignatureSubpacketHandle;
+
+typedef TElPGPX509SignatureSubpacketHandle ElPGPX509SignatureSubpacketHandle;
+
+typedef TElClassHandle TElPGPSignatureSubpacketsHandle;
+
+typedef TElPGPSignatureSubpacketsHandle ElPGPSignatureSubpacketsHandle;
+
+typedef TElClassHandle TElPGPTrustEntityHandle;
+
+typedef TElPGPTrustEntityHandle ElPGPTrustEntityHandle;
+
+typedef TElClassHandle TElPGPPublicKeyEncryptedSessionKeyEntityHandle;
+
+typedef TElPGPPublicKeyEncryptedSessionKeyEntityHandle ElPGPPublicKeyEncryptedSessionKeyEntityHandle;
+
+typedef TElClassHandle TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle;
+
+typedef TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle ElPGPSymmetricKeyEncryptedSessionKeyEntityHandle;
+
+typedef TElClassHandle TElPGPOnePassSignatureEntityHandle;
+
+typedef TElPGPOnePassSignatureEntityHandle ElPGPOnePassSignatureEntityHandle;
+
+typedef TElClassHandle TElPGPPublicKeyEntityHandle;
+
+typedef TElPGPPublicKeyEntityHandle ElPGPPublicKeyEntityHandle;
+
+typedef TElClassHandle TElPGPStreamingEntityHandle;
+
+typedef TElPGPStreamingEntityHandle ElPGPStreamingEntityHandle;
+
+typedef TElClassHandle TElPGPLiteralHandle;
+
+typedef TElPGPLiteralHandle ElPGPLiteralHandle;
+
+typedef TElClassHandle TElPGPSymmetricallyEncryptedHandle;
+
+typedef TElPGPSymmetricallyEncryptedHandle ElPGPSymmetricallyEncryptedHandle;
+
+typedef TElClassHandle TElPGPCompressedHandle;
+
+typedef TElPGPCompressedHandle ElPGPCompressedHandle;
+
+typedef TElClassHandle TElPGPStreamProcessorHandle;
+
+typedef TElPGPStreamProcessorHandle ElPGPStreamProcessorHandle;
+
+typedef TElClassHandle TElPGPStubEntityHandle;
+
+typedef TElPGPStubEntityHandle ElPGPStubEntityHandle;
+
+typedef TElClassHandle TElPGPStreamIOHandle;
+
+typedef uint8_t TSBPGPLoadStateRaw;
+
+typedef enum
+{
+	lsHeader = 0,
+	lsOldPacketLen = 1,
+	lsNewPacketLen = 2,
+	lsChunk = 3,
+	lsUndefSizeChunk = 4,
+	lsLastChunk = 5,
+	_lsFinished = 6
+} TSBPGPLoadState;
+
+typedef uint8_t TSBPGPReasonForRevocationRaw;
+
+typedef enum
+{
+	rrNoReason = 0,
+	rrKeySuperseded = 1,
+	rrKeyCompromised = 2,
+	rrKeyRetired = 3,
+	rrUserIDNotValid = 4
+} TSBPGPReasonForRevocation;
+
+typedef void (SB_CALLBACK *TSBPGPReadEvent)(void * _ObjectData, TObjectHandle Sender, void * UserData, void * Buffer, int32_t MaxSize, int32_t * Written, int8_t * Last);
+
+typedef void (SB_CALLBACK *TSBPGPWriteEvent)(void * _ObjectData, TObjectHandle Sender, void * UserData, void * Buffer, int32_t Size);
+
+typedef void (SB_CALLBACK *TSBPGPPacketEvent)(void * _ObjectData, TObjectHandle Sender, uint8_t PacketType, TElPGPEntityHandle * Entity, int8_t * Stop);
+
+typedef void (SB_CALLBACK *TSBPGPPacketProcessedEvent)(void * _ObjectData, TObjectHandle Sender, TElPGPEntityHandle Packet, int8_t * Continue);
+
+typedef void (SB_CALLBACK *TSBPGPTemporaryStreamEvent)(void * _ObjectData, TObjectHandle Sender, TStreamHandle * Stream, int8_t * FreeOnFinish);
+
+#ifdef SB_USE_CLASS_TELPGPENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_Assign(TElPGPEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_AssignTo(TElPGPEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_Load(TElPGPEntityHandle _Handle, void * AReadUserData, void * AWriteUserData);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_Save(TElPGPEntityHandle _Handle, void * AReadUserData, void * AWriteUserData);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_DataAvailable(TElPGPEntityHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_LoadFromStream(TElPGPEntityHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_SaveToStream(TElPGPEntityHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_WriteFlags(TElPGPEntityHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_WriteFlags(TElPGPEntityHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_AsyncMode(TElPGPEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_AsyncMode(TElPGPEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_PacketType(TElPGPEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_BytesLeft(TElPGPEntityHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_OldPacket(TElPGPEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_OldPacket(TElPGPEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_ForceUndefLenProcessing(TElPGPEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_ForceUndefLenProcessing(TElPGPEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_OnRead(TElPGPEntityHandle _Handle, TSBPGPReadEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_OnRead(TElPGPEntityHandle _Handle, TSBPGPReadEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_OnWrite(TElPGPEntityHandle _Handle, TSBPGPWriteEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_OnWrite(TElPGPEntityHandle _Handle, TSBPGPWriteEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_get_OnFinish(TElPGPEntityHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_set_OnFinish(TElPGPEntityHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEntity_Create(TElPGPEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPPUBLICKEYENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_Assign(TElPGPPublicKeyEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_AssignTo(TElPGPPublicKeyEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_AssignFromSecret(TElPGPPublicKeyEntityHandle _Handle, TElPGPSecretKeyEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_Timestamp(TElPGPPublicKeyEntityHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_Timestamp(TElPGPPublicKeyEntityHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_Expires(TElPGPPublicKeyEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_Expires(TElPGPPublicKeyEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_PublicKeyAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_PublicKeyAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_KeyMaterial(TElPGPPublicKeyEntityHandle _Handle, int32_t Index, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_KeyMaterial(TElPGPPublicKeyEntityHandle _Handle, int32_t Index, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_Version(TElPGPPublicKeyEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_Version(TElPGPPublicKeyEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_CurveOID(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_CurveOID(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_KDFHashAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_KDFHashAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_KEKSymmetricAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_KEKSymmetricAlgorithm(TElPGPPublicKeyEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_RSAPublicModulus(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_RSAPublicModulus(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_RSAPublicExponent(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_RSAPublicExponent(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_DSAPublicPrime(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_DSAPublicPrime(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_DSAPublicGroupOrder(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_DSAPublicGroupOrder(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_DSAPublicGroupGenerator(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_DSAPublicGroupGenerator(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_DSAPublicKeyValue(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_DSAPublicKeyValue(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_ElGamalPrime(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_ElGamalPrime(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_ElGamalGroupGenerator(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_ElGamalGroupGenerator(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_ElGamalPublicKeyValue(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_ElGamalPublicKeyValue(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_get_ECPublicKey(TElPGPPublicKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_set_ECPublicKey(TElPGPPublicKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_Create(TElPGPPublicKeyEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEntity_Create_1(int8_t Subkey, TElPGPPublicKeyEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPUBLICKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPS2K
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_Assign(TElPGPS2KHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_AssignTo(TElPGPS2KHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_Load(TElPGPS2KHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Offset, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_Save(TElPGPS2KHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_GetSymmetricKey(TElPGPS2KHandle _Handle, const char * pcPassphrase, int32_t szPassphrase, int32_t Needed, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_get_S2KType(TElPGPS2KHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_set_S2KType(TElPGPS2KHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_get_Salt(TElPGPS2KHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_set_Salt(TElPGPS2KHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_get_Count(TElPGPS2KHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_set_Count(TElPGPS2KHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_get_HashAlgorithm(TElPGPS2KHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_set_HashAlgorithm(TElPGPS2KHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPS2K_Create(TElPGPS2KHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+#ifdef SB_USE_CLASS_TELPGPUSERIDENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserIDEntity_Assign(TElPGPUserIDEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserIDEntity_AssignTo(TElPGPUserIDEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserIDEntity_get_Name(TElPGPUserIDEntityHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserIDEntity_set_Name(TElPGPUserIDEntityHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserIDEntity_Create(TElPGPUserIDEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPUSERIDENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRSUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_Assign(TElPGPUserAttrSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_AssignTo(TElPGPUserAttrSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_Compare(TElPGPUserAttrSubpacketHandle _Handle, TElPGPUserAttrSubpacketHandle Source, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_get_SubpacketType(TElPGPUserAttrSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_set_SubpacketType(TElPGPUserAttrSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrSubpacket_Create(TElPGPUserAttrSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPUSERATTRSUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRIMAGESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_Assign(TElPGPUserAttrImageSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_AssignTo(TElPGPUserAttrImageSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_Compare(TElPGPUserAttrImageSubpacketHandle _Handle, TElPGPUserAttrSubpacketHandle Source, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_get_HeaderVersion(TElPGPUserAttrImageSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_set_HeaderVersion(TElPGPUserAttrImageSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_get_ImageFormat(TElPGPUserAttrImageSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_set_ImageFormat(TElPGPUserAttrImageSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_get_ImageData(TElPGPUserAttrImageSubpacketHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_set_ImageData(TElPGPUserAttrImageSubpacketHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrImageSubpacket_Create(TElPGPUserAttrImageSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPUSERATTRIMAGESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrEntity_Assign(TElPGPUserAttrEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrEntity_AssignTo(TElPGPUserAttrEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrEntity_get_Subpackets(TElPGPUserAttrEntityHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPUserAttrEntity_Create(TElPGPUserAttrEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPUSERATTRENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATUREENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_Assign(TElPGPSignatureEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_AssignTo(TElPGPSignatureEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_Version(TElPGPSignatureEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_Version(TElPGPSignatureEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_SignatureClass(TElPGPSignatureEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_SignatureClass(TElPGPSignatureEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_CreationTime(TElPGPSignatureEntityHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_CreationTime(TElPGPSignatureEntityHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_KeyID(TElPGPSignatureEntityHandle _Handle, TSBKeyID * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_KeyID(TElPGPSignatureEntityHandle _Handle, TSBKeyID * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_PublicKeyAlgorithm(TElPGPSignatureEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_PublicKeyAlgorithm(TElPGPSignatureEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_HashAlgorithm(TElPGPSignatureEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_HashAlgorithm(TElPGPSignatureEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_Subpackets(TElPGPSignatureEntityHandle _Handle, TElPGPSignatureSubpacketsHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_SignatureMaterial(TElPGPSignatureEntityHandle _Handle, TSBPGPSignatureMaterial * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_SignatureMaterial(TElPGPSignatureEntityHandle _Handle, TSBPGPSignatureMaterial * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_get_LeftBits(TElPGPSignatureEntityHandle _Handle, uint16_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_set_LeftBits(TElPGPSignatureEntityHandle _Handle, uint16_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureEntity_Create(TElPGPSignatureEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSIGNATUREENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_Assign(TElPGPSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_AssignTo(TElPGPSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_get_Hashed(TElPGPSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_set_Hashed(TElPGPSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_get_Critical(TElPGPSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_set_Critical(TElPGPSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_get_SubpacketType(TElPGPSignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPCREATIONTIMESIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCreationTimeSignatureSubpacket_Assign(TElPGPCreationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCreationTimeSignatureSubpacket_AssignTo(TElPGPCreationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCreationTimeSignatureSubpacket_get_CreationTime(TElPGPCreationTimeSignatureSubpacketHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCreationTimeSignatureSubpacket_set_CreationTime(TElPGPCreationTimeSignatureSubpacketHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCreationTimeSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPCREATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEXPIRATIONTIMESIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExpirationTimeSignatureSubpacket_Assign(TElPGPExpirationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExpirationTimeSignatureSubpacket_AssignTo(TElPGPExpirationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExpirationTimeSignatureSubpacket_get_ExpirationTime(TElPGPExpirationTimeSignatureSubpacketHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExpirationTimeSignatureSubpacket_set_ExpirationTime(TElPGPExpirationTimeSignatureSubpacketHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExpirationTimeSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPEXPIRATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEMBEDDEDSIGNATURESIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEmbeddedSignatureSignatureSubpacket_Assign(TElPGPEmbeddedSignatureSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEmbeddedSignatureSignatureSubpacket_AssignTo(TElPGPEmbeddedSignatureSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEmbeddedSignatureSignatureSubpacket_get_Signature(TElPGPEmbeddedSignatureSignatureSubpacketHandle _Handle, TElPGPSignatureEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEmbeddedSignatureSignatureSubpacket_set_Signature(TElPGPEmbeddedSignatureSignatureSubpacketHandle _Handle, TElPGPSignatureEntityHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPEmbeddedSignatureSignatureSubpacket_Create(TElPGPEmbeddedSignatureSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPEMBEDDEDSIGNATURESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEXPORTABLECERTIFICATIONSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExportableCertificationSignatureSubpacket_Assign(TElPGPExportableCertificationSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExportableCertificationSignatureSubpacket_AssignTo(TElPGPExportableCertificationSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExportableCertificationSignatureSubpacket_get_Exportable(TElPGPExportableCertificationSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExportableCertificationSignatureSubpacket_set_Exportable(TElPGPExportableCertificationSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPExportableCertificationSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPEXPORTABLECERTIFICATIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPTRUSTSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_Assign(TElPGPTrustSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_AssignTo(TElPGPTrustSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_get_Level(TElPGPTrustSignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_set_Level(TElPGPTrustSignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_get_Amount(TElPGPTrustSignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_set_Amount(TElPGPTrustSignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPTRUSTSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREGULAREXPRESSIONSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRegularExpressionSignatureSubpacket_Assign(TElPGPRegularExpressionSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRegularExpressionSignatureSubpacket_AssignTo(TElPGPRegularExpressionSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRegularExpressionSignatureSubpacket_get_Expression(TElPGPRegularExpressionSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRegularExpressionSignatureSubpacket_set_Expression(TElPGPRegularExpressionSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRegularExpressionSignatureSubpacket_Create(TElPGPRegularExpressionSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPREGULAREXPRESSIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREVOCABLESIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocableSignatureSubpacket_Assign(TElPGPRevocableSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocableSignatureSubpacket_AssignTo(TElPGPRevocableSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocableSignatureSubpacket_get_Revocable(TElPGPRevocableSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocableSignatureSubpacket_set_Revocable(TElPGPRevocableSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocableSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPREVOCABLESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYEXPIRATIONTIMESIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyExpirationTimeSignatureSubpacket_Assign(TElPGPKeyExpirationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyExpirationTimeSignatureSubpacket_AssignTo(TElPGPKeyExpirationTimeSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyExpirationTimeSignatureSubpacket_get_Expires(TElPGPKeyExpirationTimeSignatureSubpacketHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyExpirationTimeSignatureSubpacket_set_Expires(TElPGPKeyExpirationTimeSignatureSubpacketHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyExpirationTimeSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPKEYEXPIRATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDSYMMETRICALGORITHMSSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_Assign(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_AssignTo(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_get_Preferred(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_set_Preferred(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_get_PreferredCount(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_set_PreferredCount(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPREFERREDSYMMETRICALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREVOCATIONKEYSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_Assign(TElPGPRevocationKeySignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_AssignTo(TElPGPRevocationKeySignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_get_RevClass(TElPGPRevocationKeySignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_set_RevClass(TElPGPRevocationKeySignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_get_AlgID(TElPGPRevocationKeySignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_set_AlgID(TElPGPRevocationKeySignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_get_Fingerprint(TElPGPRevocationKeySignatureSubpacketHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_set_Fingerprint(TElPGPRevocationKeySignatureSubpacketHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPRevocationKeySignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPREVOCATIONKEYSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPISSUERKEYIDSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPIssuerKeyIDSignatureSubpacket_Assign(TElPGPIssuerKeyIDSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPIssuerKeyIDSignatureSubpacket_AssignTo(TElPGPIssuerKeyIDSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPIssuerKeyIDSignatureSubpacket_get_KeyID(TElPGPIssuerKeyIDSignatureSubpacketHandle _Handle, TSBKeyID * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPIssuerKeyIDSignatureSubpacket_set_KeyID(TElPGPIssuerKeyIDSignatureSubpacketHandle _Handle, TSBKeyID * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPIssuerKeyIDSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPISSUERKEYIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPNOTATIONDATASIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_Assign(TElPGPNotationDataSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_AssignTo(TElPGPNotationDataSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_get_HumanReadable(TElPGPNotationDataSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_set_HumanReadable(TElPGPNotationDataSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_get_Name(TElPGPNotationDataSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_set_Name(TElPGPNotationDataSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_get_Value(TElPGPNotationDataSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_set_Value(TElPGPNotationDataSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPNotationDataSignatureSubpacket_Create(TElPGPNotationDataSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPNOTATIONDATASIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDHASHALGORITHMSSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_Assign(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_AssignTo(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_get_Preferred(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_set_Preferred(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_get_PreferredCount(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_set_PreferredCount(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredHashAlgorithmsSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPREFERREDHASHALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDCOMPRESSIONALGORITHMSSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_Assign(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_AssignTo(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_get_Preferred(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_set_Preferred(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, int32_t Index, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_get_PreferredCount(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_set_PreferredCount(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredCompressionAlgorithmsSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPREFERREDCOMPRESSIONALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYSERVERPREFERENCESSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyServerPreferencesSignatureSubpacket_Assign(TElPGPKeyServerPreferencesSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyServerPreferencesSignatureSubpacket_AssignTo(TElPGPKeyServerPreferencesSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyServerPreferencesSignatureSubpacket_get_NoModify(TElPGPKeyServerPreferencesSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyServerPreferencesSignatureSubpacket_set_NoModify(TElPGPKeyServerPreferencesSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyServerPreferencesSignatureSubpacket_Create(TElPGPKeyServerPreferencesSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPKEYSERVERPREFERENCESSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDKEYSERVERSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredKeyServerSignatureSubpacket_Assign(TElPGPPreferredKeyServerSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredKeyServerSignatureSubpacket_AssignTo(TElPGPPreferredKeyServerSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredKeyServerSignatureSubpacket_get_URL(TElPGPPreferredKeyServerSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredKeyServerSignatureSubpacket_set_URL(TElPGPPreferredKeyServerSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPreferredKeyServerSignatureSubpacket_Create(TElPGPPreferredKeyServerSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPREFERREDKEYSERVERSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPRIMARYUSERIDSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPrimaryUserIDSignatureSubpacket_Assign(TElPGPPrimaryUserIDSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPrimaryUserIDSignatureSubpacket_AssignTo(TElPGPPrimaryUserIDSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPrimaryUserIDSignatureSubpacket_get_Primary(TElPGPPrimaryUserIDSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPrimaryUserIDSignatureSubpacket_set_Primary(TElPGPPrimaryUserIDSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPrimaryUserIDSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPRIMARYUSERIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPOLICYURLSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPolicyURLSignatureSubpacket_Assign(TElPGPPolicyURLSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPolicyURLSignatureSubpacket_AssignTo(TElPGPPolicyURLSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPolicyURLSignatureSubpacket_get_URL(TElPGPPolicyURLSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPolicyURLSignatureSubpacket_set_URL(TElPGPPolicyURLSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPolicyURLSignatureSubpacket_Create(TElPGPPolicyURLSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPOLICYURLSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYFLAGSSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_Assign(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_AssignTo(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_CertifyOtherKeys(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_CertifyOtherKeys(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_SignData(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_SignData(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_EncryptData(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_EncryptData(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_EncryptStorage(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_EncryptStorage(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_SplitKey(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_SplitKey(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_get_GroupKey(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_set_GroupKey(TElPGPKeyFlagsSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPKeyFlagsSignatureSubpacket_Create(TElPGPKeyFlagsSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPKEYFLAGSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNERSUSERIDSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignersUserIDSignatureSubpacket_Assign(TElPGPSignersUserIDSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignersUserIDSignatureSubpacket_AssignTo(TElPGPSignersUserIDSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignersUserIDSignatureSubpacket_get_UserID(TElPGPSignersUserIDSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignersUserIDSignatureSubpacket_set_UserID(TElPGPSignersUserIDSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignersUserIDSignatureSubpacket_Create(TElPGPSignersUserIDSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSIGNERSUSERIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREASONFORREVOCATIONSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_Assign(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_AssignTo(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_get_Reason(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, TSBPGPReasonForRevocationRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_set_Reason(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, TSBPGPReasonForRevocationRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_get_Comment(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_set_Comment(TElPGPReasonForRevocationSignatureSubpacketHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPReasonForRevocationSignatureSubpacket_Create(TElPGPReasonForRevocationSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPREASONFORREVOCATIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPFEATURESSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPFeaturesSignatureSubpacket_Assign(TElPGPFeaturesSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPFeaturesSignatureSubpacket_AssignTo(TElPGPFeaturesSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPFeaturesSignatureSubpacket_get_ModificationDetection(TElPGPFeaturesSignatureSubpacketHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPFeaturesSignatureSubpacket_set_ModificationDetection(TElPGPFeaturesSignatureSubpacketHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPFeaturesSignatureSubpacket_Create(TElPGPFeaturesSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPFEATURESSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPTARGETSIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_Assign(TElPGPTargetSignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_AssignTo(TElPGPTargetSignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_get_Hash(TElPGPTargetSignatureSubpacketHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_set_Hash(TElPGPTargetSignatureSubpacketHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_get_PublicKeyAlgorithm(TElPGPTargetSignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_set_PublicKeyAlgorithm(TElPGPTargetSignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_get_HashAlgorithm(TElPGPTargetSignatureSubpacketHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_set_HashAlgorithm(TElPGPTargetSignatureSubpacketHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTargetSignatureSubpacket_Create(TElPGPSignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPTARGETSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPX509SIGNATURESUBPACKET
+SB_IMPORT uint32_t SB_APIENTRY TElPGPX509SignatureSubpacket_Assign(TElPGPX509SignatureSubpacketHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPX509SignatureSubpacket_AssignTo(TElPGPX509SignatureSubpacketHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPX509SignatureSubpacket_get_Certificate(TElPGPX509SignatureSubpacketHandle _Handle, TElX509CertificateHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPX509SignatureSubpacket_Create(TElPGPX509SignatureSubpacketHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPX509SIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_GetSubpacket(TElPGPSignatureSubpacketsHandle _Handle, uint8_t SubpacketType, int32_t StartFrom, TElPGPSignatureSubpacketHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_GetSubpacketCount(TElPGPSignatureSubpacketsHandle _Handle, uint8_t SubpacketType, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_Add(TElPGPSignatureSubpacketsHandle _Handle, TElPGPSignatureSubpacketHandle Item, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_RemoveSubpacket(TElPGPSignatureSubpacketsHandle _Handle, uint8_t SubpacketType, int32_t StartIndex, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_RemoveSubpacketByIndex(TElPGPSignatureSubpacketsHandle _Handle, int32_t Index, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_Clear(TElPGPSignatureSubpacketsHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSignatureSubpackets_Create(TElPGPSignatureSubpacketsHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS */
+
+#ifdef SB_USE_CLASS_TELPGPTRUSTENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustEntity_Assign(TElPGPTrustEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustEntity_AssignTo(TElPGPTrustEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustEntity_get_Flags(TElPGPTrustEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustEntity_set_Flags(TElPGPTrustEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPTrustEntity_Create(TElPGPTrustEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPTRUSTENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPPUBLICKEYENCRYPTEDSESSIONKEYENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_Assign(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_AssignTo(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_get_KeyID(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TSBKeyID * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_set_KeyID(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TSBKeyID * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_get_PublicKeyAlgorithm(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_set_PublicKeyAlgorithm(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_get_EncryptedKey(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TSBPGPEncryptedSymmetricKey * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_set_EncryptedKey(TElPGPPublicKeyEncryptedSessionKeyEntityHandle _Handle, TSBPGPEncryptedSymmetricKey * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPPublicKeyEncryptedSessionKeyEntity_Create(TElPGPPublicKeyEncryptedSessionKeyEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPPUBLICKEYENCRYPTEDSESSIONKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSYMMETRICKEYENCRYPTEDSESSIONKEYENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_Assign(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_AssignTo(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_get_SymmetricAlgorithm(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_set_SymmetricAlgorithm(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_get_EncryptedKey(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_set_EncryptedKey(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_get_S2K(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle _Handle, TElPGPS2KHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricKeyEncryptedSessionKeyEntity_Create(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSYMMETRICKEYENCRYPTEDSESSIONKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPONEPASSSIGNATUREENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_Assign(TElPGPOnePassSignatureEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_AssignTo(TElPGPOnePassSignatureEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_SignatureClass(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_SignatureClass(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_HashAlgorithm(TElPGPOnePassSignatureEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_HashAlgorithm(TElPGPOnePassSignatureEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_PublicKeyAlgorithm(TElPGPOnePassSignatureEntityHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_PublicKeyAlgorithm(TElPGPOnePassSignatureEntityHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_KeyID(TElPGPOnePassSignatureEntityHandle _Handle, TSBKeyID * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_KeyID(TElPGPOnePassSignatureEntityHandle _Handle, TSBKeyID * Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_Version(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_Version(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_get_Nested(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_set_Nested(TElPGPOnePassSignatureEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPOnePassSignatureEntity_Create(TElPGPOnePassSignatureEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPONEPASSSIGNATUREENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSECRETKEYENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_Assign(TElPGPSecretKeyEntityHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_AssignTo(TElPGPSecretKeyEntityHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_get_SymmetricAlgorithm(TElPGPSecretKeyEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_set_SymmetricAlgorithm(TElPGPSecretKeyEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_get_S2K(TElPGPSecretKeyEntityHandle _Handle, TElPGPS2KHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_set_S2K(TElPGPSecretKeyEntityHandle _Handle, TElPGPS2KHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_get_S2KUsage(TElPGPSecretKeyEntityHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_set_S2KUsage(TElPGPSecretKeyEntityHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_get_IV(TElPGPSecretKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_set_IV(TElPGPSecretKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_get_EncryptedKey(TElPGPSecretKeyEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_set_EncryptedKey(TElPGPSecretKeyEntityHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_Create(TElPGPSecretKeyEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSecretKeyEntity_Create_1(int8_t Subkey, TElPGPSecretKeyEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSECRETKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMINGENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_DataAvailable(TElPGPStreamingEntityHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_LoadFromStream(TElPGPStreamingEntityHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_SaveToStream(TElPGPStreamingEntityHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_Save(TElPGPStreamingEntityHandle _Handle, void * AReadUserData, void * AWriteUserData);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_get_WriteFixedLength(TElPGPStreamingEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_set_WriteFixedLength(TElPGPStreamingEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_get_OnHeaderProcessed(TElPGPStreamingEntityHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_set_OnHeaderProcessed(TElPGPStreamingEntityHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_get_OnTemporaryStream(TElPGPStreamingEntityHandle _Handle, TSBPGPTemporaryStreamEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_set_OnTemporaryStream(TElPGPStreamingEntityHandle _Handle, TSBPGPTemporaryStreamEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamingEntity_Create(TElPGPStreamingEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSTREAMINGENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPLITERAL
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_Assign(TElPGPLiteralHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_AssignTo(TElPGPLiteralHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_get_Filename(TElPGPLiteralHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_set_Filename(TElPGPLiteralHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_get_Timestamp(TElPGPLiteralHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_set_Timestamp(TElPGPLiteralHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_get_TextMode(TElPGPLiteralHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_set_TextMode(TElPGPLiteralHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPLiteral_Create(TElPGPLiteralHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPLITERAL */
+
+#ifdef SB_USE_CLASS_TELPGPSYMMETRICALLYENCRYPTED
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_Assign(TElPGPSymmetricallyEncryptedHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_AssignTo(TElPGPSymmetricallyEncryptedHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_get_IntegrityProtected(TElPGPSymmetricallyEncryptedHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_set_IntegrityProtected(TElPGPSymmetricallyEncryptedHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_get_Version(TElPGPSymmetricallyEncryptedHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_set_Version(TElPGPSymmetricallyEncryptedHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPSymmetricallyEncrypted_Create(TElPGPSymmetricallyEncryptedHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSYMMETRICALLYENCRYPTED */
+
+#ifdef SB_USE_CLASS_TELPGPCOMPRESSED
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCompressed_Assign(TElPGPCompressedHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCompressed_AssignTo(TElPGPCompressedHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCompressed_get_Algorithm(TElPGPCompressedHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCompressed_set_Algorithm(TElPGPCompressedHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPCompressed_Create(TElPGPCompressedHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPCOMPRESSED */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMPROCESSOR
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_Assign(TElPGPStreamProcessorHandle _Handle, TPersistentHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_AssignTo(TElPGPStreamProcessorHandle _Handle, TPersistentHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_Process(TElPGPStreamProcessorHandle _Handle, void * AReadUserData, void * AWriteUserData);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_ProcessStream(TElPGPStreamProcessorHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_DataAvailable(TElPGPStreamProcessorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_CurrentEntity(TElPGPStreamProcessorHandle _Handle, TElPGPEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_Empty(TElPGPStreamProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_Empty(TElPGPStreamProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_AsyncMode(TElPGPStreamProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_AsyncMode(TElPGPStreamProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_ReadUserData(TElPGPStreamProcessorHandle _Handle, void * * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_WriteUserData(TElPGPStreamProcessorHandle _Handle, void * * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_OnRead(TElPGPStreamProcessorHandle _Handle, TSBPGPReadEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_OnRead(TElPGPStreamProcessorHandle _Handle, TSBPGPReadEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_OnWrite(TElPGPStreamProcessorHandle _Handle, TSBPGPWriteEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_OnWrite(TElPGPStreamProcessorHandle _Handle, TSBPGPWriteEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_OnPacket(TElPGPStreamProcessorHandle _Handle, TSBPGPPacketEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_OnPacket(TElPGPStreamProcessorHandle _Handle, TSBPGPPacketEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_OnPacketProcessed(TElPGPStreamProcessorHandle _Handle, TSBPGPPacketProcessedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_OnPacketProcessed(TElPGPStreamProcessorHandle _Handle, TSBPGPPacketProcessedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_get_OnFinish(TElPGPStreamProcessorHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_set_OnFinish(TElPGPStreamProcessorHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamProcessor_Create(TElPGPStreamProcessorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSTREAMPROCESSOR */
+
+#ifdef SB_USE_CLASS_TELPGPSTUBENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStubEntity_Create(TElPGPEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSTUBENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMIO
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamIO_Read(TElPGPStreamIOHandle _Handle, TObjectHandle Sender, void * UserData, void * Buffer, int32_t MaxSize, int32_t * Written, int8_t * Last);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamIO_Write(TElPGPStreamIOHandle _Handle, TObjectHandle Sender, void * UserData, void * Buffer, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamIO_get_Stream(TElPGPStreamIOHandle _Handle, TStreamHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamIO_set_Stream(TElPGPStreamIOHandle _Handle, TStreamHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElPGPStreamIO_Create(TStreamHandle Strm, TElPGPStreamIOHandle * OutResult);
+#endif /* SB_USE_CLASS_TELPGPSTREAMIO */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElPGPEntity;
+typedef TElPGPEntity ElPGPEntity;
+class TElPGPSecretKeyEntity;
+typedef TElPGPSecretKeyEntity ElPGPSecretKeyEntity;
+class TElPGPS2K;
+typedef TElPGPS2K ElPGPS2K;
+class TElPGPUserIDEntity;
+typedef TElPGPUserIDEntity ElPGPUserIDEntity;
+class TElPGPUserAttrSubpacket;
+typedef TElPGPUserAttrSubpacket ElPGPUserAttrSubpacket;
+class TElPGPUserAttrImageSubpacket;
+typedef TElPGPUserAttrImageSubpacket ElPGPUserAttrImageSubpacket;
+class TElPGPUserAttrEntity;
+typedef TElPGPUserAttrEntity ElPGPUserAttrEntity;
+class TElPGPSignatureEntity;
+typedef TElPGPSignatureEntity ElPGPSignatureEntity;
+class TElPGPSignatureSubpacket;
+typedef TElPGPSignatureSubpacket ElPGPSignatureSubpacket;
+class TElPGPCreationTimeSignatureSubpacket;
+typedef TElPGPCreationTimeSignatureSubpacket ElPGPCreationTimeSignatureSubpacket;
+class TElPGPExpirationTimeSignatureSubpacket;
+typedef TElPGPExpirationTimeSignatureSubpacket ElPGPExpirationTimeSignatureSubpacket;
+class TElPGPEmbeddedSignatureSignatureSubpacket;
+typedef TElPGPEmbeddedSignatureSignatureSubpacket ElPGPEmbeddedSignatureSignatureSubpacket;
+class TElPGPExportableCertificationSignatureSubpacket;
+typedef TElPGPExportableCertificationSignatureSubpacket ElPGPExportableCertificationSignatureSubpacket;
+class TElPGPTrustSignatureSubpacket;
+typedef TElPGPTrustSignatureSubpacket ElPGPTrustSignatureSubpacket;
+class TElPGPRegularExpressionSignatureSubpacket;
+typedef TElPGPRegularExpressionSignatureSubpacket ElPGPRegularExpressionSignatureSubpacket;
+class TElPGPRevocableSignatureSubpacket;
+typedef TElPGPRevocableSignatureSubpacket ElPGPRevocableSignatureSubpacket;
+class TElPGPKeyExpirationTimeSignatureSubpacket;
+typedef TElPGPKeyExpirationTimeSignatureSubpacket ElPGPKeyExpirationTimeSignatureSubpacket;
+class TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket;
+typedef TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket ElPGPPreferredSymmetricAlgorithmsSignatureSubpacket;
+class TElPGPRevocationKeySignatureSubpacket;
+typedef TElPGPRevocationKeySignatureSubpacket ElPGPRevocationKeySignatureSubpacket;
+class TElPGPIssuerKeyIDSignatureSubpacket;
+typedef TElPGPIssuerKeyIDSignatureSubpacket ElPGPIssuerKeyIDSignatureSubpacket;
+class TElPGPNotationDataSignatureSubpacket;
+typedef TElPGPNotationDataSignatureSubpacket ElPGPNotationDataSignatureSubpacket;
+class TElPGPPreferredHashAlgorithmsSignatureSubpacket;
+typedef TElPGPPreferredHashAlgorithmsSignatureSubpacket ElPGPPreferredHashAlgorithmsSignatureSubpacket;
+class TElPGPPreferredCompressionAlgorithmsSignatureSubpacket;
+typedef TElPGPPreferredCompressionAlgorithmsSignatureSubpacket ElPGPPreferredCompressionAlgorithmsSignatureSubpacket;
+class TElPGPKeyServerPreferencesSignatureSubpacket;
+typedef TElPGPKeyServerPreferencesSignatureSubpacket ElPGPKeyServerPreferencesSignatureSubpacket;
+class TElPGPPreferredKeyServerSignatureSubpacket;
+typedef TElPGPPreferredKeyServerSignatureSubpacket ElPGPPreferredKeyServerSignatureSubpacket;
+class TElPGPPrimaryUserIDSignatureSubpacket;
+typedef TElPGPPrimaryUserIDSignatureSubpacket ElPGPPrimaryUserIDSignatureSubpacket;
+class TElPGPPolicyURLSignatureSubpacket;
+typedef TElPGPPolicyURLSignatureSubpacket ElPGPPolicyURLSignatureSubpacket;
+class TElPGPKeyFlagsSignatureSubpacket;
+typedef TElPGPKeyFlagsSignatureSubpacket ElPGPKeyFlagsSignatureSubpacket;
+class TElPGPSignersUserIDSignatureSubpacket;
+typedef TElPGPSignersUserIDSignatureSubpacket ElPGPSignersUserIDSignatureSubpacket;
+class TElPGPReasonForRevocationSignatureSubpacket;
+typedef TElPGPReasonForRevocationSignatureSubpacket ElPGPReasonForRevocationSignatureSubpacket;
+class TElPGPFeaturesSignatureSubpacket;
+typedef TElPGPFeaturesSignatureSubpacket ElPGPFeaturesSignatureSubpacket;
+class TElPGPTargetSignatureSubpacket;
+typedef TElPGPTargetSignatureSubpacket ElPGPTargetSignatureSubpacket;
+class TElPGPX509SignatureSubpacket;
+typedef TElPGPX509SignatureSubpacket ElPGPX509SignatureSubpacket;
+class TElPGPSignatureSubpackets;
+typedef TElPGPSignatureSubpackets ElPGPSignatureSubpackets;
+class TElPGPTrustEntity;
+typedef TElPGPTrustEntity ElPGPTrustEntity;
+class TElPGPPublicKeyEncryptedSessionKeyEntity;
+typedef TElPGPPublicKeyEncryptedSessionKeyEntity ElPGPPublicKeyEncryptedSessionKeyEntity;
+class TElPGPSymmetricKeyEncryptedSessionKeyEntity;
+typedef TElPGPSymmetricKeyEncryptedSessionKeyEntity ElPGPSymmetricKeyEncryptedSessionKeyEntity;
+class TElPGPOnePassSignatureEntity;
+typedef TElPGPOnePassSignatureEntity ElPGPOnePassSignatureEntity;
+class TElPGPPublicKeyEntity;
+typedef TElPGPPublicKeyEntity ElPGPPublicKeyEntity;
+class TElPGPStreamingEntity;
+typedef TElPGPStreamingEntity ElPGPStreamingEntity;
+class TElPGPLiteral;
+typedef TElPGPLiteral ElPGPLiteral;
+class TElPGPSymmetricallyEncrypted;
+typedef TElPGPSymmetricallyEncrypted ElPGPSymmetricallyEncrypted;
+class TElPGPCompressed;
+typedef TElPGPCompressed ElPGPCompressed;
+class TElPGPStreamProcessor;
+typedef TElPGPStreamProcessor ElPGPStreamProcessor;
+class TElPGPStubEntity;
+typedef TElPGPStubEntity ElPGPStubEntity;
+class TElPGPStreamIO;
+
+#ifdef SB_USE_CLASS_TELPGPENTITY
+class TElPGPEntity: public TPersistent
+{
+	private:
+		SB_DISABLE_COPY(TElPGPEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		void Load(void * AReadUserData, void * AWriteUserData);
+
+		virtual void Save(void * AReadUserData, void * AWriteUserData);
+
+		virtual void DataAvailable();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual uint32_t get_WriteFlags();
+
+		virtual void set_WriteFlags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_WriteFlags, set_WriteFlags, TElPGPEntity, WriteFlags);
+
+		virtual bool get_AsyncMode();
+
+		virtual void set_AsyncMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AsyncMode, set_AsyncMode, TElPGPEntity, AsyncMode);
+
+		virtual uint8_t get_PacketType();
+
+		SB_DECLARE_PROPERTY_GET(uint8_t, get_PacketType, TElPGPEntity, PacketType);
+
+		virtual uint32_t get_BytesLeft();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_BytesLeft, TElPGPEntity, BytesLeft);
+
+		virtual bool get_OldPacket();
+
+		virtual void set_OldPacket(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OldPacket, set_OldPacket, TElPGPEntity, OldPacket);
+
+		virtual bool get_ForceUndefLenProcessing();
+
+		virtual void set_ForceUndefLenProcessing(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ForceUndefLenProcessing, set_ForceUndefLenProcessing, TElPGPEntity, ForceUndefLenProcessing);
+
+		virtual void get_OnRead(TSBPGPReadEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnRead(TSBPGPReadEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnWrite(TSBPGPWriteEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnWrite(TSBPGPWriteEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnFinish(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnFinish(TNotifyEvent pMethodValue, void * pDataValue);
+
+		TElPGPEntity(TElPGPEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPPUBLICKEYENTITY
+class TElPGPPublicKeyEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPublicKeyEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+#ifdef SB_USE_CLASS_TELPGPSECRETKEYENTITY
+		void AssignFromSecret(TElPGPSecretKeyEntity &Source);
+
+		void AssignFromSecret(TElPGPSecretKeyEntity *Source);
+#endif /* SB_USE_CLASS_TELPGPSECRETKEYENTITY */
+
+		virtual int64_t get_Timestamp();
+
+		virtual void set_Timestamp(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_Timestamp, set_Timestamp, TElPGPPublicKeyEntity, Timestamp);
+
+		virtual int32_t get_Expires();
+
+		virtual void set_Expires(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Expires, set_Expires, TElPGPPublicKeyEntity, Expires);
+
+		virtual uint8_t get_PublicKeyAlgorithm();
+
+		virtual void set_PublicKeyAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_PublicKeyAlgorithm, set_PublicKeyAlgorithm, TElPGPPublicKeyEntity, PublicKeyAlgorithm);
+
+		virtual void get_KeyMaterial(int32_t Index, std::vector<uint8_t> &OutResult);
+
+		virtual void set_KeyMaterial(int32_t Index, const std::vector<uint8_t> &Value);
+
+		virtual int32_t get_Version();
+
+		virtual void set_Version(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Version, set_Version, TElPGPPublicKeyEntity, Version);
+
+		virtual void get_CurveOID(std::vector<uint8_t> &OutResult);
+
+		virtual void set_CurveOID(const std::vector<uint8_t> &Value);
+
+		virtual uint8_t get_KDFHashAlgorithm();
+
+		virtual void set_KDFHashAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_KDFHashAlgorithm, set_KDFHashAlgorithm, TElPGPPublicKeyEntity, KDFHashAlgorithm);
+
+		virtual uint8_t get_KEKSymmetricAlgorithm();
+
+		virtual void set_KEKSymmetricAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_KEKSymmetricAlgorithm, set_KEKSymmetricAlgorithm, TElPGPPublicKeyEntity, KEKSymmetricAlgorithm);
+
+		virtual void get_RSAPublicModulus(std::vector<uint8_t> &OutResult);
+
+		virtual void set_RSAPublicModulus(const std::vector<uint8_t> &Value);
+
+		virtual void get_RSAPublicExponent(std::vector<uint8_t> &OutResult);
+
+		virtual void set_RSAPublicExponent(const std::vector<uint8_t> &Value);
+
+		virtual void get_DSAPublicPrime(std::vector<uint8_t> &OutResult);
+
+		virtual void set_DSAPublicPrime(const std::vector<uint8_t> &Value);
+
+		virtual void get_DSAPublicGroupOrder(std::vector<uint8_t> &OutResult);
+
+		virtual void set_DSAPublicGroupOrder(const std::vector<uint8_t> &Value);
+
+		virtual void get_DSAPublicGroupGenerator(std::vector<uint8_t> &OutResult);
+
+		virtual void set_DSAPublicGroupGenerator(const std::vector<uint8_t> &Value);
+
+		virtual void get_DSAPublicKeyValue(std::vector<uint8_t> &OutResult);
+
+		virtual void set_DSAPublicKeyValue(const std::vector<uint8_t> &Value);
+
+		virtual void get_ElGamalPrime(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ElGamalPrime(const std::vector<uint8_t> &Value);
+
+		virtual void get_ElGamalGroupGenerator(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ElGamalGroupGenerator(const std::vector<uint8_t> &Value);
+
+		virtual void get_ElGamalPublicKeyValue(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ElGamalPublicKeyValue(const std::vector<uint8_t> &Value);
+
+		virtual void get_ECPublicKey(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ECPublicKey(const std::vector<uint8_t> &Value);
+
+		TElPGPPublicKeyEntity(TElPGPPublicKeyEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPublicKeyEntity();
+
+		explicit TElPGPPublicKeyEntity(bool Subkey);
+
+};
+#endif /* SB_USE_CLASS_TELPGPPUBLICKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPS2K
+class TElPGPS2K: public TPersistent
+{
+	private:
+		SB_DISABLE_COPY(TElPGPS2K)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		int32_t Load(const std::vector<uint8_t> &Buffer, int32_t Offset);
+
+		void Save(std::vector<uint8_t> &OutResult);
+
+		virtual void GetSymmetricKey(const std::string &Passphrase, int32_t Needed, std::vector<uint8_t> &OutResult);
+
+		virtual uint8_t get_S2KType();
+
+		virtual void set_S2KType(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_S2KType, set_S2KType, TElPGPS2K, S2KType);
+
+		virtual void get_Salt(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Salt(const std::vector<uint8_t> &Value);
+
+		virtual uint8_t get_Count();
+
+		virtual void set_Count(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Count, set_Count, TElPGPS2K, Count);
+
+		virtual int32_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_HashAlgorithm, set_HashAlgorithm, TElPGPS2K, HashAlgorithm);
+
+		TElPGPS2K(TElPGPS2KHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPS2K();
+
+};
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+#ifdef SB_USE_CLASS_TELPGPUSERIDENTITY
+class TElPGPUserIDEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPUserIDEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_Name(std::string &OutResult);
+
+		virtual void set_Name(const std::string &Value);
+
+		TElPGPUserIDEntity(TElPGPUserIDEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPUserIDEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPUSERIDENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRSUBPACKET
+class TElPGPUserAttrSubpacket: public TPersistent
+{
+	private:
+		SB_DISABLE_COPY(TElPGPUserAttrSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool Compare(TElPGPUserAttrSubpacket &Source);
+
+		virtual bool Compare(TElPGPUserAttrSubpacket *Source);
+
+		virtual uint8_t get_SubpacketType();
+
+		virtual void set_SubpacketType(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_SubpacketType, set_SubpacketType, TElPGPUserAttrSubpacket, SubpacketType);
+
+		TElPGPUserAttrSubpacket(TElPGPUserAttrSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPUserAttrSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPUSERATTRSUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRIMAGESUBPACKET
+class TElPGPUserAttrImageSubpacket: public TElPGPUserAttrSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPUserAttrImageSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool Compare(TElPGPUserAttrSubpacket &Source);
+
+		virtual bool Compare(TElPGPUserAttrSubpacket *Source);
+
+		virtual uint8_t get_HeaderVersion();
+
+		virtual void set_HeaderVersion(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_HeaderVersion, set_HeaderVersion, TElPGPUserAttrImageSubpacket, HeaderVersion);
+
+		virtual uint8_t get_ImageFormat();
+
+		virtual void set_ImageFormat(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_ImageFormat, set_ImageFormat, TElPGPUserAttrImageSubpacket, ImageFormat);
+
+		virtual void get_ImageData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ImageData(const std::vector<uint8_t> &Value);
+
+		TElPGPUserAttrImageSubpacket(TElPGPUserAttrImageSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPUserAttrImageSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPUSERATTRIMAGESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPUSERATTRENTITY
+class TElPGPUserAttrEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPUserAttrEntity)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Subpackets;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Subpackets();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Subpackets, TElPGPUserAttrEntity, Subpackets);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElPGPUserAttrEntity(TElPGPUserAttrEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPUserAttrEntity();
+
+		virtual ~TElPGPUserAttrEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPUSERATTRENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATUREENTITY
+class TElPGPSignatureEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSignatureEntity)
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS
+		TElPGPSignatureSubpackets* _Inst_Subpackets;
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Version();
+
+		virtual void set_Version(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Version, set_Version, TElPGPSignatureEntity, Version);
+
+		virtual uint8_t get_SignatureClass();
+
+		virtual void set_SignatureClass(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_SignatureClass, set_SignatureClass, TElPGPSignatureEntity, SignatureClass);
+
+		virtual int64_t get_CreationTime();
+
+		virtual void set_CreationTime(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CreationTime, set_CreationTime, TElPGPSignatureEntity, CreationTime);
+
+		virtual void get_KeyID(TSBKeyID &OutResult);
+
+		virtual void set_KeyID(TSBKeyID &Value);
+
+		virtual int32_t get_PublicKeyAlgorithm();
+
+		virtual void set_PublicKeyAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PublicKeyAlgorithm, set_PublicKeyAlgorithm, TElPGPSignatureEntity, PublicKeyAlgorithm);
+
+		virtual int32_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_HashAlgorithm, set_HashAlgorithm, TElPGPSignatureEntity, HashAlgorithm);
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS
+		virtual TElPGPSignatureSubpackets* get_Subpackets();
+
+		SB_DECLARE_PROPERTY_GET(TElPGPSignatureSubpackets*, get_Subpackets, TElPGPSignatureEntity, Subpackets);
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS */
+
+		virtual void get_SignatureMaterial(TSBPGPSignatureMaterial &OutResult);
+
+		virtual void set_SignatureMaterial(TSBPGPSignatureMaterial &Value);
+
+		virtual uint16_t get_LeftBits();
+
+		virtual void set_LeftBits(uint16_t Value);
+
+		SB_DECLARE_PROPERTY(uint16_t, get_LeftBits, set_LeftBits, TElPGPSignatureEntity, LeftBits);
+
+		TElPGPSignatureEntity(TElPGPSignatureEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSignatureEntity();
+
+		virtual ~TElPGPSignatureEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSIGNATUREENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKET
+class TElPGPSignatureSubpacket: public TPersistent
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_Hashed();
+
+		virtual void set_Hashed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Hashed, set_Hashed, TElPGPSignatureSubpacket, Hashed);
+
+		virtual bool get_Critical();
+
+		virtual void set_Critical(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Critical, set_Critical, TElPGPSignatureSubpacket, Critical);
+
+		virtual uint8_t get_SubpacketType();
+
+		SB_DECLARE_PROPERTY_GET(uint8_t, get_SubpacketType, TElPGPSignatureSubpacket, SubpacketType);
+
+		TElPGPSignatureSubpacket(TElPGPSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPCREATIONTIMESIGNATURESUBPACKET
+class TElPGPCreationTimeSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPCreationTimeSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual int64_t get_CreationTime();
+
+		virtual void set_CreationTime(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CreationTime, set_CreationTime, TElPGPCreationTimeSignatureSubpacket, CreationTime);
+
+		TElPGPCreationTimeSignatureSubpacket(TElPGPCreationTimeSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPCreationTimeSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPCREATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEXPIRATIONTIMESIGNATURESUBPACKET
+class TElPGPExpirationTimeSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPExpirationTimeSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual int32_t get_ExpirationTime();
+
+		virtual void set_ExpirationTime(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_ExpirationTime, set_ExpirationTime, TElPGPExpirationTimeSignatureSubpacket, ExpirationTime);
+
+		TElPGPExpirationTimeSignatureSubpacket(TElPGPExpirationTimeSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPExpirationTimeSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPEXPIRATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEMBEDDEDSIGNATURESIGNATURESUBPACKET
+class TElPGPEmbeddedSignatureSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPEmbeddedSignatureSignatureSubpacket)
+#ifdef SB_USE_CLASS_TELPGPSIGNATUREENTITY
+		TElPGPSignatureEntity* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELPGPSIGNATUREENTITY */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATUREENTITY
+		virtual TElPGPSignatureEntity* get_Signature();
+
+		virtual void set_Signature(TElPGPSignatureEntity &Value);
+
+		virtual void set_Signature(TElPGPSignatureEntity *Value);
+
+		SB_DECLARE_PROPERTY(TElPGPSignatureEntity*, get_Signature, set_Signature, TElPGPEmbeddedSignatureSignatureSubpacket, Signature);
+#endif /* SB_USE_CLASS_TELPGPSIGNATUREENTITY */
+
+		TElPGPEmbeddedSignatureSignatureSubpacket(TElPGPEmbeddedSignatureSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPEmbeddedSignatureSignatureSubpacket();
+
+		virtual ~TElPGPEmbeddedSignatureSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPEMBEDDEDSIGNATURESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPEXPORTABLECERTIFICATIONSIGNATURESUBPACKET
+class TElPGPExportableCertificationSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPExportableCertificationSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_Exportable();
+
+		virtual void set_Exportable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Exportable, set_Exportable, TElPGPExportableCertificationSignatureSubpacket, Exportable);
+
+		TElPGPExportableCertificationSignatureSubpacket(TElPGPExportableCertificationSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPExportableCertificationSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPEXPORTABLECERTIFICATIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPTRUSTSIGNATURESUBPACKET
+class TElPGPTrustSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPTrustSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Level();
+
+		virtual void set_Level(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Level, set_Level, TElPGPTrustSignatureSubpacket, Level);
+
+		virtual uint8_t get_Amount();
+
+		virtual void set_Amount(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Amount, set_Amount, TElPGPTrustSignatureSubpacket, Amount);
+
+		TElPGPTrustSignatureSubpacket(TElPGPTrustSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPTrustSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPTRUSTSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREGULAREXPRESSIONSIGNATURESUBPACKET
+class TElPGPRegularExpressionSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPRegularExpressionSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_Expression(std::string &OutResult);
+
+		virtual void set_Expression(const std::string &Value);
+
+		TElPGPRegularExpressionSignatureSubpacket(TElPGPRegularExpressionSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPRegularExpressionSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPREGULAREXPRESSIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREVOCABLESIGNATURESUBPACKET
+class TElPGPRevocableSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPRevocableSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_Revocable();
+
+		virtual void set_Revocable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Revocable, set_Revocable, TElPGPRevocableSignatureSubpacket, Revocable);
+
+		TElPGPRevocableSignatureSubpacket(TElPGPRevocableSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPRevocableSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPREVOCABLESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYEXPIRATIONTIMESIGNATURESUBPACKET
+class TElPGPKeyExpirationTimeSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPKeyExpirationTimeSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual int32_t get_Expires();
+
+		virtual void set_Expires(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Expires, set_Expires, TElPGPKeyExpirationTimeSignatureSubpacket, Expires);
+
+		TElPGPKeyExpirationTimeSignatureSubpacket(TElPGPKeyExpirationTimeSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPKeyExpirationTimeSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPKEYEXPIRATIONTIMESIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDSYMMETRICALGORITHMSSIGNATURESUBPACKET
+class TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Preferred(int32_t Index);
+
+		virtual void set_Preferred(int32_t Index, uint8_t Value);
+
+		virtual int32_t get_PreferredCount();
+
+		virtual void set_PreferredCount(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PreferredCount, set_PreferredCount, TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket, PreferredCount);
+
+		TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket(TElPGPPreferredSymmetricAlgorithmsSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPreferredSymmetricAlgorithmsSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPREFERREDSYMMETRICALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREVOCATIONKEYSIGNATURESUBPACKET
+class TElPGPRevocationKeySignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPRevocationKeySignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_RevClass();
+
+		virtual void set_RevClass(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_RevClass, set_RevClass, TElPGPRevocationKeySignatureSubpacket, RevClass);
+
+		virtual uint8_t get_AlgID();
+
+		virtual void set_AlgID(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_AlgID, set_AlgID, TElPGPRevocationKeySignatureSubpacket, AlgID);
+
+		virtual void get_Fingerprint(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Fingerprint(const std::vector<uint8_t> &Value);
+
+		TElPGPRevocationKeySignatureSubpacket(TElPGPRevocationKeySignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPRevocationKeySignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPREVOCATIONKEYSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPISSUERKEYIDSIGNATURESUBPACKET
+class TElPGPIssuerKeyIDSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPIssuerKeyIDSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_KeyID(TSBKeyID &OutResult);
+
+		virtual void set_KeyID(TSBKeyID &Value);
+
+		TElPGPIssuerKeyIDSignatureSubpacket(TElPGPIssuerKeyIDSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPIssuerKeyIDSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPISSUERKEYIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPNOTATIONDATASIGNATURESUBPACKET
+class TElPGPNotationDataSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPNotationDataSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_HumanReadable();
+
+		virtual void set_HumanReadable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_HumanReadable, set_HumanReadable, TElPGPNotationDataSignatureSubpacket, HumanReadable);
+
+		virtual void get_Name(std::string &OutResult);
+
+		virtual void set_Name(const std::string &Value);
+
+		virtual void get_Value(std::string &OutResult);
+
+		virtual void set_Value(const std::string &Value);
+
+		TElPGPNotationDataSignatureSubpacket(TElPGPNotationDataSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPNotationDataSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPNOTATIONDATASIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDHASHALGORITHMSSIGNATURESUBPACKET
+class TElPGPPreferredHashAlgorithmsSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPreferredHashAlgorithmsSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Preferred(int32_t Index);
+
+		virtual void set_Preferred(int32_t Index, uint8_t Value);
+
+		virtual int32_t get_PreferredCount();
+
+		virtual void set_PreferredCount(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PreferredCount, set_PreferredCount, TElPGPPreferredHashAlgorithmsSignatureSubpacket, PreferredCount);
+
+		TElPGPPreferredHashAlgorithmsSignatureSubpacket(TElPGPPreferredHashAlgorithmsSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPreferredHashAlgorithmsSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPREFERREDHASHALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDCOMPRESSIONALGORITHMSSIGNATURESUBPACKET
+class TElPGPPreferredCompressionAlgorithmsSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPreferredCompressionAlgorithmsSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Preferred(int32_t Index);
+
+		virtual void set_Preferred(int32_t Index, uint8_t Value);
+
+		virtual int32_t get_PreferredCount();
+
+		virtual void set_PreferredCount(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PreferredCount, set_PreferredCount, TElPGPPreferredCompressionAlgorithmsSignatureSubpacket, PreferredCount);
+
+		TElPGPPreferredCompressionAlgorithmsSignatureSubpacket(TElPGPPreferredCompressionAlgorithmsSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPreferredCompressionAlgorithmsSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPREFERREDCOMPRESSIONALGORITHMSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYSERVERPREFERENCESSIGNATURESUBPACKET
+class TElPGPKeyServerPreferencesSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPKeyServerPreferencesSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_NoModify();
+
+		virtual void set_NoModify(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_NoModify, set_NoModify, TElPGPKeyServerPreferencesSignatureSubpacket, NoModify);
+
+		TElPGPKeyServerPreferencesSignatureSubpacket(TElPGPKeyServerPreferencesSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPKeyServerPreferencesSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPKEYSERVERPREFERENCESSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPREFERREDKEYSERVERSIGNATURESUBPACKET
+class TElPGPPreferredKeyServerSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPreferredKeyServerSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_URL(std::string &OutResult);
+
+		virtual void set_URL(const std::string &Value);
+
+		TElPGPPreferredKeyServerSignatureSubpacket(TElPGPPreferredKeyServerSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPreferredKeyServerSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPREFERREDKEYSERVERSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPRIMARYUSERIDSIGNATURESUBPACKET
+class TElPGPPrimaryUserIDSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPrimaryUserIDSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_Primary();
+
+		virtual void set_Primary(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Primary, set_Primary, TElPGPPrimaryUserIDSignatureSubpacket, Primary);
+
+		TElPGPPrimaryUserIDSignatureSubpacket(TElPGPPrimaryUserIDSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPrimaryUserIDSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPRIMARYUSERIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPPOLICYURLSIGNATURESUBPACKET
+class TElPGPPolicyURLSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPolicyURLSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_URL(std::string &OutResult);
+
+		virtual void set_URL(const std::string &Value);
+
+		TElPGPPolicyURLSignatureSubpacket(TElPGPPolicyURLSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPolicyURLSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPOLICYURLSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPKEYFLAGSSIGNATURESUBPACKET
+class TElPGPKeyFlagsSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPKeyFlagsSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_CertifyOtherKeys();
+
+		virtual void set_CertifyOtherKeys(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CertifyOtherKeys, set_CertifyOtherKeys, TElPGPKeyFlagsSignatureSubpacket, CertifyOtherKeys);
+
+		virtual bool get_SignData();
+
+		virtual void set_SignData(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SignData, set_SignData, TElPGPKeyFlagsSignatureSubpacket, SignData);
+
+		virtual bool get_EncryptData();
+
+		virtual void set_EncryptData(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_EncryptData, set_EncryptData, TElPGPKeyFlagsSignatureSubpacket, EncryptData);
+
+		virtual bool get_EncryptStorage();
+
+		virtual void set_EncryptStorage(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_EncryptStorage, set_EncryptStorage, TElPGPKeyFlagsSignatureSubpacket, EncryptStorage);
+
+		virtual bool get_SplitKey();
+
+		virtual void set_SplitKey(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SplitKey, set_SplitKey, TElPGPKeyFlagsSignatureSubpacket, SplitKey);
+
+		virtual bool get_GroupKey();
+
+		virtual void set_GroupKey(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_GroupKey, set_GroupKey, TElPGPKeyFlagsSignatureSubpacket, GroupKey);
+
+		TElPGPKeyFlagsSignatureSubpacket(TElPGPKeyFlagsSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPKeyFlagsSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPKEYFLAGSSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNERSUSERIDSIGNATURESUBPACKET
+class TElPGPSignersUserIDSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSignersUserIDSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_UserID(std::string &OutResult);
+
+		virtual void set_UserID(const std::string &Value);
+
+		TElPGPSignersUserIDSignatureSubpacket(TElPGPSignersUserIDSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSignersUserIDSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSIGNERSUSERIDSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPREASONFORREVOCATIONSIGNATURESUBPACKET
+class TElPGPReasonForRevocationSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPReasonForRevocationSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual TSBPGPReasonForRevocation get_Reason();
+
+		virtual void set_Reason(TSBPGPReasonForRevocation Value);
+
+		SB_DECLARE_PROPERTY(TSBPGPReasonForRevocation, get_Reason, set_Reason, TElPGPReasonForRevocationSignatureSubpacket, Reason);
+
+		virtual void get_Comment(std::string &OutResult);
+
+		virtual void set_Comment(const std::string &Value);
+
+		TElPGPReasonForRevocationSignatureSubpacket(TElPGPReasonForRevocationSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPReasonForRevocationSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPREASONFORREVOCATIONSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPFEATURESSIGNATURESUBPACKET
+class TElPGPFeaturesSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPFeaturesSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_ModificationDetection();
+
+		virtual void set_ModificationDetection(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ModificationDetection, set_ModificationDetection, TElPGPFeaturesSignatureSubpacket, ModificationDetection);
+
+		TElPGPFeaturesSignatureSubpacket(TElPGPFeaturesSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPFeaturesSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPFEATURESSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPTARGETSIGNATURESUBPACKET
+class TElPGPTargetSignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPTargetSignatureSubpacket)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_Hash(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Hash(const std::vector<uint8_t> &Value);
+
+		virtual uint8_t get_PublicKeyAlgorithm();
+
+		virtual void set_PublicKeyAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_PublicKeyAlgorithm, set_PublicKeyAlgorithm, TElPGPTargetSignatureSubpacket, PublicKeyAlgorithm);
+
+		virtual uint8_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_HashAlgorithm, set_HashAlgorithm, TElPGPTargetSignatureSubpacket, HashAlgorithm);
+
+		TElPGPTargetSignatureSubpacket(TElPGPTargetSignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPTargetSignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPTARGETSIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPX509SIGNATURESUBPACKET
+class TElPGPX509SignatureSubpacket: public TElPGPSignatureSubpacket
+{
+	private:
+		SB_DISABLE_COPY(TElPGPX509SignatureSubpacket)
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		TElX509Certificate* _Inst_Certificate;
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		virtual TElX509Certificate* get_Certificate();
+
+		SB_DECLARE_PROPERTY_GET(TElX509Certificate*, get_Certificate, TElPGPX509SignatureSubpacket, Certificate);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+		TElPGPX509SignatureSubpacket(TElPGPX509SignatureSubpacketHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPX509SignatureSubpacket();
+
+		virtual ~TElPGPX509SignatureSubpacket();
+
+};
+#endif /* SB_USE_CLASS_TELPGPX509SIGNATURESUBPACKET */
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS
+class TElPGPSignatureSubpackets: public TList
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSignatureSubpackets)
+	public:
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKET
+		TElPGPSignatureSubpacketHandle GetSubpacket(uint8_t SubpacketType, int32_t StartFrom);
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKET */
+
+		int32_t GetSubpacketCount(uint8_t SubpacketType);
+
+#ifdef SB_USE_CLASS_TELPGPSIGNATURESUBPACKET
+		virtual int32_t Add(TElPGPSignatureSubpacket &Item);
+
+		virtual int32_t Add(TElPGPSignatureSubpacket *Item);
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKET */
+
+		bool RemoveSubpacket(uint8_t SubpacketType, int32_t StartIndex);
+
+		bool RemoveSubpacketByIndex(int32_t Index);
+
+		virtual void Clear();
+
+		TElPGPSignatureSubpackets(TElPGPSignatureSubpacketsHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSignatureSubpackets();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSIGNATURESUBPACKETS */
+
+#ifdef SB_USE_CLASS_TELPGPTRUSTENTITY
+class TElPGPTrustEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPTrustEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Flags();
+
+		virtual void set_Flags(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Flags, set_Flags, TElPGPTrustEntity, Flags);
+
+		TElPGPTrustEntity(TElPGPTrustEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPTrustEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPTRUSTENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPPUBLICKEYENCRYPTEDSESSIONKEYENTITY
+class TElPGPPublicKeyEncryptedSessionKeyEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPPublicKeyEncryptedSessionKeyEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_KeyID(TSBKeyID &OutResult);
+
+		virtual void set_KeyID(TSBKeyID &Value);
+
+		virtual int32_t get_PublicKeyAlgorithm();
+
+		virtual void set_PublicKeyAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PublicKeyAlgorithm, set_PublicKeyAlgorithm, TElPGPPublicKeyEncryptedSessionKeyEntity, PublicKeyAlgorithm);
+
+		virtual void get_EncryptedKey(TSBPGPEncryptedSymmetricKey &OutResult);
+
+		virtual void set_EncryptedKey(TSBPGPEncryptedSymmetricKey &Value);
+
+		TElPGPPublicKeyEncryptedSessionKeyEntity(TElPGPPublicKeyEncryptedSessionKeyEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPPublicKeyEncryptedSessionKeyEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPPUBLICKEYENCRYPTEDSESSIONKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSYMMETRICKEYENCRYPTEDSESSIONKEYENTITY
+class TElPGPSymmetricKeyEncryptedSessionKeyEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSymmetricKeyEncryptedSessionKeyEntity)
+#ifdef SB_USE_CLASS_TELPGPS2K
+		TElPGPS2K* _Inst_S2K;
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual int32_t get_SymmetricAlgorithm();
+
+		virtual void set_SymmetricAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_SymmetricAlgorithm, set_SymmetricAlgorithm, TElPGPSymmetricKeyEncryptedSessionKeyEntity, SymmetricAlgorithm);
+
+		virtual void get_EncryptedKey(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedKey(const std::vector<uint8_t> &Value);
+
+#ifdef SB_USE_CLASS_TELPGPS2K
+		virtual TElPGPS2K* get_S2K();
+
+		SB_DECLARE_PROPERTY_GET(TElPGPS2K*, get_S2K, TElPGPSymmetricKeyEncryptedSessionKeyEntity, S2K);
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+		TElPGPSymmetricKeyEncryptedSessionKeyEntity(TElPGPSymmetricKeyEncryptedSessionKeyEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSymmetricKeyEncryptedSessionKeyEntity();
+
+		virtual ~TElPGPSymmetricKeyEncryptedSessionKeyEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSYMMETRICKEYENCRYPTEDSESSIONKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPONEPASSSIGNATUREENTITY
+class TElPGPOnePassSignatureEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPOnePassSignatureEntity)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_SignatureClass();
+
+		virtual void set_SignatureClass(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_SignatureClass, set_SignatureClass, TElPGPOnePassSignatureEntity, SignatureClass);
+
+		virtual int32_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_HashAlgorithm, set_HashAlgorithm, TElPGPOnePassSignatureEntity, HashAlgorithm);
+
+		virtual int32_t get_PublicKeyAlgorithm();
+
+		virtual void set_PublicKeyAlgorithm(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_PublicKeyAlgorithm, set_PublicKeyAlgorithm, TElPGPOnePassSignatureEntity, PublicKeyAlgorithm);
+
+		virtual void get_KeyID(TSBKeyID &OutResult);
+
+		virtual void set_KeyID(TSBKeyID &Value);
+
+		virtual uint8_t get_Version();
+
+		virtual void set_Version(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Version, set_Version, TElPGPOnePassSignatureEntity, Version);
+
+		virtual uint8_t get_Nested();
+
+		virtual void set_Nested(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Nested, set_Nested, TElPGPOnePassSignatureEntity, Nested);
+
+		TElPGPOnePassSignatureEntity(TElPGPOnePassSignatureEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPOnePassSignatureEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPONEPASSSIGNATUREENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSECRETKEYENTITY
+class TElPGPSecretKeyEntity: public TElPGPPublicKeyEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSecretKeyEntity)
+#ifdef SB_USE_CLASS_TELPGPS2K
+		TElPGPS2K* _Inst_S2K;
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_SymmetricAlgorithm();
+
+		virtual void set_SymmetricAlgorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_SymmetricAlgorithm, set_SymmetricAlgorithm, TElPGPSecretKeyEntity, SymmetricAlgorithm);
+
+#ifdef SB_USE_CLASS_TELPGPS2K
+		virtual TElPGPS2K* get_S2K();
+
+		virtual void set_S2K(TElPGPS2K &Value);
+
+		virtual void set_S2K(TElPGPS2K *Value);
+
+		SB_DECLARE_PROPERTY(TElPGPS2K*, get_S2K, set_S2K, TElPGPSecretKeyEntity, S2K);
+#endif /* SB_USE_CLASS_TELPGPS2K */
+
+		virtual uint8_t get_S2KUsage();
+
+		virtual void set_S2KUsage(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_S2KUsage, set_S2KUsage, TElPGPSecretKeyEntity, S2KUsage);
+
+		virtual void get_IV(std::vector<uint8_t> &OutResult);
+
+		virtual void set_IV(const std::vector<uint8_t> &Value);
+
+		virtual void get_EncryptedKey(std::vector<uint8_t> &OutResult);
+
+		virtual void set_EncryptedKey(const std::vector<uint8_t> &Value);
+
+		TElPGPSecretKeyEntity(TElPGPSecretKeyEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSecretKeyEntity();
+
+		explicit TElPGPSecretKeyEntity(bool Subkey);
+
+		virtual ~TElPGPSecretKeyEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSECRETKEYENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMINGENTITY
+class TElPGPStreamingEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPStreamingEntity)
+	public:
+		virtual void DataAvailable();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void LoadFromStream(TStream &Stream);
+
+		virtual void LoadFromStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream);
+
+		virtual void SaveToStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void Save(void * AReadUserData, void * AWriteUserData);
+
+		virtual bool get_WriteFixedLength();
+
+		virtual void set_WriteFixedLength(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_WriteFixedLength, set_WriteFixedLength, TElPGPStreamingEntity, WriteFixedLength);
+
+		virtual void get_OnHeaderProcessed(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnHeaderProcessed(TNotifyEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnTemporaryStream(TSBPGPTemporaryStreamEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnTemporaryStream(TSBPGPTemporaryStreamEvent pMethodValue, void * pDataValue);
+
+		TElPGPStreamingEntity(TElPGPStreamingEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPStreamingEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSTREAMINGENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPLITERAL
+class TElPGPLiteral: public TElPGPStreamingEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPLiteral)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual void get_Filename(std::string &OutResult);
+
+		virtual void set_Filename(const std::string &Value);
+
+		virtual int64_t get_Timestamp();
+
+		virtual void set_Timestamp(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_Timestamp, set_Timestamp, TElPGPLiteral, Timestamp);
+
+		virtual bool get_TextMode();
+
+		virtual void set_TextMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_TextMode, set_TextMode, TElPGPLiteral, TextMode);
+
+		TElPGPLiteral(TElPGPLiteralHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPLiteral();
+
+};
+#endif /* SB_USE_CLASS_TELPGPLITERAL */
+
+#ifdef SB_USE_CLASS_TELPGPSYMMETRICALLYENCRYPTED
+class TElPGPSymmetricallyEncrypted: public TElPGPStreamingEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPSymmetricallyEncrypted)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual bool get_IntegrityProtected();
+
+		virtual void set_IntegrityProtected(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IntegrityProtected, set_IntegrityProtected, TElPGPSymmetricallyEncrypted, IntegrityProtected);
+
+		virtual uint8_t get_Version();
+
+		virtual void set_Version(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Version, set_Version, TElPGPSymmetricallyEncrypted, Version);
+
+		TElPGPSymmetricallyEncrypted(TElPGPSymmetricallyEncryptedHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPSymmetricallyEncrypted();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSYMMETRICALLYENCRYPTED */
+
+#ifdef SB_USE_CLASS_TELPGPCOMPRESSED
+class TElPGPCompressed: public TElPGPStreamingEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPCompressed)
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		virtual uint8_t get_Algorithm();
+
+		virtual void set_Algorithm(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_Algorithm, set_Algorithm, TElPGPCompressed, Algorithm);
+
+		TElPGPCompressed(TElPGPCompressedHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPCompressed();
+
+};
+#endif /* SB_USE_CLASS_TELPGPCOMPRESSED */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMPROCESSOR
+class TElPGPStreamProcessor: public TPersistent
+{
+	private:
+		SB_DISABLE_COPY(TElPGPStreamProcessor)
+#ifdef SB_USE_CLASS_TELPGPENTITY
+		TElPGPEntity* _Inst_CurrentEntity;
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TPersistent &Source);
+
+		virtual void Assign(TPersistent *Source);
+
+		virtual void AssignTo(TPersistent &Dest);
+
+		virtual void AssignTo(TPersistent *Dest);
+
+		void Process(void * AReadUserData, void * AWriteUserData);
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void ProcessStream(TStream &Stream);
+
+		void ProcessStream(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void DataAvailable();
+
+#ifdef SB_USE_CLASS_TELPGPENTITY
+		virtual TElPGPEntity* get_CurrentEntity();
+
+		SB_DECLARE_PROPERTY_GET(TElPGPEntity*, get_CurrentEntity, TElPGPStreamProcessor, CurrentEntity);
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+		virtual bool get_Empty();
+
+		virtual void set_Empty(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Empty, set_Empty, TElPGPStreamProcessor, Empty);
+
+		virtual bool get_AsyncMode();
+
+		virtual void set_AsyncMode(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AsyncMode, set_AsyncMode, TElPGPStreamProcessor, AsyncMode);
+
+		virtual void * get_ReadUserData();
+
+		SB_DECLARE_PROPERTY_GET(void *, get_ReadUserData, TElPGPStreamProcessor, ReadUserData);
+
+		virtual void * get_WriteUserData();
+
+		SB_DECLARE_PROPERTY_GET(void *, get_WriteUserData, TElPGPStreamProcessor, WriteUserData);
+
+		virtual void get_OnRead(TSBPGPReadEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnRead(TSBPGPReadEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnWrite(TSBPGPWriteEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnWrite(TSBPGPWriteEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnPacket(TSBPGPPacketEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnPacket(TSBPGPPacketEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnPacketProcessed(TSBPGPPacketProcessedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnPacketProcessed(TSBPGPPacketProcessedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnFinish(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnFinish(TNotifyEvent pMethodValue, void * pDataValue);
+
+		TElPGPStreamProcessor(TElPGPStreamProcessorHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPStreamProcessor();
+
+		virtual ~TElPGPStreamProcessor();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSTREAMPROCESSOR */
+
+#ifdef SB_USE_CLASS_TELPGPSTUBENTITY
+class TElPGPStubEntity: public TElPGPEntity
+{
+	private:
+		SB_DISABLE_COPY(TElPGPStubEntity)
+	public:
+		TElPGPStubEntity(TElPGPStubEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElPGPStubEntity();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSTUBENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPSTREAMIO
+class TElPGPStreamIO: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElPGPStreamIO)
+#ifdef SB_USE_CLASS_TSTREAM
+		TStream* _Inst_Stream;
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		void initInstances();
+
+	public:
+		void Read(TObject &Sender, void * UserData, void * Buffer, int32_t MaxSize, int32_t &Written, bool &Last);
+
+		void Read(TObject *Sender, void * UserData, void * Buffer, int32_t MaxSize, int32_t &Written, bool &Last);
+
+		void Write(TObject &Sender, void * UserData, void * Buffer, int32_t Size);
+
+		void Write(TObject *Sender, void * UserData, void * Buffer, int32_t Size);
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual TStream* get_Stream();
+
+		virtual void set_Stream(TStream &Value);
+
+		virtual void set_Stream(TStream *Value);
+
+		SB_DECLARE_PROPERTY(TStream*, get_Stream, set_Stream, TElPGPStreamIO, Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		TElPGPStreamIO(TElPGPStreamIOHandle handle, TElOwnHandle ownHandle);
+
+#ifdef SB_USE_CLASS_TSTREAM
+		explicit TElPGPStreamIO(TStream &Strm);
+
+		explicit TElPGPStreamIO(TStream *Strm);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual ~TElPGPStreamIO();
+
+};
+#endif /* SB_USE_CLASS_TELPGPSTREAMIO */
+
+#ifdef SB_USE_GLOBAL_PROCS_PGPENTITIES
+
+#ifdef SB_USE_CLASS_TELPGPENTITY
+TElPGPEntityHandle CreateEntity(uint8_t PktType);
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+#ifdef SB_USE_CLASS_TELPGPENTITY
+TElPGPEntityHandle CloneEntity(TElPGPEntity &Entity);
+TElPGPEntityHandle CloneEntity(TElPGPEntity *Entity);
+#endif /* SB_USE_CLASS_TELPGPENTITY */
+
+#endif /* SB_USE_GLOBAL_PROCS_PGPENTITIES */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_PGPENTITIES
+SB_IMPORT uint32_t SB_APIENTRY SBPGPEntities_CreateEntity(uint8_t PktType, TElPGPEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBPGPEntities_CloneEntity(TElPGPEntityHandle Entity, TElPGPEntityHandle * OutResult);
+#endif /* SB_USE_GLOBAL_PROCS_PGPENTITIES */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBPGPENTITIES */
+

@@ -1,0 +1,2539 @@
+#ifndef __INC_SBXMLSAMLMETADATA
+#define __INC_SBXMLSAMLMETADATA
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbcertvalidator.h"
+#include "sbcustomcertstorage.h"
+#include "sbx509.h"
+#include "sbsharedresource.h"
+#include "sbxmlcore.h"
+#include "sbxmlsig.h"
+#include "sbxmlenc.h"
+#include "sbxmlsec.h"
+#include "sbxmlutils.h"
+#include "sbxmldefs.h"
+#include "sbxmltransform.h"
+#include "sbxmlcharsets.h"
+#include "sbstreams.h"
+#include "sbstrutils.h"
+#include "sbrandom.h"
+#include "sbutils.h"
+#include "sbtypes.h"
+#include "sbxmlsamlcore.h"
+#include "sbxmlsamlbind.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+typedef TElClassHandle TElSAMLEntityDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLLocalizedNameTypeHandle;
+
+typedef TElClassHandle TElSAMLLocalizedURITypeHandle;
+
+typedef TElClassHandle TElSAMLEndpointTypeHandle;
+
+typedef TElClassHandle TElSAMLIndexedEndpointTypeHandle;
+
+typedef TElClassHandle TElSAMLMetadataRootElementHandle;
+
+typedef TElClassHandle TElSAMLEntitiesDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLKeyDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLOrganizationElementHandle;
+
+typedef TElClassHandle TElSAMLContactPersonElementHandle;
+
+typedef TElClassHandle TElSAMLRoleDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLAuthnQueryServiceElementHandle;
+
+typedef TElClassHandle TElSAMLAssertionIDRequestServiceElementHandle;
+
+typedef TElClassHandle TElSAMLAuthnAuthorityDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLAttributeServiceElementHandle;
+
+typedef TElClassHandle TElSAMLAttributeAuthorityDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLAuthzServiceElementHandle;
+
+typedef TElClassHandle TElSAMLPDPDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLAffiliationDescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLOrganizationNameElementHandle;
+
+typedef TElClassHandle TElSAMLOrganizationDisplayNameElementHandle;
+
+typedef TElClassHandle TElSAMLOrganizationURLElementHandle;
+
+typedef TElClassHandle TElSAMLAdditionalMetadataLocationElementHandle;
+
+typedef TElClassHandle TElSAMLArtifactResolutionServiceElementHandle;
+
+typedef TElClassHandle TElSAMLSingleLogoutServiceElementHandle;
+
+typedef TElClassHandle TElSAMLManageNameIDServiceElementHandle;
+
+typedef TElClassHandle TElSAMLSingleSignOnServiceElementHandle;
+
+typedef TElClassHandle TElSAMLNameIDMappingServiceElementHandle;
+
+typedef TElClassHandle TElSAMLSSODescriptorTypeHandle;
+
+typedef TElClassHandle TElSAMLIDPSSODescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLAssertionConsumerServiceElementHandle;
+
+typedef TElClassHandle TElSAMLRequestedAttributeElementHandle;
+
+typedef TElClassHandle TElSAMLServiceNameElementHandle;
+
+typedef TElClassHandle TElSAMLServiceDescriptionElementHandle;
+
+typedef TElClassHandle TElSAMLAttributeConsumingServiceElementHandle;
+
+typedef TElClassHandle TElSAMLSPSSODescriptorElementHandle;
+
+typedef TElClassHandle TElSAMLEncryptionMethodTypeHandle;
+
+typedef TElClassHandle TElSAMLMetadataHandle;
+
+typedef TElClassHandle TElSAMLEndpointHandle;
+
+typedef void (SB_CALLBACK *TSBSAMLChooseMetadataDescriptorEvent)(void * _ObjectData, TObjectHandle Sender, TElSAMLEntityDescriptorElementHandle Descriptor, int8_t * Stop);
+
+typedef uint8_t TSBSAMLMetaRootElementTypeRaw;
+
+typedef enum
+{
+	mretUnknown = 0,
+	mretSingleEntity = 1,
+	mretMultipleEntities = 2
+} TSBSAMLMetaRootElementType;
+
+typedef uint8_t TSBSAMLKeyUseRaw;
+
+typedef enum
+{
+	skuNone = 0,
+	skuEncryption = 1,
+	skuSigning = 2
+} TSBSAMLKeyUse;
+
+typedef uint8_t TSBSAMLContactTypeRaw;
+
+typedef enum
+{
+	sctTechnical = 0,
+	sctSupport = 1,
+	sctAdministrative = 2,
+	sctBilling = 3,
+	sctOther = 4
+} TSBSAMLContactType;
+
+#ifdef SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadataRootElement_DetectType(TElXMLDOMElementHandle Element, TSBSAMLMetaRootElementTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadataRootElement_DetectType_1(TElSAMLMetadataRootElementHandle _Handle, TElXMLDOMElementHandle Element, TSBSAMLMetaRootElementTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadataRootElement_Create(TElXMLCustomElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLLOCALIZEDNAMETYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_Clear(TElSAMLLocalizedNameTypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_LoadFromXML(TElSAMLLocalizedNameTypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_SaveToXML(TElSAMLLocalizedNameTypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_get_Lang(TElSAMLLocalizedNameTypeHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_set_Lang(TElSAMLLocalizedNameTypeHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedNameType_Create(TElSAMLLocalizedNameTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLLOCALIZEDNAMETYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLLOCALIZEDURITYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_Clear(TElSAMLLocalizedURITypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_LoadFromXML(TElSAMLLocalizedURITypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_SaveToXML(TElSAMLLocalizedURITypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_get_Lang(TElSAMLLocalizedURITypeHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_set_Lang(TElSAMLLocalizedURITypeHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLLocalizedURIType_Create(TElSAMLLocalizedURITypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLLOCALIZEDURITYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLENDPOINTTYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_Clear(TElSAMLEndpointTypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_LoadFromXML(TElSAMLEndpointTypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_SaveToXML(TElSAMLEndpointTypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_get_Binding(TElSAMLEndpointTypeHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_set_Binding(TElSAMLEndpointTypeHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_get_Location(TElSAMLEndpointTypeHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_set_Location(TElSAMLEndpointTypeHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_get_ResponseLocation(TElSAMLEndpointTypeHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_set_ResponseLocation(TElSAMLEndpointTypeHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpointType_Create(TElSAMLEndpointTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLENDPOINTTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLINDEXEDENDPOINTTYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_Clear(TElSAMLIndexedEndpointTypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_LoadFromXML(TElSAMLIndexedEndpointTypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_SaveToXML(TElSAMLIndexedEndpointTypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_get__Index(TElSAMLIndexedEndpointTypeHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_set__Index(TElSAMLIndexedEndpointTypeHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_get_IsDefault(TElSAMLIndexedEndpointTypeHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_set_IsDefault(TElSAMLIndexedEndpointTypeHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_get_UseDefault(TElSAMLIndexedEndpointTypeHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_set_UseDefault(TElSAMLIndexedEndpointTypeHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIndexedEndpointType_Create(TElSAMLIndexedEndpointTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLINDEXEDENDPOINTTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLENTITYDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_Clear(TElSAMLEntityDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_LoadFromXML(TElSAMLEntityDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_SaveToXML(TElSAMLEntityDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_Signed(TElSAMLEntityDescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_Signed(TElSAMLEntityDescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_ID(TElSAMLEntityDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_ID(TElSAMLEntityDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_ValidUntil(TElSAMLEntityDescriptorElementHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_ValidUntil(TElSAMLEntityDescriptorElementHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_CacheDuration(TElSAMLEntityDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_CacheDuration(TElSAMLEntityDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_Signature(TElSAMLEntityDescriptorElementHandle _Handle, TElXMLSignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_Extensions(TElSAMLEntityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_EntityID(TElSAMLEntityDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_EntityID(TElSAMLEntityDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_AffiliationDescriptor(TElSAMLEntityDescriptorElementHandle _Handle, TElSAMLAffiliationDescriptorElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_AffiliationDescriptor(TElSAMLEntityDescriptorElementHandle _Handle, TElSAMLAffiliationDescriptorElementHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_Descriptors(TElSAMLEntityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_Organization(TElSAMLEntityDescriptorElementHandle _Handle, TElSAMLOrganizationElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_set_Organization(TElSAMLEntityDescriptorElementHandle _Handle, TElSAMLOrganizationElementHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_ContactPersons(TElSAMLEntityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_get_AdditionalMetadataLocations(TElSAMLEntityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntityDescriptorElement_Create(TElSAMLEntityDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLENTITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLENTITIESDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_Clear(TElSAMLEntitiesDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_LoadFromXML(TElSAMLEntitiesDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_SaveToXML(TElSAMLEntitiesDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_Signed(TElSAMLEntitiesDescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_set_Signed(TElSAMLEntitiesDescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_ID(TElSAMLEntitiesDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_set_ID(TElSAMLEntitiesDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_ValidUntil(TElSAMLEntitiesDescriptorElementHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_set_ValidUntil(TElSAMLEntitiesDescriptorElementHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_CacheDuration(TElSAMLEntitiesDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_set_CacheDuration(TElSAMLEntitiesDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_Signature(TElSAMLEntitiesDescriptorElementHandle _Handle, TElXMLSignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_Extensions(TElSAMLEntitiesDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_Name(TElSAMLEntitiesDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_set_Name(TElSAMLEntitiesDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_get_Entities(TElSAMLEntitiesDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEntitiesDescriptorElement_Create(TElSAMLEntitiesDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLENTITIESDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLKEYDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_Clear(TElSAMLKeyDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_LoadFromXML(TElSAMLKeyDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_SaveToXML(TElSAMLKeyDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_Init(TElSAMLKeyDescriptorElementHandle _Handle, TElX509CertificateHandle Cert);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_get_Use(TElSAMLKeyDescriptorElementHandle _Handle, TSBSAMLKeyUseRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_set_Use(TElSAMLKeyDescriptorElementHandle _Handle, TSBSAMLKeyUseRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_get_KeyInfo(TElSAMLKeyDescriptorElementHandle _Handle, TElXMLKeyInfoHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_set_KeyInfo(TElSAMLKeyDescriptorElementHandle _Handle, TElXMLKeyInfoHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_get_EncryptionMethods(TElSAMLKeyDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_set_EncryptionMethods(TElSAMLKeyDescriptorElementHandle _Handle, TListHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLKeyDescriptorElement_Create(TElSAMLKeyDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLKEYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_Clear(TElSAMLOrganizationElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_LoadFromXML(TElSAMLOrganizationElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_SaveToXML(TElSAMLOrganizationElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_get_Extensions(TElSAMLOrganizationElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_get_OrganizationNames(TElSAMLOrganizationElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_get_OrganizationDisplayNames(TElSAMLOrganizationElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_get_OrganizationURLs(TElSAMLOrganizationElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationElement_Create(TElSAMLOrganizationElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLCONTACTPERSONELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_Clear(TElSAMLContactPersonElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_LoadFromXML(TElSAMLContactPersonElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_SaveToXML(TElSAMLContactPersonElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_ContactType(TElSAMLContactPersonElementHandle _Handle, TSBSAMLContactTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_set_ContactType(TElSAMLContactPersonElementHandle _Handle, TSBSAMLContactTypeRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_Extensions(TElSAMLContactPersonElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_Company(TElSAMLContactPersonElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_set_Company(TElSAMLContactPersonElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_GivenName(TElSAMLContactPersonElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_set_GivenName(TElSAMLContactPersonElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_SurName(TElSAMLContactPersonElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_set_SurName(TElSAMLContactPersonElementHandle _Handle, const char * pcValue, int32_t szValue);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_EmailAddresses(TElSAMLContactPersonElementHandle _Handle, TStringListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_TelephoneNumbers(TElSAMLContactPersonElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_EmailAddresses(TElSAMLContactPersonElementHandle _Handle, TElStringListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_get_TelephoneNumbers(TElSAMLContactPersonElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLContactPersonElement_Create(TElSAMLContactPersonElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLCONTACTPERSONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLROLEDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_Clear(TElSAMLRoleDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_LoadFromXML(TElSAMLRoleDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_SaveToXML(TElSAMLRoleDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_Signed(TElSAMLRoleDescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_Signed(TElSAMLRoleDescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ID(TElSAMLRoleDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_ID(TElSAMLRoleDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ValidUntil(TElSAMLRoleDescriptorElementHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_ValidUntil(TElSAMLRoleDescriptorElementHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_CacheDuration(TElSAMLRoleDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_CacheDuration(TElSAMLRoleDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ProtocolSupportEnumeration(TElSAMLRoleDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ProtocolSupportEnumeration(TElSAMLRoleDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ErrorURL(TElSAMLRoleDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_ErrorURL(TElSAMLRoleDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_Signature(TElSAMLRoleDescriptorElementHandle _Handle, TElXMLSignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_Extensions(TElSAMLRoleDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_KeyDescriptors(TElSAMLRoleDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_Organization(TElSAMLRoleDescriptorElementHandle _Handle, TElSAMLOrganizationElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_set_Organization(TElSAMLRoleDescriptorElementHandle _Handle, TElSAMLOrganizationElementHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_get_ContactPersons(TElSAMLRoleDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRoleDescriptorElement_Create(TElSAMLRoleDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLROLEDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHNQUERYSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnQueryServiceElement_Create(TElSAMLAuthnQueryServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLAUTHNQUERYSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLASSERTIONIDREQUESTSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAssertionIDRequestServiceElement_Create(TElSAMLAssertionIDRequestServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLASSERTIONIDREQUESTSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHNAUTHORITYDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_Clear(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_LoadFromXML(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_SaveToXML(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_get_AuthnQueryServices(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_get_AssertionIDRequestServices(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_get_NameIDFormats(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_get_NameIDFormats(TElSAMLAuthnAuthorityDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthnAuthorityDescriptorElement_Create(TElSAMLAuthnAuthorityDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLAUTHNAUTHORITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTESERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeServiceElement_Create(TElSAMLAttributeServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTESERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTEAUTHORITYDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_Clear(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_LoadFromXML(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_SaveToXML(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_AttributeServices(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_AssertionIDRequestServices(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_NameIDFormats(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_AttributeProfiles(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_NameIDFormats(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_AttributeProfiles(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_get_Attributes(TElSAMLAttributeAuthorityDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeAuthorityDescriptorElement_Create(TElSAMLAttributeAuthorityDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTEAUTHORITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHZSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAuthzServiceElement_Create(TElSAMLEndpointTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLAUTHZSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLPDPDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_Clear(TElSAMLPDPDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_LoadFromXML(TElSAMLPDPDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_SaveToXML(TElSAMLPDPDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_get_AuthzServices(TElSAMLPDPDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_get_AssertionIDRequestServices(TElSAMLPDPDescriptorElementHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_get_NameIDFormats(TElSAMLPDPDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_get_NameIDFormats(TElSAMLPDPDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLPDPDescriptorElement_Create(TElSAMLPDPDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLPDPDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_Clear(TElSAMLAffiliationDescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_LoadFromXML(TElSAMLAffiliationDescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_SaveToXML(TElSAMLAffiliationDescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_Signed(TElSAMLAffiliationDescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_set_Signed(TElSAMLAffiliationDescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_AffiliationOwnerID(TElSAMLAffiliationDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_set_AffiliationOwnerID(TElSAMLAffiliationDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_ID(TElSAMLAffiliationDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_set_ID(TElSAMLAffiliationDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_ValidUntil(TElSAMLAffiliationDescriptorElementHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_set_ValidUntil(TElSAMLAffiliationDescriptorElementHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_CacheDuration(TElSAMLAffiliationDescriptorElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_set_CacheDuration(TElSAMLAffiliationDescriptorElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_Signature(TElSAMLAffiliationDescriptorElementHandle _Handle, TElXMLSignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_Extensions(TElSAMLAffiliationDescriptorElementHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_AffiliateMembers(TElSAMLAffiliationDescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_AffiliateMembers(TElSAMLAffiliationDescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_get_KeyDescriptors(TElSAMLAffiliationDescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAffiliationDescriptorElement_Create(TElSAMLAffiliationDescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONNAMEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationNameElement_Create(TElSAMLOrganizationNameElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONNAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONDISPLAYNAMEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationDisplayNameElement_Create(TElSAMLOrganizationDisplayNameElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONDISPLAYNAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONURLELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLOrganizationURLElement_Create(TElSAMLOrganizationURLElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONURLELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLADDITIONALMETADATALOCATIONELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_Clear(TElSAMLAdditionalMetadataLocationElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_LoadFromXML(TElSAMLAdditionalMetadataLocationElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_SaveToXML(TElSAMLAdditionalMetadataLocationElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_get__Namespace(TElSAMLAdditionalMetadataLocationElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_set__Namespace(TElSAMLAdditionalMetadataLocationElementHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_get_URI(TElSAMLAdditionalMetadataLocationElementHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAdditionalMetadataLocationElement_Create(TElSAMLAdditionalMetadataLocationElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLADDITIONALMETADATALOCATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLARTIFACTRESOLUTIONSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLArtifactResolutionServiceElement_Create(TElSAMLArtifactResolutionServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLARTIFACTRESOLUTIONSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSINGLELOGOUTSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSingleLogoutServiceElement_Create(TElSAMLSingleLogoutServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSINGLELOGOUTSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLMANAGENAMEIDSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLManageNameIDServiceElement_Create(TElSAMLManageNameIDServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLMANAGENAMEIDSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSINGLESIGNONSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSingleSignOnServiceElement_Create(TElSAMLSingleSignOnServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSINGLESIGNONSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLNAMEIDMAPPINGSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLNameIDMappingServiceElement_Create(TElSAMLNameIDMappingServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLNAMEIDMAPPINGSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSSODESCRIPTORTYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_Clear(TElSAMLSSODescriptorTypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_LoadFromXML(TElSAMLSSODescriptorTypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_SaveToXML(TElSAMLSSODescriptorTypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_ArtifactResolutionServices(TElSAMLSSODescriptorTypeHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_SingleLogoutServices(TElSAMLSSODescriptorTypeHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_ManageNameIDService(TElSAMLSSODescriptorTypeHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_NameIDFormats(TElSAMLSSODescriptorTypeHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_NameIDFormats(TElSAMLSSODescriptorTypeHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_get_AutoAssignIndexes(TElSAMLSSODescriptorTypeHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_set_AutoAssignIndexes(TElSAMLSSODescriptorTypeHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSSODescriptorType_Create(TElSAMLSSODescriptorTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSSODESCRIPTORTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLIDPSSODESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_Clear(TElSAMLIDPSSODescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_LoadFromXML(TElSAMLIDPSSODescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_SaveToXML(TElSAMLIDPSSODescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_WantAuthnRequestsSigned(TElSAMLIDPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_set_WantAuthnRequestsSigned(TElSAMLIDPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_UseWantAuthnRequestsSigned(TElSAMLIDPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_set_UseWantAuthnRequestsSigned(TElSAMLIDPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_SingleSignOnServices(TElSAMLIDPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_NameIDMappingServices(TElSAMLIDPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_AssertionIDRequestServices(TElSAMLIDPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+#ifdef SB_WINDOWS
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_AttributeProfiles(TElSAMLIDPSSODescriptorElementHandle _Handle, TStringListHandle * OutResult);
+#else
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_AttributeProfiles(TElSAMLIDPSSODescriptorElementHandle _Handle, TElStringListHandle * OutResult);
+#endif
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_get_Attributes(TElSAMLIDPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLIDPSSODescriptorElement_Create(TElSAMLIDPSSODescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLIDPSSODESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLASSERTIONCONSUMERSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAssertionConsumerServiceElement_Create(TElSAMLAssertionConsumerServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLASSERTIONCONSUMERSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLREQUESTEDATTRIBUTEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_Clear(TElSAMLRequestedAttributeElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_LoadFromXML(TElSAMLRequestedAttributeElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_SaveToXML(TElSAMLRequestedAttributeElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_get_IsRequired(TElSAMLRequestedAttributeElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_set_IsRequired(TElSAMLRequestedAttributeElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_get_UseIsRequired(TElSAMLRequestedAttributeElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_set_UseIsRequired(TElSAMLRequestedAttributeElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLRequestedAttributeElement_Create(TElSAMLRequestedAttributeElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLREQUESTEDATTRIBUTEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSERVICENAMEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLServiceNameElement_Create(TElSAMLServiceNameElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSERVICENAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSERVICEDESCRIPTIONELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLServiceDescriptionElement_Create(TElSAMLServiceDescriptionElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSERVICEDESCRIPTIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTECONSUMINGSERVICEELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_Clear(TElSAMLAttributeConsumingServiceElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_LoadFromXML(TElSAMLAttributeConsumingServiceElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_SaveToXML(TElSAMLAttributeConsumingServiceElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_Index(TElSAMLAttributeConsumingServiceElementHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_set_Index(TElSAMLAttributeConsumingServiceElementHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_IsDefault(TElSAMLAttributeConsumingServiceElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_set_IsDefault(TElSAMLAttributeConsumingServiceElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_UseIsDefault(TElSAMLAttributeConsumingServiceElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_set_UseIsDefault(TElSAMLAttributeConsumingServiceElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_ServiceNames(TElSAMLAttributeConsumingServiceElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_ServiceDescriptions(TElSAMLAttributeConsumingServiceElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_get_RequestedAttributes(TElSAMLAttributeConsumingServiceElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLAttributeConsumingServiceElement_Create(TElSAMLAttributeConsumingServiceElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTECONSUMINGSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSPSSODESCRIPTORELEMENT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_Clear(TElSAMLSPSSODescriptorElementHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_LoadFromXML(TElSAMLSPSSODescriptorElementHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_SaveToXML(TElSAMLSPSSODescriptorElementHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_AuthnRequestsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_set_AuthnRequestsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_UseAuthnRequestsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_set_UseAuthnRequestsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_WantAssertionsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_set_WantAssertionsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_UseWantAssertionsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_set_UseWantAssertionsSigned(TElSAMLSPSSODescriptorElementHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_AssertionConsumerServices(TElSAMLSPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_get_AttributeConsumingServices(TElSAMLSPSSODescriptorElementHandle _Handle, TListHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLSPSSODescriptorElement_Create(TElSAMLSPSSODescriptorElementHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLSPSSODESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLENCRYPTIONMETHODTYPE
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_Clear(TElSAMLEncryptionMethodTypeHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_IsEmpty(TElSAMLEncryptionMethodTypeHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_LoadFromXML(TElSAMLEncryptionMethodTypeHandle _Handle, TElXMLDOMElementHandle Element);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_SaveToXML(TElSAMLEncryptionMethodTypeHandle _Handle, TElXMLDOMDocumentHandle Document, TElXMLCustomFormatterHandle Formatter, TElXMLDOMElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_get_Algorithm(TElSAMLEncryptionMethodTypeHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_set_Algorithm(TElSAMLEncryptionMethodTypeHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_get_KeySize(TElSAMLEncryptionMethodTypeHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_set_KeySize(TElSAMLEncryptionMethodTypeHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_get_OAEPparams(TElSAMLEncryptionMethodTypeHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_set_OAEPparams(TElSAMLEncryptionMethodTypeHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_get_DigestMethod(TElSAMLEncryptionMethodTypeHandle _Handle, sb_char16_t * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_set_DigestMethod(TElSAMLEncryptionMethodTypeHandle _Handle, const sb_char16_t * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEncryptionMethodType_Create(TElSAMLEncryptionMethodTypeHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLENCRYPTIONMETHODTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLMETADATA
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_Clear(TElSAMLMetadataHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_LoadFromStream(TElSAMLMetadataHandle _Handle, TStreamHandle Strm);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_SaveToStream(TElSAMLMetadataHandle _Handle, TStreamHandle Strm);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_get_Handler(TElSAMLMetadataHandle _Handle, TElSAMLSecurityHandlerHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_set_Handler(TElSAMLMetadataHandle _Handle, TElSAMLSecurityHandlerHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_get_Loaded(TElSAMLMetadataHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_get_RootElement(TElSAMLMetadataHandle _Handle, TElSAMLMetadataRootElementHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_set_RootElement(TElSAMLMetadataHandle _Handle, TElSAMLMetadataRootElementHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_Create(TElSAMLMetadataHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLMetadata_Create_1(int8_t OwnHandler, TElSAMLMetadataHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLMETADATA */
+
+#ifdef SB_USE_CLASS_TELSAMLENDPOINT
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_get_Binding(TElSAMLEndpointHandle _Handle, TSBSAMLBindingTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_set_Binding(TElSAMLEndpointHandle _Handle, TSBSAMLBindingTypeRaw Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_get_Location(TElSAMLEndpointHandle _Handle, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_set_Location(TElSAMLEndpointHandle _Handle, const char * pcValue, int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_get__Index(TElSAMLEndpointHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_set__Index(TElSAMLEndpointHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_get_IsDefault(TElSAMLEndpointHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_set_IsDefault(TElSAMLEndpointHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElSAMLEndpoint_Create(TElSAMLEndpointHandle * OutResult);
+#endif /* SB_USE_CLASS_TELSAMLENDPOINT */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElSAMLEntityDescriptorElement;
+class TElSAMLLocalizedNameType;
+class TElSAMLLocalizedURIType;
+class TElSAMLEndpointType;
+class TElSAMLIndexedEndpointType;
+class TElSAMLMetadataRootElement;
+class TElSAMLEntitiesDescriptorElement;
+class TElSAMLKeyDescriptorElement;
+class TElSAMLOrganizationElement;
+class TElSAMLContactPersonElement;
+class TElSAMLRoleDescriptorElement;
+class TElSAMLAuthnQueryServiceElement;
+class TElSAMLAssertionIDRequestServiceElement;
+class TElSAMLAuthnAuthorityDescriptorElement;
+class TElSAMLAttributeServiceElement;
+class TElSAMLAttributeAuthorityDescriptorElement;
+class TElSAMLAuthzServiceElement;
+class TElSAMLPDPDescriptorElement;
+class TElSAMLAffiliationDescriptorElement;
+class TElSAMLOrganizationNameElement;
+class TElSAMLOrganizationDisplayNameElement;
+class TElSAMLOrganizationURLElement;
+class TElSAMLAdditionalMetadataLocationElement;
+class TElSAMLArtifactResolutionServiceElement;
+class TElSAMLSingleLogoutServiceElement;
+class TElSAMLManageNameIDServiceElement;
+class TElSAMLSingleSignOnServiceElement;
+class TElSAMLNameIDMappingServiceElement;
+class TElSAMLSSODescriptorType;
+class TElSAMLIDPSSODescriptorElement;
+class TElSAMLAssertionConsumerServiceElement;
+class TElSAMLRequestedAttributeElement;
+class TElSAMLServiceNameElement;
+class TElSAMLServiceDescriptionElement;
+class TElSAMLAttributeConsumingServiceElement;
+class TElSAMLSPSSODescriptorElement;
+class TElSAMLEncryptionMethodType;
+class TElSAMLMetadata;
+class TElSAMLEndpoint;
+
+#ifdef SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT
+class TElSAMLMetadataRootElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLMetadataRootElement)
+	public:
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		static TSBSAMLMetaRootElementType DetectType(TElXMLDOMElement &Element);
+
+		static TSBSAMLMetaRootElementType DetectType(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		TSBSAMLMetaRootElementType DetectType_Inst(TElXMLDOMElement &Element);
+
+		TSBSAMLMetaRootElementType DetectType_Inst(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+		TElSAMLMetadataRootElement(TElSAMLMetadataRootElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLMetadataRootElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLLOCALIZEDNAMETYPE
+class TElSAMLLocalizedNameType: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLLocalizedNameType)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual void get_Lang(std::string &OutResult);
+
+		virtual void set_Lang(const std::string &Value);
+
+		TElSAMLLocalizedNameType(TElSAMLLocalizedNameTypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLLocalizedNameType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLLOCALIZEDNAMETYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLLOCALIZEDURITYPE
+class TElSAMLLocalizedURIType: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLLocalizedURIType)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual void get_Lang(std::string &OutResult);
+
+		virtual void set_Lang(const std::string &Value);
+
+		TElSAMLLocalizedURIType(TElSAMLLocalizedURITypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLLocalizedURIType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLLOCALIZEDURITYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLENDPOINTTYPE
+class TElSAMLEndpointType: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLEndpointType)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual void get_Binding(std::string &OutResult);
+
+		virtual void set_Binding(const std::string &Value);
+
+		virtual void get_Location(std::string &OutResult);
+
+		virtual void set_Location(const std::string &Value);
+
+		virtual void get_ResponseLocation(std::string &OutResult);
+
+		virtual void set_ResponseLocation(const std::string &Value);
+
+		TElSAMLEndpointType(TElSAMLEndpointTypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLEndpointType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLENDPOINTTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLINDEXEDENDPOINTTYPE
+class TElSAMLIndexedEndpointType: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLIndexedEndpointType)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual int32_t get__Index();
+
+		virtual void set__Index(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get__Index, set__Index, TElSAMLIndexedEndpointType, _Index);
+
+		virtual bool get_IsDefault();
+
+		virtual void set_IsDefault(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IsDefault, set_IsDefault, TElSAMLIndexedEndpointType, IsDefault);
+
+		virtual bool get_UseDefault();
+
+		virtual void set_UseDefault(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseDefault, set_UseDefault, TElSAMLIndexedEndpointType, UseDefault);
+
+		TElSAMLIndexedEndpointType(TElSAMLIndexedEndpointTypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLIndexedEndpointType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLINDEXEDENDPOINTTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLENTITYDESCRIPTORELEMENT
+class TElSAMLEntityDescriptorElement: public TElSAMLMetadataRootElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLEntityDescriptorElement)
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		TElXMLSignature* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT
+		TElSAMLAffiliationDescriptorElement* _Inst_AffiliationDescriptor;
+#endif /* SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Descriptors;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+		TElSAMLOrganizationElement* _Inst_Organization;
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ContactPersons;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AdditionalMetadataLocations;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_Signed();
+
+		virtual void set_Signed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Signed, set_Signed, TElSAMLEntityDescriptorElement, Signed);
+
+		virtual void get_ID(std::string &OutResult);
+
+		virtual void set_ID(const std::string &Value);
+
+		virtual int64_t get_ValidUntil();
+
+		virtual void set_ValidUntil(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_ValidUntil, set_ValidUntil, TElSAMLEntityDescriptorElement, ValidUntil);
+
+		virtual void get_CacheDuration(std::string &OutResult);
+
+		virtual void set_CacheDuration(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		virtual TElXMLSignature* get_Signature();
+
+		SB_DECLARE_PROPERTY_GET(TElXMLSignature*, get_Signature, TElSAMLEntityDescriptorElement, Signature);
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLEntityDescriptorElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+		virtual void get_EntityID(std::string &OutResult);
+
+		virtual void set_EntityID(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT
+		virtual TElSAMLAffiliationDescriptorElement* get_AffiliationDescriptor();
+
+		virtual void set_AffiliationDescriptor(TElSAMLAffiliationDescriptorElement &Value);
+
+		virtual void set_AffiliationDescriptor(TElSAMLAffiliationDescriptorElement *Value);
+
+		SB_DECLARE_PROPERTY(TElSAMLAffiliationDescriptorElement*, get_AffiliationDescriptor, set_AffiliationDescriptor, TElSAMLEntityDescriptorElement, AffiliationDescriptor);
+#endif /* SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Descriptors();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Descriptors, TElSAMLEntityDescriptorElement, Descriptors);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+		virtual TElSAMLOrganizationElement* get_Organization();
+
+		virtual void set_Organization(TElSAMLOrganizationElement &Value);
+
+		virtual void set_Organization(TElSAMLOrganizationElement *Value);
+
+		SB_DECLARE_PROPERTY(TElSAMLOrganizationElement*, get_Organization, set_Organization, TElSAMLEntityDescriptorElement, Organization);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ContactPersons();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ContactPersons, TElSAMLEntityDescriptorElement, ContactPersons);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AdditionalMetadataLocations();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AdditionalMetadataLocations, TElSAMLEntityDescriptorElement, AdditionalMetadataLocations);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLEntityDescriptorElement(TElSAMLEntityDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLEntityDescriptorElement();
+
+		virtual ~TElSAMLEntityDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLENTITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLENTITIESDESCRIPTORELEMENT
+class TElSAMLEntitiesDescriptorElement: public TElSAMLMetadataRootElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLEntitiesDescriptorElement)
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		TElXMLSignature* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Entities;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_Signed();
+
+		virtual void set_Signed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Signed, set_Signed, TElSAMLEntitiesDescriptorElement, Signed);
+
+		virtual void get_ID(std::string &OutResult);
+
+		virtual void set_ID(const std::string &Value);
+
+		virtual int64_t get_ValidUntil();
+
+		virtual void set_ValidUntil(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_ValidUntil, set_ValidUntil, TElSAMLEntitiesDescriptorElement, ValidUntil);
+
+		virtual void get_CacheDuration(std::string &OutResult);
+
+		virtual void set_CacheDuration(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		virtual TElXMLSignature* get_Signature();
+
+		SB_DECLARE_PROPERTY_GET(TElXMLSignature*, get_Signature, TElSAMLEntitiesDescriptorElement, Signature);
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLEntitiesDescriptorElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+		virtual void get_Name(std::string &OutResult);
+
+		virtual void set_Name(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Entities();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Entities, TElSAMLEntitiesDescriptorElement, Entities);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLEntitiesDescriptorElement(TElSAMLEntitiesDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLEntitiesDescriptorElement();
+
+		virtual ~TElSAMLEntitiesDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLENTITIESDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLKEYDESCRIPTORELEMENT
+class TElSAMLKeyDescriptorElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLKeyDescriptorElement)
+#ifdef SB_USE_CLASS_TELXMLKEYINFO
+		TElXMLKeyInfo* _Inst_KeyInfo;
+#endif /* SB_USE_CLASS_TELXMLKEYINFO */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_EncryptionMethods;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TELX509CERTIFICATE
+		void Init(TElX509Certificate &Cert);
+
+		void Init(TElX509Certificate *Cert);
+#endif /* SB_USE_CLASS_TELX509CERTIFICATE */
+
+		virtual TSBSAMLKeyUse get_Use();
+
+		virtual void set_Use(TSBSAMLKeyUse Value);
+
+		SB_DECLARE_PROPERTY(TSBSAMLKeyUse, get_Use, set_Use, TElSAMLKeyDescriptorElement, Use);
+
+#ifdef SB_USE_CLASS_TELXMLKEYINFO
+		virtual TElXMLKeyInfo* get_KeyInfo();
+
+		virtual void set_KeyInfo(TElXMLKeyInfo &Value);
+
+		virtual void set_KeyInfo(TElXMLKeyInfo *Value);
+
+		SB_DECLARE_PROPERTY(TElXMLKeyInfo*, get_KeyInfo, set_KeyInfo, TElSAMLKeyDescriptorElement, KeyInfo);
+#endif /* SB_USE_CLASS_TELXMLKEYINFO */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_EncryptionMethods();
+
+		virtual void set_EncryptionMethods(TList &Value);
+
+		virtual void set_EncryptionMethods(TList *Value);
+
+		SB_DECLARE_PROPERTY(TList*, get_EncryptionMethods, set_EncryptionMethods, TElSAMLKeyDescriptorElement, EncryptionMethods);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLKeyDescriptorElement(TElSAMLKeyDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLKeyDescriptorElement();
+
+		virtual ~TElSAMLKeyDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLKEYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+class TElSAMLOrganizationElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLOrganizationElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_OrganizationNames;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_OrganizationDisplayNames;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_OrganizationURLs;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLOrganizationElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_OrganizationNames();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_OrganizationNames, TElSAMLOrganizationElement, OrganizationNames);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_OrganizationDisplayNames();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_OrganizationDisplayNames, TElSAMLOrganizationElement, OrganizationDisplayNames);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_OrganizationURLs();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_OrganizationURLs, TElSAMLOrganizationElement, OrganizationURLs);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLOrganizationElement(TElSAMLOrganizationElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLOrganizationElement();
+
+		virtual ~TElSAMLOrganizationElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLCONTACTPERSONELEMENT
+class TElSAMLContactPersonElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLContactPersonElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_EmailAddresses;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_TelephoneNumbers;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_EmailAddresses;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_TelephoneNumbers;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual TSBSAMLContactType get_ContactType();
+
+		virtual void set_ContactType(TSBSAMLContactType Value);
+
+		SB_DECLARE_PROPERTY(TSBSAMLContactType, get_ContactType, set_ContactType, TElSAMLContactPersonElement, ContactType);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLContactPersonElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+		virtual void get_Company(std::string &OutResult);
+
+		virtual void set_Company(const std::string &Value);
+
+		virtual void get_GivenName(std::string &OutResult);
+
+		virtual void set_GivenName(const std::string &Value);
+
+		virtual void get_SurName(std::string &OutResult);
+
+		virtual void set_SurName(const std::string &Value);
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_EmailAddresses();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_EmailAddresses, TElSAMLContactPersonElement, EmailAddresses);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_EmailAddresses();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_EmailAddresses, TElSAMLContactPersonElement, EmailAddresses);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_TelephoneNumbers();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_TelephoneNumbers, TElSAMLContactPersonElement, TelephoneNumbers);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_TelephoneNumbers();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_TelephoneNumbers, TElSAMLContactPersonElement, TelephoneNumbers);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		TElSAMLContactPersonElement(TElSAMLContactPersonElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLContactPersonElement();
+
+		virtual ~TElSAMLContactPersonElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLCONTACTPERSONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLROLEDESCRIPTORELEMENT
+class TElSAMLRoleDescriptorElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLRoleDescriptorElement)
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_ProtocolSupportEnumeration;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_ProtocolSupportEnumeration;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		TElXMLSignature* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_KeyDescriptors;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+		TElSAMLOrganizationElement* _Inst_Organization;
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ContactPersons;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_Signed();
+
+		virtual void set_Signed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Signed, set_Signed, TElSAMLRoleDescriptorElement, Signed);
+
+		virtual void get_ID(std::string &OutResult);
+
+		virtual void set_ID(const std::string &Value);
+
+		virtual int64_t get_ValidUntil();
+
+		virtual void set_ValidUntil(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_ValidUntil, set_ValidUntil, TElSAMLRoleDescriptorElement, ValidUntil);
+
+		virtual void get_CacheDuration(std::string &OutResult);
+
+		virtual void set_CacheDuration(const std::string &Value);
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_ProtocolSupportEnumeration();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_ProtocolSupportEnumeration, TElSAMLRoleDescriptorElement, ProtocolSupportEnumeration);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_ProtocolSupportEnumeration();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_ProtocolSupportEnumeration, TElSAMLRoleDescriptorElement, ProtocolSupportEnumeration);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		virtual void get_ErrorURL(std::string &OutResult);
+
+		virtual void set_ErrorURL(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		virtual TElXMLSignature* get_Signature();
+
+		SB_DECLARE_PROPERTY_GET(TElXMLSignature*, get_Signature, TElSAMLRoleDescriptorElement, Signature);
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLRoleDescriptorElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_KeyDescriptors();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_KeyDescriptors, TElSAMLRoleDescriptorElement, KeyDescriptors);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT
+		virtual TElSAMLOrganizationElement* get_Organization();
+
+		virtual void set_Organization(TElSAMLOrganizationElement &Value);
+
+		virtual void set_Organization(TElSAMLOrganizationElement *Value);
+
+		SB_DECLARE_PROPERTY(TElSAMLOrganizationElement*, get_Organization, set_Organization, TElSAMLRoleDescriptorElement, Organization);
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ContactPersons();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ContactPersons, TElSAMLRoleDescriptorElement, ContactPersons);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLRoleDescriptorElement(TElSAMLRoleDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLRoleDescriptorElement();
+
+		virtual ~TElSAMLRoleDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLROLEDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHNQUERYSERVICEELEMENT
+class TElSAMLAuthnQueryServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAuthnQueryServiceElement)
+	public:
+		TElSAMLAuthnQueryServiceElement(TElSAMLAuthnQueryServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAuthnQueryServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLAUTHNQUERYSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLASSERTIONIDREQUESTSERVICEELEMENT
+class TElSAMLAssertionIDRequestServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAssertionIDRequestServiceElement)
+	public:
+		TElSAMLAssertionIDRequestServiceElement(TElSAMLAssertionIDRequestServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAssertionIDRequestServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLASSERTIONIDREQUESTSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHNAUTHORITYDESCRIPTORELEMENT
+class TElSAMLAuthnAuthorityDescriptorElement: public TElSAMLRoleDescriptorElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAuthnAuthorityDescriptorElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AuthnQueryServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AssertionIDRequestServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AuthnQueryServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AuthnQueryServices, TElSAMLAuthnAuthorityDescriptorElement, AuthnQueryServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AssertionIDRequestServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AssertionIDRequestServices, TElSAMLAuthnAuthorityDescriptorElement, AssertionIDRequestServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_NameIDFormats, TElSAMLAuthnAuthorityDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_NameIDFormats, TElSAMLAuthnAuthorityDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		TElSAMLAuthnAuthorityDescriptorElement(TElSAMLAuthnAuthorityDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAuthnAuthorityDescriptorElement();
+
+		virtual ~TElSAMLAuthnAuthorityDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLAUTHNAUTHORITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTESERVICEELEMENT
+class TElSAMLAttributeServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAttributeServiceElement)
+	public:
+		TElSAMLAttributeServiceElement(TElSAMLAttributeServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAttributeServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTESERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTEAUTHORITYDESCRIPTORELEMENT
+class TElSAMLAttributeAuthorityDescriptorElement: public TElSAMLRoleDescriptorElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAttributeAuthorityDescriptorElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AttributeServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AssertionIDRequestServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_AttributeProfiles;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_AttributeProfiles;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Attributes;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AttributeServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AttributeServices, TElSAMLAttributeAuthorityDescriptorElement, AttributeServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AssertionIDRequestServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AssertionIDRequestServices, TElSAMLAttributeAuthorityDescriptorElement, AssertionIDRequestServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_NameIDFormats, TElSAMLAttributeAuthorityDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_NameIDFormats, TElSAMLAttributeAuthorityDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_AttributeProfiles();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_AttributeProfiles, TElSAMLAttributeAuthorityDescriptorElement, AttributeProfiles);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_AttributeProfiles();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_AttributeProfiles, TElSAMLAttributeAuthorityDescriptorElement, AttributeProfiles);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Attributes();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Attributes, TElSAMLAttributeAuthorityDescriptorElement, Attributes);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLAttributeAuthorityDescriptorElement(TElSAMLAttributeAuthorityDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAttributeAuthorityDescriptorElement();
+
+		virtual ~TElSAMLAttributeAuthorityDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTEAUTHORITYDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAUTHZSERVICEELEMENT
+class TElSAMLAuthzServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAuthzServiceElement)
+	public:
+		TElSAMLAuthzServiceElement(TElSAMLAuthzServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAuthzServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLAUTHZSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLPDPDESCRIPTORELEMENT
+class TElSAMLPDPDescriptorElement: public TElSAMLRoleDescriptorElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLPDPDescriptorElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AuthzServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AssertionIDRequestServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AuthzServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AuthzServices, TElSAMLPDPDescriptorElement, AuthzServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AssertionIDRequestServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AssertionIDRequestServices, TElSAMLPDPDescriptorElement, AssertionIDRequestServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_NameIDFormats, TElSAMLPDPDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_NameIDFormats, TElSAMLPDPDescriptorElement, NameIDFormats);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		TElSAMLPDPDescriptorElement(TElSAMLPDPDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLPDPDescriptorElement();
+
+		virtual ~TElSAMLPDPDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLPDPDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT
+class TElSAMLAffiliationDescriptorElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAffiliationDescriptorElement)
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		TElXMLSignature* _Inst_Signature;
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_AffiliateMembers;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_AffiliateMembers;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_KeyDescriptors;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_Signed();
+
+		virtual void set_Signed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Signed, set_Signed, TElSAMLAffiliationDescriptorElement, Signed);
+
+		virtual void get_AffiliationOwnerID(std::string &OutResult);
+
+		virtual void set_AffiliationOwnerID(const std::string &Value);
+
+		virtual void get_ID(std::string &OutResult);
+
+		virtual void set_ID(const std::string &Value);
+
+		virtual int64_t get_ValidUntil();
+
+		virtual void set_ValidUntil(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_ValidUntil, set_ValidUntil, TElSAMLAffiliationDescriptorElement, ValidUntil);
+
+		virtual void get_CacheDuration(std::string &OutResult);
+
+		virtual void set_CacheDuration(const std::string &Value);
+
+#ifdef SB_USE_CLASS_TELXMLSIGNATURE
+		virtual TElXMLSignature* get_Signature();
+
+		SB_DECLARE_PROPERTY_GET(TElXMLSignature*, get_Signature, TElSAMLAffiliationDescriptorElement, Signature);
+#endif /* SB_USE_CLASS_TELXMLSIGNATURE */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Extensions, TElSAMLAffiliationDescriptorElement, Extensions);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_AffiliateMembers();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_AffiliateMembers, TElSAMLAffiliationDescriptorElement, AffiliateMembers);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_AffiliateMembers();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_AffiliateMembers, TElSAMLAffiliationDescriptorElement, AffiliateMembers);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_KeyDescriptors();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_KeyDescriptors, TElSAMLAffiliationDescriptorElement, KeyDescriptors);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLAffiliationDescriptorElement(TElSAMLAffiliationDescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAffiliationDescriptorElement();
+
+		virtual ~TElSAMLAffiliationDescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLAFFILIATIONDESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONNAMEELEMENT
+class TElSAMLOrganizationNameElement: public TElSAMLLocalizedNameType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLOrganizationNameElement)
+	public:
+		TElSAMLOrganizationNameElement(TElSAMLOrganizationNameElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLOrganizationNameElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONNAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONDISPLAYNAMEELEMENT
+class TElSAMLOrganizationDisplayNameElement: public TElSAMLLocalizedNameType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLOrganizationDisplayNameElement)
+	public:
+		TElSAMLOrganizationDisplayNameElement(TElSAMLOrganizationDisplayNameElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLOrganizationDisplayNameElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONDISPLAYNAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLORGANIZATIONURLELEMENT
+class TElSAMLOrganizationURLElement: public TElSAMLLocalizedURIType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLOrganizationURLElement)
+	public:
+		TElSAMLOrganizationURLElement(TElSAMLOrganizationURLElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLOrganizationURLElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLORGANIZATIONURLELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLADDITIONALMETADATALOCATIONELEMENT
+class TElSAMLAdditionalMetadataLocationElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAdditionalMetadataLocationElement)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual void get__Namespace(std::string &OutResult);
+
+		virtual void set__Namespace(const std::string &Value);
+
+		virtual void get_URI(std::string &OutResult);
+
+		TElSAMLAdditionalMetadataLocationElement(TElSAMLAdditionalMetadataLocationElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAdditionalMetadataLocationElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLADDITIONALMETADATALOCATIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLARTIFACTRESOLUTIONSERVICEELEMENT
+class TElSAMLArtifactResolutionServiceElement: public TElSAMLIndexedEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLArtifactResolutionServiceElement)
+	public:
+		TElSAMLArtifactResolutionServiceElement(TElSAMLArtifactResolutionServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLArtifactResolutionServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLARTIFACTRESOLUTIONSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSINGLELOGOUTSERVICEELEMENT
+class TElSAMLSingleLogoutServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLSingleLogoutServiceElement)
+	public:
+		TElSAMLSingleLogoutServiceElement(TElSAMLSingleLogoutServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLSingleLogoutServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSINGLELOGOUTSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLMANAGENAMEIDSERVICEELEMENT
+class TElSAMLManageNameIDServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLManageNameIDServiceElement)
+	public:
+		TElSAMLManageNameIDServiceElement(TElSAMLManageNameIDServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLManageNameIDServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLMANAGENAMEIDSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSINGLESIGNONSERVICEELEMENT
+class TElSAMLSingleSignOnServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLSingleSignOnServiceElement)
+	public:
+		TElSAMLSingleSignOnServiceElement(TElSAMLSingleSignOnServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLSingleSignOnServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSINGLESIGNONSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLNAMEIDMAPPINGSERVICEELEMENT
+class TElSAMLNameIDMappingServiceElement: public TElSAMLEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLNameIDMappingServiceElement)
+	public:
+		TElSAMLNameIDMappingServiceElement(TElSAMLNameIDMappingServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLNameIDMappingServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLNAMEIDMAPPINGSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSSODESCRIPTORTYPE
+class TElSAMLSSODescriptorType: public TElSAMLRoleDescriptorElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLSSODescriptorType)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ArtifactResolutionServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_SingleLogoutServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ManageNameIDService;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_NameIDFormats;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ArtifactResolutionServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ArtifactResolutionServices, TElSAMLSSODescriptorType, ArtifactResolutionServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_SingleLogoutServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_SingleLogoutServices, TElSAMLSSODescriptorType, SingleLogoutServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ManageNameIDService();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ManageNameIDService, TElSAMLSSODescriptorType, ManageNameIDService);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_NameIDFormats, TElSAMLSSODescriptorType, NameIDFormats);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_NameIDFormats();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_NameIDFormats, TElSAMLSSODescriptorType, NameIDFormats);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+		virtual bool get_AutoAssignIndexes();
+
+		virtual void set_AutoAssignIndexes(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AutoAssignIndexes, set_AutoAssignIndexes, TElSAMLSSODescriptorType, AutoAssignIndexes);
+
+		TElSAMLSSODescriptorType(TElSAMLSSODescriptorTypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLSSODescriptorType();
+
+		virtual ~TElSAMLSSODescriptorType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSSODESCRIPTORTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLIDPSSODESCRIPTORELEMENT
+class TElSAMLIDPSSODescriptorElement: public TElSAMLSSODescriptorType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLIDPSSODescriptorElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_SingleSignOnServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_NameIDMappingServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AssertionIDRequestServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		TStringList* _Inst_AttributeProfiles;
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		TElStringList* _Inst_AttributeProfiles;
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_Attributes;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_WantAuthnRequestsSigned();
+
+		virtual void set_WantAuthnRequestsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_WantAuthnRequestsSigned, set_WantAuthnRequestsSigned, TElSAMLIDPSSODescriptorElement, WantAuthnRequestsSigned);
+
+		virtual bool get_UseWantAuthnRequestsSigned();
+
+		virtual void set_UseWantAuthnRequestsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseWantAuthnRequestsSigned, set_UseWantAuthnRequestsSigned, TElSAMLIDPSSODescriptorElement, UseWantAuthnRequestsSigned);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_SingleSignOnServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_SingleSignOnServices, TElSAMLIDPSSODescriptorElement, SingleSignOnServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_NameIDMappingServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_NameIDMappingServices, TElSAMLIDPSSODescriptorElement, NameIDMappingServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AssertionIDRequestServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AssertionIDRequestServices, TElSAMLIDPSSODescriptorElement, AssertionIDRequestServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_WINDOWS
+#ifdef SB_USE_CLASS_TSTRINGLIST
+		virtual TStringList* get_AttributeProfiles();
+
+		SB_DECLARE_PROPERTY_GET(TStringList*, get_AttributeProfiles, TElSAMLIDPSSODescriptorElement, AttributeProfiles);
+#endif /* SB_USE_CLASS_TSTRINGLIST */
+#else
+#ifdef SB_USE_CLASS_TELSTRINGLIST
+		virtual TElStringList* get_AttributeProfiles();
+
+		SB_DECLARE_PROPERTY_GET(TElStringList*, get_AttributeProfiles, TElSAMLIDPSSODescriptorElement, AttributeProfiles);
+#endif /* SB_USE_CLASS_TELSTRINGLIST */
+#endif
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_Attributes();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_Attributes, TElSAMLIDPSSODescriptorElement, Attributes);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLIDPSSODescriptorElement(TElSAMLIDPSSODescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLIDPSSODescriptorElement();
+
+		virtual ~TElSAMLIDPSSODescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLIDPSSODESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLASSERTIONCONSUMERSERVICEELEMENT
+class TElSAMLAssertionConsumerServiceElement: public TElSAMLIndexedEndpointType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAssertionConsumerServiceElement)
+	public:
+		TElSAMLAssertionConsumerServiceElement(TElSAMLAssertionConsumerServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAssertionConsumerServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLASSERTIONCONSUMERSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLREQUESTEDATTRIBUTEELEMENT
+class TElSAMLRequestedAttributeElement: public TElSAMLAttributeType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLRequestedAttributeElement)
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_IsRequired();
+
+		virtual void set_IsRequired(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IsRequired, set_IsRequired, TElSAMLRequestedAttributeElement, IsRequired);
+
+		virtual bool get_UseIsRequired();
+
+		virtual void set_UseIsRequired(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseIsRequired, set_UseIsRequired, TElSAMLRequestedAttributeElement, UseIsRequired);
+
+		TElSAMLRequestedAttributeElement(TElSAMLRequestedAttributeElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLRequestedAttributeElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLREQUESTEDATTRIBUTEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSERVICENAMEELEMENT
+class TElSAMLServiceNameElement: public TElSAMLLocalizedNameType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLServiceNameElement)
+	public:
+		TElSAMLServiceNameElement(TElSAMLServiceNameElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLServiceNameElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSERVICENAMEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSERVICEDESCRIPTIONELEMENT
+class TElSAMLServiceDescriptionElement: public TElSAMLLocalizedNameType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLServiceDescriptionElement)
+	public:
+		TElSAMLServiceDescriptionElement(TElSAMLServiceDescriptionElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLServiceDescriptionElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSERVICEDESCRIPTIONELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLATTRIBUTECONSUMINGSERVICEELEMENT
+class TElSAMLAttributeConsumingServiceElement: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLAttributeConsumingServiceElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ServiceNames;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_ServiceDescriptions;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_RequestedAttributes;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual int32_t get_Index();
+
+		virtual void set_Index(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_Index, set_Index, TElSAMLAttributeConsumingServiceElement, Index);
+
+		virtual bool get_IsDefault();
+
+		virtual void set_IsDefault(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IsDefault, set_IsDefault, TElSAMLAttributeConsumingServiceElement, IsDefault);
+
+		virtual bool get_UseIsDefault();
+
+		virtual void set_UseIsDefault(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseIsDefault, set_UseIsDefault, TElSAMLAttributeConsumingServiceElement, UseIsDefault);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ServiceNames();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ServiceNames, TElSAMLAttributeConsumingServiceElement, ServiceNames);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_ServiceDescriptions();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_ServiceDescriptions, TElSAMLAttributeConsumingServiceElement, ServiceDescriptions);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_RequestedAttributes();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_RequestedAttributes, TElSAMLAttributeConsumingServiceElement, RequestedAttributes);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLAttributeConsumingServiceElement(TElSAMLAttributeConsumingServiceElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLAttributeConsumingServiceElement();
+
+		virtual ~TElSAMLAttributeConsumingServiceElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLATTRIBUTECONSUMINGSERVICEELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLSPSSODESCRIPTORELEMENT
+class TElSAMLSPSSODescriptorElement: public TElSAMLSSODescriptorType
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLSPSSODescriptorElement)
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AssertionConsumerServices;
+#endif /* SB_USE_CLASS_TLIST */
+#ifdef SB_USE_CLASS_TLIST
+		TList* _Inst_AttributeConsumingServices;
+#endif /* SB_USE_CLASS_TLIST */
+
+		void initInstances();
+
+	public:
+		virtual void Clear();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual bool get_AuthnRequestsSigned();
+
+		virtual void set_AuthnRequestsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AuthnRequestsSigned, set_AuthnRequestsSigned, TElSAMLSPSSODescriptorElement, AuthnRequestsSigned);
+
+		virtual bool get_UseAuthnRequestsSigned();
+
+		virtual void set_UseAuthnRequestsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseAuthnRequestsSigned, set_UseAuthnRequestsSigned, TElSAMLSPSSODescriptorElement, UseAuthnRequestsSigned);
+
+		virtual bool get_WantAssertionsSigned();
+
+		virtual void set_WantAssertionsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_WantAssertionsSigned, set_WantAssertionsSigned, TElSAMLSPSSODescriptorElement, WantAssertionsSigned);
+
+		virtual bool get_UseWantAssertionsSigned();
+
+		virtual void set_UseWantAssertionsSigned(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseWantAssertionsSigned, set_UseWantAssertionsSigned, TElSAMLSPSSODescriptorElement, UseWantAssertionsSigned);
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AssertionConsumerServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AssertionConsumerServices, TElSAMLSPSSODescriptorElement, AssertionConsumerServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+#ifdef SB_USE_CLASS_TLIST
+		virtual TList* get_AttributeConsumingServices();
+
+		SB_DECLARE_PROPERTY_GET(TList*, get_AttributeConsumingServices, TElSAMLSPSSODescriptorElement, AttributeConsumingServices);
+#endif /* SB_USE_CLASS_TLIST */
+
+		TElSAMLSPSSODescriptorElement(TElSAMLSPSSODescriptorElementHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLSPSSODescriptorElement();
+
+		virtual ~TElSAMLSPSSODescriptorElement();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLSPSSODESCRIPTORELEMENT */
+
+#ifdef SB_USE_CLASS_TELSAMLENCRYPTIONMETHODTYPE
+class TElSAMLEncryptionMethodType: public TElSAMLElement
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLEncryptionMethodType)
+	public:
+		virtual void Clear();
+
+		bool IsEmpty();
+
+#ifdef SB_USE_CLASS_TELXMLDOMELEMENT
+		virtual void LoadFromXML(TElXMLDOMElement &Element);
+
+		virtual void LoadFromXML(TElXMLDOMElement *Element);
+#endif /* SB_USE_CLASS_TELXMLDOMELEMENT */
+
+#ifdef SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument &Document, TElXMLCustomFormatter &Formatter);
+
+		virtual TElXMLDOMElementHandle SaveToXML(TElXMLDOMDocument *Document, TElXMLCustomFormatter *Formatter);
+#endif /* SB_USE_CLASSES_TELXMLCUSTOMFORMATTER_AND_TELXMLDOMDOCUMENT_AND_TELXMLDOMELEMENT */
+
+		virtual void get_Algorithm(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_Algorithm(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_Algorithm(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_Algorithm(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		virtual int32_t get_KeySize();
+
+		virtual void set_KeySize(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_KeySize, set_KeySize, TElSAMLEncryptionMethodType, KeySize);
+
+		virtual void get_OAEPparams(std::vector<uint8_t> &OutResult);
+
+		virtual void set_OAEPparams(const std::vector<uint8_t> &Value);
+
+		virtual void get_DigestMethod(sb_u16string &OutResult);
+
+#ifdef SB_U16STRING_USED
+		virtual void get_DigestMethod(std::wstring &OutResult);
+
+#endif /* SB_U16STRING_USED */
+		virtual void set_DigestMethod(const sb_u16string &Value);
+
+#ifdef SB_U16STRING_USED
+		virtual void set_DigestMethod(const std::wstring &Value);
+
+#endif /* SB_U16STRING_USED */
+		TElSAMLEncryptionMethodType(TElSAMLEncryptionMethodTypeHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLEncryptionMethodType();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLENCRYPTIONMETHODTYPE */
+
+#ifdef SB_USE_CLASS_TELSAMLMETADATA
+class TElSAMLMetadata: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLMetadata)
+#ifdef SB_USE_CLASS_TELSAMLSECURITYHANDLER
+		TElSAMLSecurityHandler* _Inst_Handler;
+#endif /* SB_USE_CLASS_TELSAMLSECURITYHANDLER */
+#ifdef SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT
+		TElSAMLMetadataRootElement* _Inst_RootElement;
+#endif /* SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT */
+
+		void initInstances();
+
+	public:
+		void Clear();
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void LoadFromStream(TStream &Strm);
+
+		void LoadFromStream(TStream *Strm);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TSTREAM
+		void SaveToStream(TStream &Strm);
+
+		void SaveToStream(TStream *Strm);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASS_TELSAMLSECURITYHANDLER
+		virtual TElSAMLSecurityHandler* get_Handler();
+
+		virtual void set_Handler(TElSAMLSecurityHandler &Value);
+
+		virtual void set_Handler(TElSAMLSecurityHandler *Value);
+
+		SB_DECLARE_PROPERTY(TElSAMLSecurityHandler*, get_Handler, set_Handler, TElSAMLMetadata, Handler);
+#endif /* SB_USE_CLASS_TELSAMLSECURITYHANDLER */
+
+		virtual bool get_Loaded();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Loaded, TElSAMLMetadata, Loaded);
+
+#ifdef SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT
+		virtual TElSAMLMetadataRootElement* get_RootElement();
+
+		virtual void set_RootElement(TElSAMLMetadataRootElement &Value);
+
+		virtual void set_RootElement(TElSAMLMetadataRootElement *Value);
+
+		SB_DECLARE_PROPERTY(TElSAMLMetadataRootElement*, get_RootElement, set_RootElement, TElSAMLMetadata, RootElement);
+#endif /* SB_USE_CLASS_TELSAMLMETADATAROOTELEMENT */
+
+		TElSAMLMetadata(TElSAMLMetadataHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLMetadata();
+
+		explicit TElSAMLMetadata(bool OwnHandler);
+
+		virtual ~TElSAMLMetadata();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLMETADATA */
+
+#ifdef SB_USE_CLASS_TELSAMLENDPOINT
+class TElSAMLEndpoint: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElSAMLEndpoint)
+	public:
+		virtual TSBSAMLBindingType get_Binding();
+
+		virtual void set_Binding(TSBSAMLBindingType Value);
+
+		SB_DECLARE_PROPERTY(TSBSAMLBindingType, get_Binding, set_Binding, TElSAMLEndpoint, Binding);
+
+		virtual void get_Location(std::string &OutResult);
+
+		virtual void set_Location(const std::string &Value);
+
+		virtual int32_t get__Index();
+
+		virtual void set__Index(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get__Index, set__Index, TElSAMLEndpoint, _Index);
+
+		virtual bool get_IsDefault();
+
+		virtual void set_IsDefault(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_IsDefault, set_IsDefault, TElSAMLEndpoint, IsDefault);
+
+		TElSAMLEndpoint(TElSAMLEndpointHandle handle, TElOwnHandle ownHandle);
+
+		TElSAMLEndpoint();
+
+};
+#endif /* SB_USE_CLASS_TELSAMLENDPOINT */
+
+#ifdef SB_USE_GLOBAL_PROCS_XMLSAMLMETADATA
+
+void ContactTypeToStr(TSBSAMLContactType T, std::string &OutResult);
+
+TSBSAMLContactType StrToContactType(const std::string &S);
+
+void KeyUsageToStr(TSBSAMLKeyUse U, std::string &OutResult);
+
+TSBSAMLKeyUse StrToKeyUsage(const std::string &S);
+
+#endif /* SB_USE_GLOBAL_PROCS_XMLSAMLMETADATA */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef SB_USE_GLOBAL_PROCS_XMLSAMLMETADATA
+SB_IMPORT uint32_t SB_APIENTRY SBXMLSAMLMetadata_ContactTypeToStr(TSBSAMLContactTypeRaw T, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBXMLSAMLMetadata_StrToContactType(const char * pcS, int32_t szS, TSBSAMLContactTypeRaw * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBXMLSAMLMetadata_KeyUsageToStr(TSBSAMLKeyUseRaw U, char * pcOutResult, int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY SBXMLSAMLMetadata_StrToKeyUsage(const char * pcS, int32_t szS, TSBSAMLKeyUseRaw * OutResult);
+#endif /* SB_USE_GLOBAL_PROCS_XMLSAMLMETADATA */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBXMLSAMLMETADATA */

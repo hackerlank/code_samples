@@ -1,0 +1,2173 @@
+#ifndef __INC_SBZIPENTITIES
+#define __INC_SBZIPENTITIES
+
+#if _MSC_VER > 1000
+#  pragma once
+#endif // _MSC_VER > 1000
+
+#include "sbdefs.h"
+#include "sbcore.h"
+#include "sbsystem.h"
+#include "sbtypes.h"
+#include "sbutils.h"
+#include "sbconstants.h"
+#include "sbstreams.h"
+#include "sbarcbase.h"
+#include "sbziputils.h"
+
+#pragma pack(push, 1)
+
+#ifdef __cplusplus
+namespace SecureBlackbox {
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#define SB_ZIP_READ_BLOCK_SIZE 	65536
+#define SB_ZIP64_MARK_32 	4294967295
+#define SB_ZIP64_MARK_16 	65535
+
+typedef TElClassHandle TElZipEntityHandle;
+
+typedef TElClassHandle TElZipLocalFileHeaderHandle;
+
+typedef TElClassHandle TElZipCentralFileHeaderHandle;
+
+typedef TElClassHandle TElZipDataDescriptorHandle;
+
+typedef TElClassHandle TElZipEntityExtensionsHandle;
+
+typedef TElClassHandle TElZipCentralDirectorySignatureHandle;
+
+typedef TElClassHandle TElZip64EndOfCentralDirectoryHandle;
+
+typedef TElClassHandle TElZip64EndOfCentralDirectoryLocatorHandle;
+
+typedef TElClassHandle TElZipEndOfCentralDirectoryHandle;
+
+typedef TElClassHandle TElZipArchiveExtraDataHandle;
+
+typedef TElClassHandle TElZipProcessorHandle;
+
+typedef TElClassHandle TElZipEntityExtensionHandle;
+
+typedef TElClassHandle TElZipEntityCustomExtensionHandle;
+
+typedef TElClassHandle TElZipEntityZip64InfoExtensionHandle;
+
+typedef TElClassHandle TElZipEntityStrongEncryptionExtensionHandle;
+
+typedef TElClassHandle TElZipEntityWinZipAESExtensionHandle;
+
+typedef TElClassHandle TElZipEntityCertificateStoreExtensionHandle;
+
+typedef TElClassHandle TElZipEntitySignatureExtensionHandle;
+
+typedef TElClassHandle TElZipEntityCentralDirSignatureExtensionHandle;
+
+typedef TElClassHandle TElZipEntityUnix1ExtensionHandle;
+
+typedef TElClassHandle TElZipEntityUnix2ExtensionHandle;
+
+typedef TElClassHandle TElZipEntityExtendedTimestampExtensionHandle;
+
+typedef TElClassHandle TElZipEntityUIDAndGIDExtensionHandle;
+
+typedef void (SB_CALLBACK *TSBZipReadEvent)(void * _ObjectData, TObjectHandle Sender, void * UserData, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t NeededSize, int32_t * Written, int8_t * Last);
+
+typedef void (SB_CALLBACK *TSBZipWriteEvent)(void * _ObjectData, TObjectHandle Sender, void * UserData, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+
+typedef void (SB_CALLBACK *TSBZipLocalFileHeaderLoadedEvent)(void * _ObjectData, TObjectHandle Sender, TElZipLocalFileHeaderHandle Header);
+
+typedef void (SB_CALLBACK *TSBZipDataDescriptorLoadedEvent)(void * _ObjectData, TObjectHandle Sender, TElZipLocalFileHeaderHandle Header);
+
+typedef void (SB_CALLBACK *TSBZipCentralFileHeaderLoadedEvent)(void * _ObjectData, TObjectHandle Sender, TElZipCentralFileHeaderHandle Header);
+
+typedef void (SB_CALLBACK *TSBZipFileDataEvent)(void * _ObjectData, TObjectHandle Sender, TElZipLocalFileHeaderHandle Header);
+
+typedef void (SB_CALLBACK *TSBZipCentralDirectoryProcessEvent)(void * _ObjectData, TObjectHandle Sender, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size, uint8_t pProcessedData[], int32_t * szProcessedData, int32_t ProcessedIndex, int32_t * ProcessedSize);
+
+typedef void (SB_CALLBACK *TSBZipArchiveErrorEvent)(void * _ObjectData, TObjectHandle Sender, int32_t ErrorCode, const char * pcErrorMessage, int32_t szErrorMessage, int8_t * TryContinue);
+
+#ifdef SB_USE_CLASS_TELZIPENTITY
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_Assign(TElZipEntityHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_AssignTo(TElZipEntityHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_Load(TElZipEntityHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_Save(TElZipEntityHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_SaveToStream(TElZipEntityHandle _Handle, TStreamHandle Stream, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_SaveToBuffer(TElZipEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_DataAvailable(TElZipEntityHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_BodySize(TElZipEntityHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_Body(TElZipEntityHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_Loaded(TElZipEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_Signature(TElZipEntityHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_Signature(TElZipEntityHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_SkipSignature(TElZipEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_SkipSignature(TElZipEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_Zip64Used(TElZipEntityHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_Zip64Used(TElZipEntityHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_Position(TElZipEntityHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_Position(TElZipEntityHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_OnRead(TElZipEntityHandle _Handle, TSBZipReadEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_OnRead(TElZipEntityHandle _Handle, TSBZipReadEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_get_OnWrite(TElZipEntityHandle _Handle, TSBZipWriteEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_set_OnWrite(TElZipEntityHandle _Handle, TSBZipWriteEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntity_Create(TElZipEntityHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITY */
+
+#ifdef SB_USE_CLASS_TELZIPLOCALFILEHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_Assign(TElZipLocalFileHeaderHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_AssignTo(TElZipLocalFileHeaderHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_Load(TElZipLocalFileHeaderHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_Save(TElZipLocalFileHeaderHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_DataAvailable(TElZipLocalFileHeaderHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_VersionToExtract(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_VersionToExtract(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_GeneralBitFlag(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_GeneralBitFlag(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_DataDescriptor(TElZipLocalFileHeaderHandle _Handle, TElZipDataDescriptorHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_DataDescriptor(TElZipLocalFileHeaderHandle _Handle, TElZipDataDescriptorHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_CompressionMethod(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_CompressionMethod(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_LastModFileTime(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_LastModFileTime(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_LastModFileDate(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_LastModFileDate(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_CRC32(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_CRC32(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_CompressedSize(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_CompressedSize(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_OriginalSize(TElZipLocalFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_OriginalSize(TElZipLocalFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_FileName(TElZipLocalFileHeaderHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_FileName(TElZipLocalFileHeaderHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_ExtraField(TElZipLocalFileHeaderHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_ExtraField(TElZipLocalFileHeaderHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_DataOffset(TElZipLocalFileHeaderHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_DataOffset(TElZipLocalFileHeaderHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_Extensions(TElZipLocalFileHeaderHandle _Handle, TElZipEntityExtensionsHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_get_DataDescriptorUsed(TElZipLocalFileHeaderHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_set_DataDescriptorUsed(TElZipLocalFileHeaderHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipLocalFileHeader_Create(TElZipLocalFileHeaderHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPLOCALFILEHEADER */
+
+#ifdef SB_USE_CLASS_TELZIPCENTRALFILEHEADER
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_Assign(TElZipCentralFileHeaderHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_AssignTo(TElZipCentralFileHeaderHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_Load(TElZipCentralFileHeaderHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_Save(TElZipCentralFileHeaderHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_DataAvailable(TElZipCentralFileHeaderHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_VersionMadeBy(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_VersionMadeBy(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_VersionToExtract(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_VersionToExtract(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_GeneralBitFlag(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_GeneralBitFlag(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_CompressionMethod(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_CompressionMethod(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_LastModFileTime(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_LastModFileTime(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_LastModFileDate(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_LastModFileDate(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_CRC32(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_CRC32(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_CompressedSize(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_CompressedSize(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_OriginalSize(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_OriginalSize(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_DiskNumberStart(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_DiskNumberStart(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_InternalFileAttributes(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_InternalFileAttributes(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_ExternalFileAttributes(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_ExternalFileAttributes(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_LocalHeaderOffset(TElZipCentralFileHeaderHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_LocalHeaderOffset(TElZipCentralFileHeaderHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_FileName(TElZipCentralFileHeaderHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_FileName(TElZipCentralFileHeaderHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_ExtraField(TElZipCentralFileHeaderHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_ExtraField(TElZipCentralFileHeaderHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_Comment(TElZipCentralFileHeaderHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_set_Comment(TElZipCentralFileHeaderHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_get_Extensions(TElZipCentralFileHeaderHandle _Handle, TElZipEntityExtensionsHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralFileHeader_Create(TElZipCentralFileHeaderHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPCENTRALFILEHEADER */
+
+#ifdef SB_USE_CLASS_TELZIPDATADESCRIPTOR
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_Assign(TElZipDataDescriptorHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_AssignTo(TElZipDataDescriptorHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_Load(TElZipDataDescriptorHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_Save(TElZipDataDescriptorHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_DataAvailable(TElZipDataDescriptorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_get_CRC32(TElZipDataDescriptorHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_set_CRC32(TElZipDataDescriptorHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_get_CompressedSize(TElZipDataDescriptorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_set_CompressedSize(TElZipDataDescriptorHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_get_OriginalSize(TElZipDataDescriptorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_set_OriginalSize(TElZipDataDescriptorHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_get_WriteSignature(TElZipDataDescriptorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_set_WriteSignature(TElZipDataDescriptorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipDataDescriptor_Create(TElZipDataDescriptorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPDATADESCRIPTOR */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_Assign(TElZipEntityExtensionsHandle _Handle, TElZipEntityExtensionsHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_AssignTo(TElZipEntityExtensionsHandle _Handle, TElZipEntityExtensionsHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_LoadFromBuffer(TElZipEntityExtensionsHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_SaveToBuffer(TElZipEntityExtensionsHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_Save(TElZipEntityExtensionsHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_AddExtension(TElZipEntityExtensionsHandle _Handle, uint32_t ExtensionType, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_ExtensionByType(TElZipEntityExtensionsHandle _Handle, uint32_t ExtensionType, int32_t Index, TElZipEntityExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_RemoveExtension(TElZipEntityExtensionsHandle _Handle, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_RemoveExtensionByType(TElZipEntityExtensionsHandle _Handle, uint32_t ExtensionType, int32_t Index);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_ClearExtensions(TElZipEntityExtensionsHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Size32Bit(TElZipEntityExtensionsHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_set_Size32Bit(TElZipEntityExtensionsHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Owner(TElZipEntityExtensionsHandle _Handle, TElZipEntityHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_set_Owner(TElZipEntityExtensionsHandle _Handle, TElZipEntityHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_ExtensionCount(TElZipEntityExtensionsHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Extensions(TElZipEntityExtensionsHandle _Handle, int32_t Index, TElZipEntityExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_BodySize(TElZipEntityExtensionsHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Zip64Info(TElZipEntityExtensionsHandle _Handle, TElZipEntityZip64InfoExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_StrongEncryptionHeader(TElZipEntityExtensionsHandle _Handle, TElZipEntityStrongEncryptionExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_WinZipAesInfo(TElZipEntityExtensionsHandle _Handle, TElZipEntityWinZipAESExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_CertificateStore(TElZipEntityExtensionsHandle _Handle, TElZipEntityCertificateStoreExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_CentralDirectorySignature(TElZipEntityExtensionsHandle _Handle, TElZipEntityCentralDirSignatureExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_ExtendedTimestamp(TElZipEntityExtensionsHandle _Handle, TElZipEntityExtendedTimestampExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_UIDAndGID(TElZipEntityExtensionsHandle _Handle, TElZipEntityUIDAndGIDExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Unix1(TElZipEntityExtensionsHandle _Handle, TElZipEntityUnix1ExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Unix2(TElZipEntityExtensionsHandle _Handle, TElZipEntityUnix2ExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_SignatureCount(TElZipEntityExtensionsHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_get_Signatures(TElZipEntityExtensionsHandle _Handle, int32_t Index, TElZipEntitySignatureExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtensions_Create(TElZipEntityExtensionsHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+#ifdef SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_Assign(TElZipCentralDirectorySignatureHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_AssignTo(TElZipCentralDirectorySignatureHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_Load(TElZipCentralDirectorySignatureHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_Save(TElZipCentralDirectorySignatureHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_DataAvailable(TElZipCentralDirectorySignatureHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_get_Version(TElZipCentralDirectorySignatureHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_get_HashAlgorithm(TElZipCentralDirectorySignatureHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_set_HashAlgorithm(TElZipCentralDirectorySignatureHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_get_IssuerName(TElZipCentralDirectorySignatureHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_set_IssuerName(TElZipCentralDirectorySignatureHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_get_SerialNumber(TElZipCentralDirectorySignatureHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_set_SerialNumber(TElZipCentralDirectorySignatureHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_get_CentralSignature(TElZipCentralDirectorySignatureHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_set_CentralSignature(TElZipCentralDirectorySignatureHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipCentralDirectorySignature_Create(TElZipCentralDirectorySignatureHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE */
+
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_Assign(TElZip64EndOfCentralDirectoryHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_AssignTo(TElZip64EndOfCentralDirectoryHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_Load(TElZip64EndOfCentralDirectoryHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_Save(TElZip64EndOfCentralDirectoryHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_DataAvailable(TElZip64EndOfCentralDirectoryHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_StructureVersion(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_StructureVersion(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_VersionMadeBy(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_VersionMadeBy(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_VersionToExtract(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_VersionToExtract(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_DiskNumber(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_DiskNumber(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_CentralDirStartDisk(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_CentralDirStartDisk(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_EntriesOnDiskCount(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_EntriesOnDiskCount(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_EntriesCount(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_EntriesCount(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_CentralDirSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_CentralDirSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_CentralDirOffset(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_CentralDirOffset(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_ExtensibleData(TElZip64EndOfCentralDirectoryHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_ExtensibleData(TElZip64EndOfCentralDirectoryHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_CompressionMethod(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_CompressionMethod(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_CompressedSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_CompressedSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_OriginalSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_OriginalSize(TElZip64EndOfCentralDirectoryHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_EncryptionAlgorithm(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_EncryptionAlgorithm(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_KeyLength(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_KeyLength(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_EncryptionFlags(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_EncryptionFlags(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_HashAlgortihm(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_HashAlgortihm(TElZip64EndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_get_Hash(TElZip64EndOfCentralDirectoryHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_set_Hash(TElZip64EndOfCentralDirectoryHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectory_Create(TElZip64EndOfCentralDirectoryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORYLOCATOR
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_Assign(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_AssignTo(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_Load(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_Save(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_DataAvailable(TElZip64EndOfCentralDirectoryLocatorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_get_DiskNumber(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_set_DiskNumber(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_get_Offset(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_set_Offset(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_get_TotalDiskCount(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_set_TotalDiskCount(TElZip64EndOfCentralDirectoryLocatorHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZip64EndOfCentralDirectoryLocator_Create(TElZip64EndOfCentralDirectoryLocatorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORYLOCATOR */
+
+#ifdef SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_Assign(TElZipEndOfCentralDirectoryHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_AssignTo(TElZipEndOfCentralDirectoryHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_Load(TElZipEndOfCentralDirectoryHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_Save(TElZipEndOfCentralDirectoryHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_DataAvailable(TElZipEndOfCentralDirectoryHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_DiskNumber(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_DiskNumber(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_CentralDirStartDisk(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_CentralDirStartDisk(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_EntriesOnDiskCount(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_EntriesOnDiskCount(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_EntriesCount(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_EntriesCount(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_CentralDirSize(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_CentralDirSize(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_CentralDirOffset(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_CentralDirOffset(TElZipEndOfCentralDirectoryHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_get_Comment(TElZipEndOfCentralDirectoryHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_set_Comment(TElZipEndOfCentralDirectoryHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEndOfCentralDirectory_Create(TElZipEndOfCentralDirectoryHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIPARCHIVEEXTRADATA
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_Assign(TElZipArchiveExtraDataHandle _Handle, TElZipEntityHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_AssignTo(TElZipArchiveExtraDataHandle _Handle, TElZipEntityHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_Load(TElZipArchiveExtraDataHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_Save(TElZipArchiveExtraDataHandle _Handle, void * UserData);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_DataAvailable(TElZipArchiveExtraDataHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_get_Extensions(TElZipArchiveExtraDataHandle _Handle, TElZipEntityExtensionsHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipArchiveExtraData_Create(TElZipArchiveExtraDataHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPARCHIVEEXTRADATA */
+
+#ifdef SB_USE_CLASS_TELZIPPROCESSOR
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_Process(TElZipProcessorHandle _Handle, TStreamHandle Stream);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_ProcessLocalHeader(TElZipProcessorHandle _Handle, TStreamHandle Stream, TElZipLocalFileHeaderHandle * Header, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_DataAvailable(TElZipProcessorHandle _Handle);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_Processed(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_EndOfData(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectoryCompressed(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectoryEncrypted(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_UseCentralDirectory(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_UseCentralDirectory(TElZipProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnePass(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnePass(TElZipProcessorHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_Zip64Format(TElZipProcessorHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_EndOfCentralDir(TElZipProcessorHandle _Handle, TElZipEndOfCentralDirectoryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_Zip64EndOfCentralDir(TElZipProcessorHandle _Handle, TElZip64EndOfCentralDirectoryHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectorySignature(TElZipProcessorHandle _Handle, TElZipCentralDirectorySignatureHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectoryEntriesCount(TElZipProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectorySize(TElZipProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_CentralDirectoryPosition(TElZipProcessorHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_ArchiveExtraData(TElZipProcessorHandle _Handle, TElZipArchiveExtraDataHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnLocalFileHeaderLoaded(TElZipProcessorHandle _Handle, TSBZipLocalFileHeaderLoadedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnLocalFileHeaderLoaded(TElZipProcessorHandle _Handle, TSBZipLocalFileHeaderLoadedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnDataDescriptorLoaded(TElZipProcessorHandle _Handle, TSBZipDataDescriptorLoadedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnDataDescriptorLoaded(TElZipProcessorHandle _Handle, TSBZipDataDescriptorLoadedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnCentralFileHeaderLoaded(TElZipProcessorHandle _Handle, TSBZipCentralFileHeaderLoadedEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnCentralFileHeaderLoaded(TElZipProcessorHandle _Handle, TSBZipCentralFileHeaderLoadedEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnFileData(TElZipProcessorHandle _Handle, TSBZipFileDataEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnFileData(TElZipProcessorHandle _Handle, TSBZipFileDataEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnFileHeadersLoaded(TElZipProcessorHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnFileHeadersLoaded(TElZipProcessorHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnCentralDirectoryFound(TElZipProcessorHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnCentralDirectoryFound(TElZipProcessorHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnProcessCentralDirectory(TElZipProcessorHandle _Handle, TSBZipCentralDirectoryProcessEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnProcessCentralDirectory(TElZipProcessorHandle _Handle, TSBZipCentralDirectoryProcessEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnCentralDirectoryProcessed(TElZipProcessorHandle _Handle, TNotifyEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnCentralDirectoryProcessed(TElZipProcessorHandle _Handle, TNotifyEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_get_OnArchiveError(TElZipProcessorHandle _Handle, TSBZipArchiveErrorEvent * pMethodOutResult, void * * pDataOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_set_OnArchiveError(TElZipProcessorHandle _Handle, TSBZipArchiveErrorEvent pMethodValue, void * pDataValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipProcessor_Create(TElZipProcessorHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPPROCESSOR */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_CreateByType(uint32_t ExtensionType, TElZipEntityExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_CreateByType_1(TElZipEntityExtensionHandle _Handle, uint32_t ExtensionType, TElZipEntityExtensionHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_Assign(TElZipEntityExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_AssignTo(TElZipEntityExtensionHandle _Handle, TElZipEntityExtensionHandle Dest);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_LoadFromBuffer(TElZipEntityExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_SaveToBuffer(TElZipEntityExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_get_BodySize(TElZipEntityExtensionHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_get_ExtensionType(TElZipEntityExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_set_ExtensionType(TElZipEntityExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_get_Owner(TElZipEntityExtensionHandle _Handle, TElZipEntityExtensionsHandle * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_set_Owner(TElZipEntityExtensionHandle _Handle, TElZipEntityExtensionsHandle Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtension_Create(TElZipEntityExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCUSTOMEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_Assign(TElZipEntityCustomExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_LoadFromBuffer(TElZipEntityCustomExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_SaveToBuffer(TElZipEntityCustomExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_get_ExtensionData(TElZipEntityCustomExtensionHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_set_ExtensionData(TElZipEntityCustomExtensionHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCustomExtension_Create(TElZipEntityCustomExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYCUSTOMEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_Assign(TElZipEntityZip64InfoExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_LoadFromBuffer(TElZipEntityZip64InfoExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_SaveToBuffer(TElZipEntityZip64InfoExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_OriginalSize(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_set_OriginalSize(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_OriginalSizeAvailable(TElZipEntityZip64InfoExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_CompressedSize(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_set_CompressedSize(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_CompressedSizeAvailable(TElZipEntityZip64InfoExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_RelativeHeaderOffset(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_set_RelativeHeaderOffset(TElZipEntityZip64InfoExtensionHandle _Handle, int64_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_RelativeHeaderOffsetAvailable(TElZipEntityZip64InfoExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_DiskStart(TElZipEntityZip64InfoExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_set_DiskStart(TElZipEntityZip64InfoExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_get_DiskStartAvailable(TElZipEntityZip64InfoExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityZip64InfoExtension_Create(TElZipEntityZip64InfoExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_Assign(TElZipEntityStrongEncryptionExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_LoadFromBuffer(TElZipEntityStrongEncryptionExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_SaveToBuffer(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_Format(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_Format(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_AlgorithmID(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_AlgorithmID(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_KeyLength(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_KeyLength(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_Flags(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_Flags(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_RecipientCount(TElZipEntityStrongEncryptionExtensionHandle _Handle, int32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_RecipientCount(TElZipEntityStrongEncryptionExtensionHandle _Handle, int32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_HashAlgorithmID(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_HashAlgorithmID(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_HashSize(TElZipEntityStrongEncryptionExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_get_RecipientHashes(TElZipEntityStrongEncryptionExtensionHandle _Handle, int32_t Index, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_set_RecipientHashes(TElZipEntityStrongEncryptionExtensionHandle _Handle, int32_t Index, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityStrongEncryptionExtension_Create(TElZipEntityStrongEncryptionExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_Assign(TElZipEntityWinZipAESExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_LoadFromBuffer(TElZipEntityWinZipAESExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_SaveToBuffer(TElZipEntityWinZipAESExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_get_Version(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_set_Version(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_get_Vendor(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_set_Vendor(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_get_KeyStrength(TElZipEntityWinZipAESExtensionHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_set_KeyStrength(TElZipEntityWinZipAESExtensionHandle _Handle, uint8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_get_ActualCompressionMethod(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_set_ActualCompressionMethod(TElZipEntityWinZipAESExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityWinZipAESExtension_Create(TElZipEntityWinZipAESExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_Assign(TElZipEntityCertificateStoreExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_LoadFromBuffer(TElZipEntityCertificateStoreExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_SaveToBuffer(TElZipEntityCertificateStoreExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_get_Version(TElZipEntityCertificateStoreExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_get_StoreData(TElZipEntityCertificateStoreExtensionHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_set_StoreData(TElZipEntityCertificateStoreExtensionHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCertificateStoreExtension_Create(TElZipEntityCertificateStoreExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_Assign(TElZipEntitySignatureExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_LoadFromBuffer(TElZipEntitySignatureExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_SaveToBuffer(TElZipEntitySignatureExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_get_Version(TElZipEntitySignatureExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_get_HashAlgorithm(TElZipEntitySignatureExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_set_HashAlgorithm(TElZipEntitySignatureExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_get_IssuerName(TElZipEntitySignatureExtensionHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_set_IssuerName(TElZipEntitySignatureExtensionHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_get_SerialNumber(TElZipEntitySignatureExtensionHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_set_SerialNumber(TElZipEntitySignatureExtensionHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_get_Signature(TElZipEntitySignatureExtensionHandle _Handle, uint8_t pOutResult[], int32_t * szOutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_set_Signature(TElZipEntitySignatureExtensionHandle _Handle, const uint8_t pValue[], int32_t szValue);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntitySignatureExtension_Create(TElZipEntitySignatureExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCentralDirSignatureExtension_Assign(TElZipEntityCentralDirSignatureExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityCentralDirSignatureExtension_Create(TElZipEntityCentralDirSignatureExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_Assign(TElZipEntityUnix1ExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_LoadFromBuffer(TElZipEntityUnix1ExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_SaveToBuffer(TElZipEntityUnix1ExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_get_ModifyTime(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_set_ModifyTime(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_get_AccessTime(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_set_AccessTime(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_get_UIDAndGIDAvailable(TElZipEntityUnix1ExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_set_UIDAndGIDAvailable(TElZipEntityUnix1ExtensionHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_get_UID(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_set_UID(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_get_GID(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_set_GID(TElZipEntityUnix1ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix1Extension_Create(TElZipEntityUnix1ExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_Assign(TElZipEntityUnix2ExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_LoadFromBuffer(TElZipEntityUnix2ExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_SaveToBuffer(TElZipEntityUnix2ExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_get_UIDAndGIDAvailable(TElZipEntityUnix2ExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_set_UIDAndGIDAvailable(TElZipEntityUnix2ExtensionHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_get_UID(TElZipEntityUnix2ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_set_UID(TElZipEntityUnix2ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_get_GID(TElZipEntityUnix2ExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_set_GID(TElZipEntityUnix2ExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUnix2Extension_Create(TElZipEntityUnix2ExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_Assign(TElZipEntityExtendedTimestampExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_LoadFromBuffer(TElZipEntityExtendedTimestampExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_SaveToBuffer(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_ModifyTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_ModifyTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_AccessTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_AccessTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_CreateTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_CreateTimeAvailable(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_ModifyTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_ModifyTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_AccessTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_AccessTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_CreateTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_set_CreateTime(TElZipEntityExtendedTimestampExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_get_CentralHeader(TElZipEntityExtendedTimestampExtensionHandle _Handle, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityExtendedTimestampExtension_Create(TElZipEntityExtendedTimestampExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_Assign(TElZipEntityUIDAndGIDExtensionHandle _Handle, TElZipEntityExtensionHandle Source);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_LoadFromBuffer(TElZipEntityUIDAndGIDExtensionHandle _Handle, const uint8_t pBuffer[], int32_t szBuffer, int32_t Index, int32_t Size);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_SaveToBuffer(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint8_t pBuffer[], int32_t * szBuffer, int32_t Index, int32_t * Size, int8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_get_Version(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint8_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_get_UID(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_set_UID(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_get_GID(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint32_t * OutResult);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_set_GID(TElZipEntityUIDAndGIDExtensionHandle _Handle, uint32_t Value);
+SB_IMPORT uint32_t SB_APIENTRY TElZipEntityUIDAndGIDExtension_Create(TElZipEntityUIDAndGIDExtensionHandle * OutResult);
+#endif /* SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION */
+
+#ifdef __cplusplus
+};	/* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+// Class forward declaration
+class TElZipEntity;
+class TElZipLocalFileHeader;
+class TElZipCentralFileHeader;
+class TElZipDataDescriptor;
+class TElZipEntityExtensions;
+class TElZipCentralDirectorySignature;
+class TElZip64EndOfCentralDirectory;
+class TElZip64EndOfCentralDirectoryLocator;
+class TElZipEndOfCentralDirectory;
+class TElZipArchiveExtraData;
+class TElZipProcessor;
+class TElZipEntityExtension;
+class TElZipEntityCustomExtension;
+class TElZipEntityZip64InfoExtension;
+class TElZipEntityStrongEncryptionExtension;
+class TElZipEntityWinZipAESExtension;
+class TElZipEntityCertificateStoreExtension;
+class TElZipEntitySignatureExtension;
+class TElZipEntityCentralDirSignatureExtension;
+class TElZipEntityUnix1Extension;
+class TElZipEntityUnix2Extension;
+class TElZipEntityExtendedTimestampExtension;
+class TElZipEntityUIDAndGIDExtension;
+
+#ifdef SB_USE_CLASS_TELZIPENTITY
+class TElZipEntity: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntity)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+#ifdef SB_USE_CLASS_TSTREAM
+		virtual void SaveToStream(TStream &Stream, void * UserData);
+
+		virtual void SaveToStream(TStream *Stream, void * UserData);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+		virtual void SaveToBuffer(std::vector<uint8_t> &OutResult);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_BodySize();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_BodySize, TElZipEntity, BodySize);
+
+		virtual void get_Body(std::vector<uint8_t> &OutResult);
+
+		virtual bool get_Loaded();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Loaded, TElZipEntity, Loaded);
+
+		virtual uint32_t get_Signature();
+
+		virtual void set_Signature(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Signature, set_Signature, TElZipEntity, Signature);
+
+		virtual bool get_SkipSignature();
+
+		virtual void set_SkipSignature(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_SkipSignature, set_SkipSignature, TElZipEntity, SkipSignature);
+
+		virtual bool get_Zip64Used();
+
+		virtual void set_Zip64Used(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Zip64Used, set_Zip64Used, TElZipEntity, Zip64Used);
+
+		virtual int64_t get_Position();
+
+		virtual void set_Position(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_Position, set_Position, TElZipEntity, Position);
+
+		virtual void get_OnRead(TSBZipReadEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnRead(TSBZipReadEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnWrite(TSBZipWriteEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnWrite(TSBZipWriteEvent pMethodValue, void * pDataValue);
+
+		TElZipEntity(TElZipEntityHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntity();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITY */
+
+#ifdef SB_USE_CLASS_TELZIPLOCALFILEHEADER
+class TElZipLocalFileHeader: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipLocalFileHeader)
+#ifdef SB_USE_CLASS_TELZIPDATADESCRIPTOR
+		TElZipDataDescriptor* _Inst_DataDescriptor;
+#endif /* SB_USE_CLASS_TELZIPDATADESCRIPTOR */
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		TElZipEntityExtensions* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_VersionToExtract();
+
+		virtual void set_VersionToExtract(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VersionToExtract, set_VersionToExtract, TElZipLocalFileHeader, VersionToExtract);
+
+		virtual uint32_t get_GeneralBitFlag();
+
+		virtual void set_GeneralBitFlag(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_GeneralBitFlag, set_GeneralBitFlag, TElZipLocalFileHeader, GeneralBitFlag);
+
+#ifdef SB_USE_CLASS_TELZIPDATADESCRIPTOR
+		virtual TElZipDataDescriptor* get_DataDescriptor();
+
+		virtual void set_DataDescriptor(TElZipDataDescriptor &Value);
+
+		virtual void set_DataDescriptor(TElZipDataDescriptor *Value);
+
+		SB_DECLARE_PROPERTY(TElZipDataDescriptor*, get_DataDescriptor, set_DataDescriptor, TElZipLocalFileHeader, DataDescriptor);
+#endif /* SB_USE_CLASS_TELZIPDATADESCRIPTOR */
+
+		virtual uint32_t get_CompressionMethod();
+
+		virtual void set_CompressionMethod(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CompressionMethod, set_CompressionMethod, TElZipLocalFileHeader, CompressionMethod);
+
+		virtual uint32_t get_LastModFileTime();
+
+		virtual void set_LastModFileTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LastModFileTime, set_LastModFileTime, TElZipLocalFileHeader, LastModFileTime);
+
+		virtual uint32_t get_LastModFileDate();
+
+		virtual void set_LastModFileDate(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LastModFileDate, set_LastModFileDate, TElZipLocalFileHeader, LastModFileDate);
+
+		virtual uint32_t get_CRC32();
+
+		virtual void set_CRC32(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CRC32, set_CRC32, TElZipLocalFileHeader, CRC32);
+
+		virtual uint32_t get_CompressedSize();
+
+		virtual void set_CompressedSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CompressedSize, set_CompressedSize, TElZipLocalFileHeader, CompressedSize);
+
+		virtual uint32_t get_OriginalSize();
+
+		virtual void set_OriginalSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_OriginalSize, set_OriginalSize, TElZipLocalFileHeader, OriginalSize);
+
+		virtual void get_FileName(std::vector<uint8_t> &OutResult);
+
+		virtual void set_FileName(const std::vector<uint8_t> &Value);
+
+		virtual void get_ExtraField(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ExtraField(const std::vector<uint8_t> &Value);
+
+		virtual int64_t get_DataOffset();
+
+		virtual void set_DataOffset(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_DataOffset, set_DataOffset, TElZipLocalFileHeader, DataOffset);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		virtual TElZipEntityExtensions* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityExtensions*, get_Extensions, TElZipLocalFileHeader, Extensions);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		virtual bool get_DataDescriptorUsed();
+
+		virtual void set_DataDescriptorUsed(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_DataDescriptorUsed, set_DataDescriptorUsed, TElZipLocalFileHeader, DataDescriptorUsed);
+
+		TElZipLocalFileHeader(TElZipLocalFileHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElZipLocalFileHeader();
+
+		virtual ~TElZipLocalFileHeader();
+
+};
+#endif /* SB_USE_CLASS_TELZIPLOCALFILEHEADER */
+
+#ifdef SB_USE_CLASS_TELZIPCENTRALFILEHEADER
+class TElZipCentralFileHeader: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipCentralFileHeader)
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		TElZipEntityExtensions* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_VersionMadeBy();
+
+		virtual void set_VersionMadeBy(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VersionMadeBy, set_VersionMadeBy, TElZipCentralFileHeader, VersionMadeBy);
+
+		virtual uint32_t get_VersionToExtract();
+
+		virtual void set_VersionToExtract(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VersionToExtract, set_VersionToExtract, TElZipCentralFileHeader, VersionToExtract);
+
+		virtual uint32_t get_GeneralBitFlag();
+
+		virtual void set_GeneralBitFlag(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_GeneralBitFlag, set_GeneralBitFlag, TElZipCentralFileHeader, GeneralBitFlag);
+
+		virtual uint32_t get_CompressionMethod();
+
+		virtual void set_CompressionMethod(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CompressionMethod, set_CompressionMethod, TElZipCentralFileHeader, CompressionMethod);
+
+		virtual uint32_t get_LastModFileTime();
+
+		virtual void set_LastModFileTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LastModFileTime, set_LastModFileTime, TElZipCentralFileHeader, LastModFileTime);
+
+		virtual uint32_t get_LastModFileDate();
+
+		virtual void set_LastModFileDate(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LastModFileDate, set_LastModFileDate, TElZipCentralFileHeader, LastModFileDate);
+
+		virtual uint32_t get_CRC32();
+
+		virtual void set_CRC32(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CRC32, set_CRC32, TElZipCentralFileHeader, CRC32);
+
+		virtual uint32_t get_CompressedSize();
+
+		virtual void set_CompressedSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CompressedSize, set_CompressedSize, TElZipCentralFileHeader, CompressedSize);
+
+		virtual uint32_t get_OriginalSize();
+
+		virtual void set_OriginalSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_OriginalSize, set_OriginalSize, TElZipCentralFileHeader, OriginalSize);
+
+		virtual uint32_t get_DiskNumberStart();
+
+		virtual void set_DiskNumberStart(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DiskNumberStart, set_DiskNumberStart, TElZipCentralFileHeader, DiskNumberStart);
+
+		virtual uint32_t get_InternalFileAttributes();
+
+		virtual void set_InternalFileAttributes(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_InternalFileAttributes, set_InternalFileAttributes, TElZipCentralFileHeader, InternalFileAttributes);
+
+		virtual uint32_t get_ExternalFileAttributes();
+
+		virtual void set_ExternalFileAttributes(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ExternalFileAttributes, set_ExternalFileAttributes, TElZipCentralFileHeader, ExternalFileAttributes);
+
+		virtual uint32_t get_LocalHeaderOffset();
+
+		virtual void set_LocalHeaderOffset(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_LocalHeaderOffset, set_LocalHeaderOffset, TElZipCentralFileHeader, LocalHeaderOffset);
+
+		virtual void get_FileName(std::vector<uint8_t> &OutResult);
+
+		virtual void set_FileName(const std::vector<uint8_t> &Value);
+
+		virtual void get_ExtraField(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ExtraField(const std::vector<uint8_t> &Value);
+
+		virtual void get_Comment(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Comment(const std::vector<uint8_t> &Value);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		virtual TElZipEntityExtensions* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityExtensions*, get_Extensions, TElZipCentralFileHeader, Extensions);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		TElZipCentralFileHeader(TElZipCentralFileHeaderHandle handle, TElOwnHandle ownHandle);
+
+		TElZipCentralFileHeader();
+
+		virtual ~TElZipCentralFileHeader();
+
+};
+#endif /* SB_USE_CLASS_TELZIPCENTRALFILEHEADER */
+
+#ifdef SB_USE_CLASS_TELZIPDATADESCRIPTOR
+class TElZipDataDescriptor: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipDataDescriptor)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_CRC32();
+
+		virtual void set_CRC32(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CRC32, set_CRC32, TElZipDataDescriptor, CRC32);
+
+		virtual int64_t get_CompressedSize();
+
+		virtual void set_CompressedSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CompressedSize, set_CompressedSize, TElZipDataDescriptor, CompressedSize);
+
+		virtual int64_t get_OriginalSize();
+
+		virtual void set_OriginalSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_OriginalSize, set_OriginalSize, TElZipDataDescriptor, OriginalSize);
+
+		virtual bool get_WriteSignature();
+
+		virtual void set_WriteSignature(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_WriteSignature, set_WriteSignature, TElZipDataDescriptor, WriteSignature);
+
+		TElZipDataDescriptor(TElZipDataDescriptorHandle handle, TElOwnHandle ownHandle);
+
+		TElZipDataDescriptor();
+
+};
+#endif /* SB_USE_CLASS_TELZIPDATADESCRIPTOR */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+class TElZipEntityExtensions: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityExtensions)
+#ifdef SB_USE_CLASS_TELZIPENTITY
+		TElZipEntity* _Inst_Owner;
+#endif /* SB_USE_CLASS_TELZIPENTITY */
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSION
+		TElZipEntityExtension* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION
+		TElZipEntityZip64InfoExtension* _Inst_Zip64Info;
+#endif /* SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION
+		TElZipEntityStrongEncryptionExtension* _Inst_StrongEncryptionHeader;
+#endif /* SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION
+		TElZipEntityWinZipAESExtension* _Inst_WinZipAesInfo;
+#endif /* SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION
+		TElZipEntityCertificateStoreExtension* _Inst_CertificateStore;
+#endif /* SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION
+		TElZipEntityCentralDirSignatureExtension* _Inst_CentralDirectorySignature;
+#endif /* SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION
+		TElZipEntityExtendedTimestampExtension* _Inst_ExtendedTimestamp;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION
+		TElZipEntityUIDAndGIDExtension* _Inst_UIDAndGID;
+#endif /* SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION
+		TElZipEntityUnix1Extension* _Inst_Unix1;
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION
+		TElZipEntityUnix2Extension* _Inst_Unix2;
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION */
+#ifdef SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION
+		TElZipEntitySignatureExtension* _Inst_Signatures;
+#endif /* SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TElZipEntityExtensions &Source);
+
+		virtual void Assign(TElZipEntityExtensions *Source);
+
+		virtual void AssignTo(TElZipEntityExtensions &Dest);
+
+		virtual void AssignTo(TElZipEntityExtensions *Dest);
+
+		void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		void Save(std::vector<uint8_t> &OutResult);
+
+		int32_t AddExtension(uint32_t ExtensionType);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSION
+		TElZipEntityExtensionHandle ExtensionByType(uint32_t ExtensionType, int32_t Index);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSION */
+
+		void RemoveExtension(int32_t Index);
+
+		void RemoveExtensionByType(uint32_t ExtensionType, int32_t Index);
+
+		void ClearExtensions();
+
+		virtual bool get_Size32Bit();
+
+		virtual void set_Size32Bit(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_Size32Bit, set_Size32Bit, TElZipEntityExtensions, Size32Bit);
+
+#ifdef SB_USE_CLASS_TELZIPENTITY
+		virtual TElZipEntity* get_Owner();
+
+		virtual void set_Owner(TElZipEntity &Value);
+
+		virtual void set_Owner(TElZipEntity *Value);
+
+		SB_DECLARE_PROPERTY(TElZipEntity*, get_Owner, set_Owner, TElZipEntityExtensions, Owner);
+#endif /* SB_USE_CLASS_TELZIPENTITY */
+
+		virtual int32_t get_ExtensionCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_ExtensionCount, TElZipEntityExtensions, ExtensionCount);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSION
+		virtual TElZipEntityExtension* get_Extensions(int32_t Index);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSION */
+
+		virtual int32_t get_BodySize();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_BodySize, TElZipEntityExtensions, BodySize);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION
+		virtual TElZipEntityZip64InfoExtension* get_Zip64Info();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityZip64InfoExtension*, get_Zip64Info, TElZipEntityExtensions, Zip64Info);
+#endif /* SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION
+		virtual TElZipEntityStrongEncryptionExtension* get_StrongEncryptionHeader();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityStrongEncryptionExtension*, get_StrongEncryptionHeader, TElZipEntityExtensions, StrongEncryptionHeader);
+#endif /* SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION
+		virtual TElZipEntityWinZipAESExtension* get_WinZipAesInfo();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityWinZipAESExtension*, get_WinZipAesInfo, TElZipEntityExtensions, WinZipAesInfo);
+#endif /* SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION
+		virtual TElZipEntityCertificateStoreExtension* get_CertificateStore();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityCertificateStoreExtension*, get_CertificateStore, TElZipEntityExtensions, CertificateStore);
+#endif /* SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION
+		virtual TElZipEntityCentralDirSignatureExtension* get_CentralDirectorySignature();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityCentralDirSignatureExtension*, get_CentralDirectorySignature, TElZipEntityExtensions, CentralDirectorySignature);
+#endif /* SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION
+		virtual TElZipEntityExtendedTimestampExtension* get_ExtendedTimestamp();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityExtendedTimestampExtension*, get_ExtendedTimestamp, TElZipEntityExtensions, ExtendedTimestamp);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION
+		virtual TElZipEntityUIDAndGIDExtension* get_UIDAndGID();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityUIDAndGIDExtension*, get_UIDAndGID, TElZipEntityExtensions, UIDAndGID);
+#endif /* SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION
+		virtual TElZipEntityUnix1Extension* get_Unix1();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityUnix1Extension*, get_Unix1, TElZipEntityExtensions, Unix1);
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION
+		virtual TElZipEntityUnix2Extension* get_Unix2();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityUnix2Extension*, get_Unix2, TElZipEntityExtensions, Unix2);
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION */
+
+		virtual int32_t get_SignatureCount();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_SignatureCount, TElZipEntityExtensions, SignatureCount);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION
+		virtual TElZipEntitySignatureExtension* get_Signatures(int32_t Index);
+#endif /* SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION */
+
+		TElZipEntityExtensions(TElZipEntityExtensionsHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityExtensions();
+
+		virtual ~TElZipEntityExtensions();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+#ifdef SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE
+class TElZipCentralDirectorySignature: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipCentralDirectorySignature)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_Version();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_Version, TElZipCentralDirectorySignature, Version);
+
+		virtual uint32_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_HashAlgorithm, set_HashAlgorithm, TElZipCentralDirectorySignature, HashAlgorithm);
+
+		virtual void get_IssuerName(std::vector<uint8_t> &OutResult);
+
+		virtual void set_IssuerName(const std::vector<uint8_t> &Value);
+
+		virtual void get_SerialNumber(std::vector<uint8_t> &OutResult);
+
+		virtual void set_SerialNumber(const std::vector<uint8_t> &Value);
+
+		virtual void get_CentralSignature(std::vector<uint8_t> &OutResult);
+
+		virtual void set_CentralSignature(const std::vector<uint8_t> &Value);
+
+		TElZipCentralDirectorySignature(TElZipCentralDirectorySignatureHandle handle, TElOwnHandle ownHandle);
+
+		TElZipCentralDirectorySignature();
+
+};
+#endif /* SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE */
+
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY
+class TElZip64EndOfCentralDirectory: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZip64EndOfCentralDirectory)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_StructureVersion();
+
+		virtual void set_StructureVersion(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_StructureVersion, set_StructureVersion, TElZip64EndOfCentralDirectory, StructureVersion);
+
+		virtual uint32_t get_VersionMadeBy();
+
+		virtual void set_VersionMadeBy(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VersionMadeBy, set_VersionMadeBy, TElZip64EndOfCentralDirectory, VersionMadeBy);
+
+		virtual uint32_t get_VersionToExtract();
+
+		virtual void set_VersionToExtract(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_VersionToExtract, set_VersionToExtract, TElZip64EndOfCentralDirectory, VersionToExtract);
+
+		virtual uint32_t get_DiskNumber();
+
+		virtual void set_DiskNumber(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DiskNumber, set_DiskNumber, TElZip64EndOfCentralDirectory, DiskNumber);
+
+		virtual uint32_t get_CentralDirStartDisk();
+
+		virtual void set_CentralDirStartDisk(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CentralDirStartDisk, set_CentralDirStartDisk, TElZip64EndOfCentralDirectory, CentralDirStartDisk);
+
+		virtual int64_t get_EntriesOnDiskCount();
+
+		virtual void set_EntriesOnDiskCount(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_EntriesOnDiskCount, set_EntriesOnDiskCount, TElZip64EndOfCentralDirectory, EntriesOnDiskCount);
+
+		virtual int64_t get_EntriesCount();
+
+		virtual void set_EntriesCount(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_EntriesCount, set_EntriesCount, TElZip64EndOfCentralDirectory, EntriesCount);
+
+		virtual int64_t get_CentralDirSize();
+
+		virtual void set_CentralDirSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CentralDirSize, set_CentralDirSize, TElZip64EndOfCentralDirectory, CentralDirSize);
+
+		virtual int64_t get_CentralDirOffset();
+
+		virtual void set_CentralDirOffset(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CentralDirOffset, set_CentralDirOffset, TElZip64EndOfCentralDirectory, CentralDirOffset);
+
+		virtual void get_ExtensibleData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ExtensibleData(const std::vector<uint8_t> &Value);
+
+		virtual uint32_t get_CompressionMethod();
+
+		virtual void set_CompressionMethod(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CompressionMethod, set_CompressionMethod, TElZip64EndOfCentralDirectory, CompressionMethod);
+
+		virtual int64_t get_CompressedSize();
+
+		virtual void set_CompressedSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CompressedSize, set_CompressedSize, TElZip64EndOfCentralDirectory, CompressedSize);
+
+		virtual int64_t get_OriginalSize();
+
+		virtual void set_OriginalSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_OriginalSize, set_OriginalSize, TElZip64EndOfCentralDirectory, OriginalSize);
+
+		virtual uint32_t get_EncryptionAlgorithm();
+
+		virtual void set_EncryptionAlgorithm(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptionAlgorithm, set_EncryptionAlgorithm, TElZip64EndOfCentralDirectory, EncryptionAlgorithm);
+
+		virtual uint32_t get_KeyLength();
+
+		virtual void set_KeyLength(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_KeyLength, set_KeyLength, TElZip64EndOfCentralDirectory, KeyLength);
+
+		virtual uint32_t get_EncryptionFlags();
+
+		virtual void set_EncryptionFlags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EncryptionFlags, set_EncryptionFlags, TElZip64EndOfCentralDirectory, EncryptionFlags);
+
+		virtual uint32_t get_HashAlgortihm();
+
+		virtual void set_HashAlgortihm(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_HashAlgortihm, set_HashAlgortihm, TElZip64EndOfCentralDirectory, HashAlgortihm);
+
+		virtual void get_Hash(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Hash(const std::vector<uint8_t> &Value);
+
+		TElZip64EndOfCentralDirectory(TElZip64EndOfCentralDirectoryHandle handle, TElOwnHandle ownHandle);
+
+		TElZip64EndOfCentralDirectory();
+
+};
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORYLOCATOR
+class TElZip64EndOfCentralDirectoryLocator: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZip64EndOfCentralDirectoryLocator)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_DiskNumber();
+
+		virtual void set_DiskNumber(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DiskNumber, set_DiskNumber, TElZip64EndOfCentralDirectoryLocator, DiskNumber);
+
+		virtual int64_t get_Offset();
+
+		virtual void set_Offset(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_Offset, set_Offset, TElZip64EndOfCentralDirectoryLocator, Offset);
+
+		virtual uint32_t get_TotalDiskCount();
+
+		virtual void set_TotalDiskCount(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_TotalDiskCount, set_TotalDiskCount, TElZip64EndOfCentralDirectoryLocator, TotalDiskCount);
+
+		TElZip64EndOfCentralDirectoryLocator(TElZip64EndOfCentralDirectoryLocatorHandle handle, TElOwnHandle ownHandle);
+
+		TElZip64EndOfCentralDirectoryLocator();
+
+};
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORYLOCATOR */
+
+#ifdef SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY
+class TElZipEndOfCentralDirectory: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipEndOfCentralDirectory)
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+		virtual uint32_t get_DiskNumber();
+
+		virtual void set_DiskNumber(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DiskNumber, set_DiskNumber, TElZipEndOfCentralDirectory, DiskNumber);
+
+		virtual uint32_t get_CentralDirStartDisk();
+
+		virtual void set_CentralDirStartDisk(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CentralDirStartDisk, set_CentralDirStartDisk, TElZipEndOfCentralDirectory, CentralDirStartDisk);
+
+		virtual uint32_t get_EntriesOnDiskCount();
+
+		virtual void set_EntriesOnDiskCount(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EntriesOnDiskCount, set_EntriesOnDiskCount, TElZipEndOfCentralDirectory, EntriesOnDiskCount);
+
+		virtual uint32_t get_EntriesCount();
+
+		virtual void set_EntriesCount(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_EntriesCount, set_EntriesCount, TElZipEndOfCentralDirectory, EntriesCount);
+
+		virtual uint32_t get_CentralDirSize();
+
+		virtual void set_CentralDirSize(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CentralDirSize, set_CentralDirSize, TElZipEndOfCentralDirectory, CentralDirSize);
+
+		virtual uint32_t get_CentralDirOffset();
+
+		virtual void set_CentralDirOffset(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CentralDirOffset, set_CentralDirOffset, TElZipEndOfCentralDirectory, CentralDirOffset);
+
+		virtual void get_Comment(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Comment(const std::vector<uint8_t> &Value);
+
+		TElZipEndOfCentralDirectory(TElZipEndOfCentralDirectoryHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEndOfCentralDirectory();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIPARCHIVEEXTRADATA
+class TElZipArchiveExtraData: public TElZipEntity
+{
+	private:
+		SB_DISABLE_COPY(TElZipArchiveExtraData)
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		TElZipEntityExtensions* _Inst_Extensions;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		void initInstances();
+
+	public:
+		virtual void Assign(TElZipEntity &Source);
+
+		virtual void Assign(TElZipEntity *Source);
+
+		virtual void AssignTo(TElZipEntity &Dest);
+
+		virtual void AssignTo(TElZipEntity *Dest);
+
+		virtual void Load(void * UserData);
+
+		virtual void Save(void * UserData);
+
+		virtual void DataAvailable();
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		virtual TElZipEntityExtensions* get_Extensions();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEntityExtensions*, get_Extensions, TElZipArchiveExtraData, Extensions);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		TElZipArchiveExtraData(TElZipArchiveExtraDataHandle handle, TElOwnHandle ownHandle);
+
+		TElZipArchiveExtraData();
+
+		virtual ~TElZipArchiveExtraData();
+
+};
+#endif /* SB_USE_CLASS_TELZIPARCHIVEEXTRADATA */
+
+#ifdef SB_USE_CLASS_TELZIPPROCESSOR
+class TElZipProcessor: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElZipProcessor)
+#ifdef SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY
+		TElZipEndOfCentralDirectory* _Inst_EndOfCentralDir;
+#endif /* SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY */
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY
+		TElZip64EndOfCentralDirectory* _Inst_Zip64EndOfCentralDir;
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY */
+#ifdef SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE
+		TElZipCentralDirectorySignature* _Inst_CentralDirectorySignature;
+#endif /* SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE */
+#ifdef SB_USE_CLASS_TELZIPARCHIVEEXTRADATA
+		TElZipArchiveExtraData* _Inst_ArchiveExtraData;
+#endif /* SB_USE_CLASS_TELZIPARCHIVEEXTRADATA */
+
+		void initInstances();
+
+	public:
+#ifdef SB_USE_CLASS_TSTREAM
+		void Process(TStream &Stream);
+
+		void Process(TStream *Stream);
+#endif /* SB_USE_CLASS_TSTREAM */
+
+#ifdef SB_USE_CLASSES_TELZIPLOCALFILEHEADER_AND_TSTREAM
+		bool ProcessLocalHeader(TStream &Stream, TElZipLocalFileHeader &Header);
+
+		bool ProcessLocalHeader(TStream *Stream, TElZipLocalFileHeader &Header);
+#endif /* SB_USE_CLASSES_TELZIPLOCALFILEHEADER_AND_TSTREAM */
+
+		void DataAvailable();
+
+		virtual bool get_Processed();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Processed, TElZipProcessor, Processed);
+
+		virtual bool get_EndOfData();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_EndOfData, TElZipProcessor, EndOfData);
+
+		virtual bool get_CentralDirectoryCompressed();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_CentralDirectoryCompressed, TElZipProcessor, CentralDirectoryCompressed);
+
+		virtual bool get_CentralDirectoryEncrypted();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_CentralDirectoryEncrypted, TElZipProcessor, CentralDirectoryEncrypted);
+
+		virtual bool get_UseCentralDirectory();
+
+		virtual void set_UseCentralDirectory(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UseCentralDirectory, set_UseCentralDirectory, TElZipProcessor, UseCentralDirectory);
+
+		virtual bool get_OnePass();
+
+		virtual void set_OnePass(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_OnePass, set_OnePass, TElZipProcessor, OnePass);
+
+		virtual bool get_Zip64Format();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_Zip64Format, TElZipProcessor, Zip64Format);
+
+#ifdef SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY
+		virtual TElZipEndOfCentralDirectory* get_EndOfCentralDir();
+
+		SB_DECLARE_PROPERTY_GET(TElZipEndOfCentralDirectory*, get_EndOfCentralDir, TElZipProcessor, EndOfCentralDir);
+#endif /* SB_USE_CLASS_TELZIPENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY
+		virtual TElZip64EndOfCentralDirectory* get_Zip64EndOfCentralDir();
+
+		SB_DECLARE_PROPERTY_GET(TElZip64EndOfCentralDirectory*, get_Zip64EndOfCentralDir, TElZipProcessor, Zip64EndOfCentralDir);
+#endif /* SB_USE_CLASS_TELZIP64ENDOFCENTRALDIRECTORY */
+
+#ifdef SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE
+		virtual TElZipCentralDirectorySignature* get_CentralDirectorySignature();
+
+		SB_DECLARE_PROPERTY_GET(TElZipCentralDirectorySignature*, get_CentralDirectorySignature, TElZipProcessor, CentralDirectorySignature);
+#endif /* SB_USE_CLASS_TELZIPCENTRALDIRECTORYSIGNATURE */
+
+		virtual int64_t get_CentralDirectoryEntriesCount();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_CentralDirectoryEntriesCount, TElZipProcessor, CentralDirectoryEntriesCount);
+
+		virtual int64_t get_CentralDirectorySize();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_CentralDirectorySize, TElZipProcessor, CentralDirectorySize);
+
+		virtual int64_t get_CentralDirectoryPosition();
+
+		SB_DECLARE_PROPERTY_GET(int64_t, get_CentralDirectoryPosition, TElZipProcessor, CentralDirectoryPosition);
+
+#ifdef SB_USE_CLASS_TELZIPARCHIVEEXTRADATA
+		virtual TElZipArchiveExtraData* get_ArchiveExtraData();
+
+		SB_DECLARE_PROPERTY_GET(TElZipArchiveExtraData*, get_ArchiveExtraData, TElZipProcessor, ArchiveExtraData);
+#endif /* SB_USE_CLASS_TELZIPARCHIVEEXTRADATA */
+
+		virtual void get_OnLocalFileHeaderLoaded(TSBZipLocalFileHeaderLoadedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnLocalFileHeaderLoaded(TSBZipLocalFileHeaderLoadedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnDataDescriptorLoaded(TSBZipDataDescriptorLoadedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnDataDescriptorLoaded(TSBZipDataDescriptorLoadedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCentralFileHeaderLoaded(TSBZipCentralFileHeaderLoadedEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCentralFileHeaderLoaded(TSBZipCentralFileHeaderLoadedEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnFileData(TSBZipFileDataEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnFileData(TSBZipFileDataEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnFileHeadersLoaded(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnFileHeadersLoaded(TNotifyEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCentralDirectoryFound(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCentralDirectoryFound(TNotifyEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnProcessCentralDirectory(TSBZipCentralDirectoryProcessEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnProcessCentralDirectory(TSBZipCentralDirectoryProcessEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnCentralDirectoryProcessed(TNotifyEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnCentralDirectoryProcessed(TNotifyEvent pMethodValue, void * pDataValue);
+
+		virtual void get_OnArchiveError(TSBZipArchiveErrorEvent &pMethodOutResult, void * &pDataOutResult);
+
+		virtual void set_OnArchiveError(TSBZipArchiveErrorEvent pMethodValue, void * pDataValue);
+
+		TElZipProcessor(TElZipProcessorHandle handle, TElOwnHandle ownHandle);
+
+		TElZipProcessor();
+
+		virtual ~TElZipProcessor();
+
+};
+#endif /* SB_USE_CLASS_TELZIPPROCESSOR */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSION
+class TElZipEntityExtension: public TObject
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityExtension)
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		TElZipEntityExtensions* _Inst_Owner;
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		void initInstances();
+
+	public:
+		static TElZipEntityExtensionHandle CreateByType(uint32_t ExtensionType);
+
+		TElZipEntityExtensionHandle CreateByType_Inst(uint32_t ExtensionType);
+
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void AssignTo(TElZipEntityExtension &Dest);
+
+		virtual void AssignTo(TElZipEntityExtension *Dest);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual int32_t get_BodySize();
+
+		SB_DECLARE_PROPERTY_GET(int32_t, get_BodySize, TElZipEntityExtension, BodySize);
+
+		virtual uint32_t get_ExtensionType();
+
+		virtual void set_ExtensionType(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ExtensionType, set_ExtensionType, TElZipEntityExtension, ExtensionType);
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENSIONS
+		virtual TElZipEntityExtensions* get_Owner();
+
+		virtual void set_Owner(TElZipEntityExtensions &Value);
+
+		virtual void set_Owner(TElZipEntityExtensions *Value);
+
+		SB_DECLARE_PROPERTY(TElZipEntityExtensions*, get_Owner, set_Owner, TElZipEntityExtension, Owner);
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSIONS */
+
+		TElZipEntityExtension(TElZipEntityExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityExtension();
+
+		virtual ~TElZipEntityExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCUSTOMEXTENSION
+class TElZipEntityCustomExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityCustomExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual void get_ExtensionData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_ExtensionData(const std::vector<uint8_t> &Value);
+
+		TElZipEntityCustomExtension(TElZipEntityCustomExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityCustomExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYCUSTOMEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION
+class TElZipEntityZip64InfoExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityZip64InfoExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual int64_t get_OriginalSize();
+
+		virtual void set_OriginalSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_OriginalSize, set_OriginalSize, TElZipEntityZip64InfoExtension, OriginalSize);
+
+		virtual bool get_OriginalSizeAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_OriginalSizeAvailable, TElZipEntityZip64InfoExtension, OriginalSizeAvailable);
+
+		virtual int64_t get_CompressedSize();
+
+		virtual void set_CompressedSize(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_CompressedSize, set_CompressedSize, TElZipEntityZip64InfoExtension, CompressedSize);
+
+		virtual bool get_CompressedSizeAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_CompressedSizeAvailable, TElZipEntityZip64InfoExtension, CompressedSizeAvailable);
+
+		virtual int64_t get_RelativeHeaderOffset();
+
+		virtual void set_RelativeHeaderOffset(int64_t Value);
+
+		SB_DECLARE_PROPERTY(int64_t, get_RelativeHeaderOffset, set_RelativeHeaderOffset, TElZipEntityZip64InfoExtension, RelativeHeaderOffset);
+
+		virtual bool get_RelativeHeaderOffsetAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_RelativeHeaderOffsetAvailable, TElZipEntityZip64InfoExtension, RelativeHeaderOffsetAvailable);
+
+		virtual uint32_t get_DiskStart();
+
+		virtual void set_DiskStart(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_DiskStart, set_DiskStart, TElZipEntityZip64InfoExtension, DiskStart);
+
+		virtual bool get_DiskStartAvailable();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_DiskStartAvailable, TElZipEntityZip64InfoExtension, DiskStartAvailable);
+
+		TElZipEntityZip64InfoExtension(TElZipEntityZip64InfoExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityZip64InfoExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYZIP64INFOEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION
+class TElZipEntityStrongEncryptionExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityStrongEncryptionExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint32_t get_Format();
+
+		virtual void set_Format(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Format, set_Format, TElZipEntityStrongEncryptionExtension, Format);
+
+		virtual uint32_t get_AlgorithmID();
+
+		virtual void set_AlgorithmID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_AlgorithmID, set_AlgorithmID, TElZipEntityStrongEncryptionExtension, AlgorithmID);
+
+		virtual uint32_t get_KeyLength();
+
+		virtual void set_KeyLength(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_KeyLength, set_KeyLength, TElZipEntityStrongEncryptionExtension, KeyLength);
+
+		virtual uint32_t get_Flags();
+
+		virtual void set_Flags(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Flags, set_Flags, TElZipEntityStrongEncryptionExtension, Flags);
+
+		virtual int32_t get_RecipientCount();
+
+		virtual void set_RecipientCount(int32_t Value);
+
+		SB_DECLARE_PROPERTY(int32_t, get_RecipientCount, set_RecipientCount, TElZipEntityStrongEncryptionExtension, RecipientCount);
+
+		virtual uint32_t get_HashAlgorithmID();
+
+		virtual void set_HashAlgorithmID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_HashAlgorithmID, set_HashAlgorithmID, TElZipEntityStrongEncryptionExtension, HashAlgorithmID);
+
+		virtual uint32_t get_HashSize();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_HashSize, TElZipEntityStrongEncryptionExtension, HashSize);
+
+		virtual void get_RecipientHashes(int32_t Index, std::vector<uint8_t> &OutResult);
+
+		virtual void set_RecipientHashes(int32_t Index, const std::vector<uint8_t> &Value);
+
+		TElZipEntityStrongEncryptionExtension(TElZipEntityStrongEncryptionExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityStrongEncryptionExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYSTRONGENCRYPTIONEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION
+class TElZipEntityWinZipAESExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityWinZipAESExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint32_t get_Version();
+
+		virtual void set_Version(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Version, set_Version, TElZipEntityWinZipAESExtension, Version);
+
+		virtual uint32_t get_Vendor();
+
+		virtual void set_Vendor(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_Vendor, set_Vendor, TElZipEntityWinZipAESExtension, Vendor);
+
+		virtual uint8_t get_KeyStrength();
+
+		virtual void set_KeyStrength(uint8_t Value);
+
+		SB_DECLARE_PROPERTY(uint8_t, get_KeyStrength, set_KeyStrength, TElZipEntityWinZipAESExtension, KeyStrength);
+
+		virtual uint32_t get_ActualCompressionMethod();
+
+		virtual void set_ActualCompressionMethod(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ActualCompressionMethod, set_ActualCompressionMethod, TElZipEntityWinZipAESExtension, ActualCompressionMethod);
+
+		TElZipEntityWinZipAESExtension(TElZipEntityWinZipAESExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityWinZipAESExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYWINZIPAESEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION
+class TElZipEntityCertificateStoreExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityCertificateStoreExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint32_t get_Version();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_Version, TElZipEntityCertificateStoreExtension, Version);
+
+		virtual void get_StoreData(std::vector<uint8_t> &OutResult);
+
+		virtual void set_StoreData(const std::vector<uint8_t> &Value);
+
+		TElZipEntityCertificateStoreExtension(TElZipEntityCertificateStoreExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityCertificateStoreExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYCERTIFICATESTOREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION
+class TElZipEntitySignatureExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntitySignatureExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint32_t get_Version();
+
+		SB_DECLARE_PROPERTY_GET(uint32_t, get_Version, TElZipEntitySignatureExtension, Version);
+
+		virtual uint32_t get_HashAlgorithm();
+
+		virtual void set_HashAlgorithm(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_HashAlgorithm, set_HashAlgorithm, TElZipEntitySignatureExtension, HashAlgorithm);
+
+		virtual void get_IssuerName(std::vector<uint8_t> &OutResult);
+
+		virtual void set_IssuerName(const std::vector<uint8_t> &Value);
+
+		virtual void get_SerialNumber(std::vector<uint8_t> &OutResult);
+
+		virtual void set_SerialNumber(const std::vector<uint8_t> &Value);
+
+		virtual void get_Signature(std::vector<uint8_t> &OutResult);
+
+		virtual void set_Signature(const std::vector<uint8_t> &Value);
+
+		TElZipEntitySignatureExtension(TElZipEntitySignatureExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntitySignatureExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYSIGNATUREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION
+class TElZipEntityCentralDirSignatureExtension: public TElZipEntitySignatureExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityCentralDirSignatureExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		TElZipEntityCentralDirSignatureExtension(TElZipEntityCentralDirSignatureExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityCentralDirSignatureExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYCENTRALDIRSIGNATUREEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION
+class TElZipEntityUnix1Extension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityUnix1Extension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint32_t get_ModifyTime();
+
+		virtual void set_ModifyTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ModifyTime, set_ModifyTime, TElZipEntityUnix1Extension, ModifyTime);
+
+		virtual uint32_t get_AccessTime();
+
+		virtual void set_AccessTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_AccessTime, set_AccessTime, TElZipEntityUnix1Extension, AccessTime);
+
+		virtual bool get_UIDAndGIDAvailable();
+
+		virtual void set_UIDAndGIDAvailable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UIDAndGIDAvailable, set_UIDAndGIDAvailable, TElZipEntityUnix1Extension, UIDAndGIDAvailable);
+
+		virtual uint32_t get_UID();
+
+		virtual void set_UID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_UID, set_UID, TElZipEntityUnix1Extension, UID);
+
+		virtual uint32_t get_GID();
+
+		virtual void set_GID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_GID, set_GID, TElZipEntityUnix1Extension, GID);
+
+		TElZipEntityUnix1Extension(TElZipEntityUnix1ExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityUnix1Extension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX1EXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION
+class TElZipEntityUnix2Extension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityUnix2Extension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual bool get_UIDAndGIDAvailable();
+
+		virtual void set_UIDAndGIDAvailable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_UIDAndGIDAvailable, set_UIDAndGIDAvailable, TElZipEntityUnix2Extension, UIDAndGIDAvailable);
+
+		virtual uint32_t get_UID();
+
+		virtual void set_UID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_UID, set_UID, TElZipEntityUnix2Extension, UID);
+
+		virtual uint32_t get_GID();
+
+		virtual void set_GID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_GID, set_GID, TElZipEntityUnix2Extension, GID);
+
+		TElZipEntityUnix2Extension(TElZipEntityUnix2ExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityUnix2Extension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYUNIX2EXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION
+class TElZipEntityExtendedTimestampExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityExtendedTimestampExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual bool get_ModifyTimeAvailable();
+
+		virtual void set_ModifyTimeAvailable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_ModifyTimeAvailable, set_ModifyTimeAvailable, TElZipEntityExtendedTimestampExtension, ModifyTimeAvailable);
+
+		virtual bool get_AccessTimeAvailable();
+
+		virtual void set_AccessTimeAvailable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_AccessTimeAvailable, set_AccessTimeAvailable, TElZipEntityExtendedTimestampExtension, AccessTimeAvailable);
+
+		virtual bool get_CreateTimeAvailable();
+
+		virtual void set_CreateTimeAvailable(bool Value);
+
+		SB_DECLARE_PROPERTY(bool, get_CreateTimeAvailable, set_CreateTimeAvailable, TElZipEntityExtendedTimestampExtension, CreateTimeAvailable);
+
+		virtual uint32_t get_ModifyTime();
+
+		virtual void set_ModifyTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_ModifyTime, set_ModifyTime, TElZipEntityExtendedTimestampExtension, ModifyTime);
+
+		virtual uint32_t get_AccessTime();
+
+		virtual void set_AccessTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_AccessTime, set_AccessTime, TElZipEntityExtendedTimestampExtension, AccessTime);
+
+		virtual uint32_t get_CreateTime();
+
+		virtual void set_CreateTime(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_CreateTime, set_CreateTime, TElZipEntityExtendedTimestampExtension, CreateTime);
+
+		virtual bool get_CentralHeader();
+
+		SB_DECLARE_PROPERTY_GET(bool, get_CentralHeader, TElZipEntityExtendedTimestampExtension, CentralHeader);
+
+		TElZipEntityExtendedTimestampExtension(TElZipEntityExtendedTimestampExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityExtendedTimestampExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYEXTENDEDTIMESTAMPEXTENSION */
+
+#ifdef SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION
+class TElZipEntityUIDAndGIDExtension: public TElZipEntityExtension
+{
+	private:
+		SB_DISABLE_COPY(TElZipEntityUIDAndGIDExtension)
+	public:
+		virtual void Assign(TElZipEntityExtension &Source);
+
+		virtual void Assign(TElZipEntityExtension *Source);
+
+		virtual void LoadFromBuffer(const std::vector<uint8_t> &Buffer, int32_t Index, int32_t Size);
+
+		virtual bool SaveToBuffer(std::vector<uint8_t> &Buffer, int32_t Index, int32_t &Size);
+
+		virtual uint8_t get_Version();
+
+		SB_DECLARE_PROPERTY_GET(uint8_t, get_Version, TElZipEntityUIDAndGIDExtension, Version);
+
+		virtual uint32_t get_UID();
+
+		virtual void set_UID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_UID, set_UID, TElZipEntityUIDAndGIDExtension, UID);
+
+		virtual uint32_t get_GID();
+
+		virtual void set_GID(uint32_t Value);
+
+		SB_DECLARE_PROPERTY(uint32_t, get_GID, set_GID, TElZipEntityUIDAndGIDExtension, GID);
+
+		TElZipEntityUIDAndGIDExtension(TElZipEntityUIDAndGIDExtensionHandle handle, TElOwnHandle ownHandle);
+
+		TElZipEntityUIDAndGIDExtension();
+
+};
+#endif /* SB_USE_CLASS_TELZIPENTITYUIDANDGIDEXTENSION */
+
+#endif  /* __cplusplus */
+
+#ifdef __cplusplus
+};	/* namespace SecureBlackbox */
+#endif
+
+#pragma pack(pop)
+
+#endif  /* __INC_SBZIPENTITIES */
+

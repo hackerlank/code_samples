@@ -23,8 +23,14 @@
     <CompileTarget>Bin</CompileTarget>
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
-    <ExtraCompilerArguments>-fdata-sections -ffunction-sections  -std=c++11 -fPIC  -DLINUX -DCPU64</ExtraCompilerArguments>
+    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
     <OptimizationLevel>2</OptimizationLevel>
+    <WarningLevel>All</WarningLevel>
+    <Libs>
+      <Libs>
+        <Lib>sbb</Lib>
+      </Libs>
+    </Libs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -34,6 +40,12 @@
     <OptimizationLevel>3</OptimizationLevel>
     <DefineSymbols>MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
+    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
+    <LibPaths>
+      <LibPaths>
+        <LibPath>${ProjectDir}/lib</LibPath>
+      </LibPaths>
+    </LibPaths>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="main.cpp" />
