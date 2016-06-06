@@ -2,19 +2,50 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
     <Files>
-      <File FileName="TestSBB/main.cpp" Line="36" Column="36" />
+      <File FileName="ConsolePAdES/consolepades.cpp" Line="77" Column="77" />
+      <File FileName="TestSBB/main.cpp" Line="42" Column="42" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ConsolePAdES" expanded="True" />
+          <Node name="TestSBB" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ConsolePAdES>
+    <MonoDevelop.Ide.CustomExecutionModes>
+      <Data Name="TSA (Personalizado)" Id="5199e00f-36a5-4c93-a937-0e9270f5870e" ModeId="Default" PromptForParameters="True">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/tmp/cert.pfx&quot; 1234 -tsa &quot;https://freetsa.org/tsr&quot;" ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+        </CommandData>
+      </Data>
+    </MonoDevelop.Ide.CustomExecutionModes>
+  </MonoDevelop.Ide.ItemProperties.ConsolePAdES>
   <MonoDevelop.Ide.ItemProperties.TestSBB>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="Smartcard (Personalizado)" Id="2d55c605-7215-49d2-892f-e9273adb168b" ModeId="Default" PromptForParameters="True">
         <CommandData>
           <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
             <Value Arguments="-ignoreerrors -inv -f &quot;/tmp/doc.pdf&quot; -usesmartcard &quot;/usr/lib/libaetpkss.so&quot; 1234" ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+        </CommandData>
+      </Data>
+      <Data Name="Default (Personalizado)" Id="c4fb2c21-4e69-4380-87a5-d4331f8b92be" ModeId="Default" PromptForParameters="True">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/home/leovan/devel/certificados/leovant@gmail.com.p12&quot; 12345 -tsa &quot;https://freetsa.org/tsr&quot; -autorev -inv -ltv -trustedcerts &quot;/home/leovan/devel/certificados/leovant@gmail.com.crt&quot;" ctype="CustomArgsExecutionModeData">
               <EnvironmentVariables />
             </Value>
           </Item>

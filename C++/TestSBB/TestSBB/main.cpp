@@ -1,5 +1,5 @@
-﻿#include <iostream>
-#include <cstring>
+﻿#include <cstring>
+#include <iostream>
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +8,6 @@
 
 #include "sbmisc.h"
 #include "sbutils.h"
-#include "sbstringlist.h"
 #include "sbpdf.h"
 #include "sbpades.h"
 #include "sbx509.h"
@@ -19,16 +18,13 @@
 #include "sbhttpcrl.h"
 #include "sbhttpocspclient.h"
 #include "sbhttpcertretriever.h"
-#include "sbpkcs11base.h"
-#include "sbpkcs11certstorage.h"
-#include "sbpkcs11common.h"
-#include "sbwincertstorage.h"
-#include "sbcustomcertstorage.h"
 
-using namespace std;
+#define TSA_CERT "/tmp/tsa.crt"
+#define CA_CERT "/tmp/root.crt"
+
 using namespace SecureBlackbox;
 
-string UnQuote(string s)
+std::string UnQuote(std::string s)
 {
     if (s.length() < 1)
         return s;
@@ -39,66 +35,88 @@ string UnQuote(string s)
 
 TElMemoryCertStorage *pTrustedCertStorage;
 
-void SB_CALLBACK PDF_OnCertValidatorPrepared(void *, TObjectHandle, TElX509CertificateValidatorHandle * hCertValidator, TElX509CertificateHandle)
+void SB_CALLBACK PDF_OnCertValidatorPrepared(void * /* _ObjectData */, TObjectHandle /* hSender */, TElX509CertificateValidatorHandle * hCertValidator, TElX509CertificateHandle hCert)
 {
+    std::cout << "Trying to set validator's properties." << std::endl;
     try
     {
         TElX509CertificateValidator CertValidator(*hCertValidator, false);
         CertValidator.AddTrustedCertificates(pTrustedCertStorage);
-        CertValidator.set_ForceCompleteChainValidationForTrusted(true);
+        CertValidator.set_MandatoryCRLCheck(false);
+        CertValidator.set_MandatoryOCSPCheck(false);
+        CertValidator.set_MandatoryRevocationCheck(false);
+        std::cout << "Validator prepared." << std::endl;
+        TElX509Certificate Cert(hCert, false);
+        std::string SubjectName;
+        Cert.get_SubjectRDN()->SaveToDNString(SubjectName);
+        std::cout << "Ready to validate: " << SubjectName << std::endl;
     }
     catch (SBException E)
     {
-        cout << "Unexpected error in OnCertValidatorPrepared event handler!" << endl;
-        cout << E.what() << endl;
-        cout << "Stack trace: " << E.getErrorStackTrace().c_str() << endl;
+        std::cout << "Unexpected error in OnCertValidatorPrepared event handler" << std::endl;
+        std::cout << E.what() << std::endl;
+        std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
     }
 }
 
-int main (int argc, char *argv[])
+void SB_CALLBACK PDF_OnCertValidatorFinished(void * _ObjectData, TObjectHandle Sender, TElX509CertificateValidatorHandle CertValidator, TElX509CertificateHandle Cert, TSBCertificateValidityRaw Validity, TSBCertificateValidityReasonRaw Reason)
 {
-    cout << "PDF signer using SecureBlackbox(R) lib!" << endl;
+    std::cout << "Certificate validity: " << Validity << std::endl;
+    std::cout << "Reason: " << Reason << std::endl;
+}
 
-    string helpMessage = "Parameters:\n" \
-        "-f <filename>: path to .pdf file;\n" \
-        "-cert: use certificate file;\n" \
-        "-smartcard: use smartcard;\n" \
-        "-win: use Windows Storage;\n" \
-        "-inv: invisible signature;\n" \
-        "-tsa <url>: timestamp server;\n" \
-        "-trustedcerts <filename>: trusted certificates storage;\n" \
-        "-autorev: auto collect revocation info;\n" \
-        "-ignoreerrors: ignore chain validation errors;\n" \
-        "-h: help.\n";
-    string pdfFilename, certFilename, pin, tsaURL, trustedCertsFilename, pkcs11Lib;
-    //bool invisibleSignature = false;
-    //bool autoRev = false;
-    //bool ignoreErrors = false;
-    bool cert = false;
-    bool smartcard = false;
-    bool win = false;
-    /*
-     * Sets the product license key.
-     */
-    try 
+void SB_CALLBACK TSP_OnCertificateValidate(void * /* _ObjectData */, TObjectHandle /* Sender */, TElX509CertificateHandle /*Certificate*/, TElCustomCertStorageHandle /* AdditionalCertificates */, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason, int8_t * DoContinue)
+{
+    std::cout << "TSA certificate invalid: " << Validity << std::endl;
+}
+
+void SB_CALLBACK HTTP_OnError(void * _ObjectData, TObjectHandle Sender, int32_t ErrorCode, int8_t Fatal, int8_t Remote)
+{
+    std::cout << "HTTP Error: " << Remote << std::endl;
+}
+
+void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32_t ResponseCode)
+{
+    std::cout << "HTTP Error: " << ResponseCode << std::endl;
+}
+
+int main(int argc, char **argv)
+{
+    std::string helpMessage = "ConsolePAdES.exe [params]\n" \
+        "params:\n" \
+        "-f <filename> : path to .pdf file;\n" \
+        "-c <filename> <password> : certificate filename and password if needed;\n" \
+        "-inv : invisible signature;\n" \
+        "-tsa <url> : timestamp server;\n" \
+        "-trustedcerts <filename> : trusted certificate storage;\n" \
+        "-autorev : auto collect revocation info;\n" \
+        "-ignoreerrors : ignore chain validation errors;\n" \
+        "-ltv : enable LTV;\n" \
+        "-h : help;\n";
+
+    std::string pdfFilename, certFilename, certPassword, tsaURL, trustedCertsFilename;
+    bool invisibleSignature = false;
+    bool autoRev = false;
+    bool ignoreErrors = false;
+    bool ltv = false;
+
+    try
     {
         SetLicenseKey("61E05BF5CA4631B12F8BABFB92367BC36C7264BC67086ECB308682402A5676E924B812056C97BB8CE23A97E4F612E6B29B80702F60E903DEDB5DE0A60C901A2CB1FFBEDAA96C2779C3008A61884F410D9B838FA0452743604D4330B27F160030EE92FDD9EE04F292EE18CABB45757F3675972C6DCCFDA3EF3569873F85F3AFFFF91024957277FF458FF4D66CDBA64DDE6F81425D0767762393666DAABCE2FE7E5CBBF4FBBDBACEDDD77794BC14AAB728A9B82AC3F8342B6EA661F0F108397134D881E56863762ABDF344AD78029564B4F2BF1BF0295971767B12BE9057B99E3A25A04EF2AAD0019063EBBBC920A6F206F51BC20F0E2B72E3B0BD1919B8BC8BC3");
     }
     catch (SBException E)
     {
-        cout << "Failed to set license key: " << endl;
-        cout << E.what() << endl;
-        return 1;
+        std::cout << "Failed to set license key:" << std::endl;
+        std::cout << E.what() << std::endl;
+        return 0;
     }
-    /*
-     * Parse parameters
-     */
-    try 
+
+    try
     {
         int i = 1;
         while (i < argc)
         {
-            string param;
+            std::string param;
             param.assign(argv[i]);
 
             if (param == "-f")
@@ -106,17 +124,16 @@ int main (int argc, char *argv[])
                 if (++i < argc)
                     pdfFilename = UnQuote(argv[i]);
             }
-            else if (param == "-cert")
+            else if (param == "-c")
             {
-                cert = true;
-            }
-            else if (param == "-smartcard")
-            {
-                smartcard = true;
-            }
-            else if (param == "-win")
-            {
-                win = true;
+                if (++i < argc)
+                    certFilename = UnQuote(argv[i]);
+
+                if ((i + 1 < argc) && (argv[i + 1][0] != '-'))
+                {
+                    i++;
+                    certPassword = UnQuote(argv[i]);
+                }
             }
             else if (param == "-tsa")
             {
@@ -130,276 +147,162 @@ int main (int argc, char *argv[])
             }
             else if (param == "-inv")
             {
-                //invisibleSignature = true;
+                invisibleSignature = true;
             }
             else if (param == "-autorev")
             {
-                //autoRev = true;
+                autoRev = true;
             }
             else if (param == "-ignoreerrors")
             {
-                //ignoreErrors = true;
+                ignoreErrors = true;
+            }
+            else if (param == "-ltv")
+            {
+                ltv = true;
             }
             else if (param == "-h")
             {
-                cout << helpMessage << endl;
+                std::cout << helpMessage << std::endl;
             }
+
             i++;
         }
     }
     catch (...)
     {
-        cout << "Failed parsing parameters!" << endl;
-        cout << helpMessage << endl;
+        std::cout << "Failed to parse parameters" << std::endl;
+        std::cout << helpMessage << std::endl;
         return 0;
     }
-    if (pdfFilename == "") 
+
+    if ((pdfFilename == "") || (certFilename == ""))
     {
-        cout << helpMessage << endl;
+        std::cout << helpMessage << std::endl;
         return 0;
     }
-    /*
-     * Getting additional parameters
-     */
-    if (cert)
+
+    try
     {
-        cout << "Enter certificate file path:" << endl;
-        getline(cin, certFilename);
-        cout << "Enter PIN:" << endl;
-        getline(cin, pin);
+        RegisterHTTPCRLRetrieverFactory();
+        RegisterHTTPOCSPClientFactory();
+        RegisterHTTPCertificateRetrieverFactory();
+
+        TElPDFDocument pdf(NULL);
+        TElPDFAdvancedPublicKeySecurityHandler handler(NULL);
+        TElMemoryCertStorage certStorage(NULL);
+        TElMemoryCertStorage trustedCertStorage(NULL);
+        TElX509Certificate cert(NULL);
+        TElX509Certificate trustedCert(NULL);
+        TElHTTPTSPClient tspClient(NULL);
+        TElHTTPSClient httpClient(NULL);
+
+        TFileStream pdfStream(pdfFilename, filemodeOpenReadWrite);
+        pdf.Open(pdfStream);
+
+        std::cout << "Filename:\t\t" << pdfFilename << std::endl;
+        std::cout << "Pages:\t\t\t" << pdf.get_PageInfoCount() << std::endl;
+        std::cout << "Attachments:\t\t" << pdf.get_AttachedFileCount() << std::endl;
+        if (pdf.get_Signed())
+            std::cout << "Signed:\t\t\tyes" << std::endl;
+        else
+            std::cout << "Signed:\t\t\tno" << std::endl;
+        std::cout << "Empty signature fields:\t" << pdf.get_EmptySignatureFieldCount() << std::endl;
 
         try
         {
-            cout << "Opening certificate from " << certFilename << endl;
-            TElX509Certificate cert(NULL);
-            int k = cert.LoadFromFileAuto(certFilename, pin);
+            int idx = pdf.AddSignature();
+            TElPDFSignature* sig = pdf.get_Signatures(idx);
+            sig->set_Handler(handler);
+            sig->set_Invisible(invisibleSignature);
 
+            int k = cert.LoadFromFileAuto(certFilename, certPassword);
             if (k != 0)
             {
-                cout << hex << "Failed to load certificate: 0x" << k << endl;
+                std::cout << std::hex << "Failed to load certificate: 0x" << k << std::endl;
                 return 1;
             }
-            TName name;
-            cert.get_SubjectName(name);
-            cout << "Certificate found." << endl;
-            cout << "Subject: ";
-            if (name.CommonName != NULL)
-                cout << (char *)name.CommonName;
+
+            certStorage.Add(cert, true);
+
+            TElX509Certificate CACert(NULL);
+            CACert.LoadFromFileAuto(CA_CERT, "");
+            certStorage.Add(CACert, false);
+
+            handler.set_CertStorage(certStorage);
+            handler.set_PAdESSignatureType(pastEnhanced);
+            handler.set_CustomName("Adobe.PPKMS");
+            handler.set_AutoCollectRevocationInfo(autoRev);
+            handler.set_IgnoreChainValidationErrors(ignoreErrors);
+            handler.set_OnCertValidatorPrepared(&PDF_OnCertValidatorPrepared, NULL);
+            handler.set_OnCertValidatorFinished(&PDF_OnCertValidatorFinished, NULL);
+
+            if (ltv)
+            {
+                handler.set_DeepValidation(true);
+                handler.set_ForceCompleteChainValidation(true);
+                handler.set_AutoCollectRevocationInfo(true);
+            }
+
+            if (trustedCertsFilename != "")
+            {
+                trustedCert.LoadFromFileAuto(trustedCertsFilename, "");
+                trustedCertStorage.Add(trustedCert, false);
+                //TFileStream fs(trustedCertsFilename, filemodeOpenRead);
+                //trustedCertStorage.LoadFromStreamPFX(fs, "", 0);
+                pTrustedCertStorage = &trustedCertStorage;
+                std::cout << "Loaded trusted certificates from " << trustedCertsFilename << std::endl;
+            }
             else
-                cout << (char *)name.Organization;
+                pTrustedCertStorage = &certStorage;
 
-            cout << endl;
-            cert.get_IssuerName(name);
-            cout << "\tIssuer: ";
-            if (name.CommonName != NULL)
-                cout << (char *)name.CommonName;
+            if (tsaURL != "")
+            {
+                httpClient.set_SocketTimeout(600000);
+                httpClient.set_OnError(&HTTP_OnError, NULL);
+                tspClient.set_HTTPClient(httpClient);
+                tspClient.set_URL(tsaURL);
+                tspClient.set_HashAlgorithm(SB_ALGORITHM_DGST_SHA512);
+                tspClient.set_OnCertificateValidate(&TSP_OnCertificateValidate, NULL);
+                tspClient.set_OnHTTPError(&TSP_OnHTTPError, NULL);
+                TElX509Certificate tsaCert(NULL);
+                tsaCert.LoadFromFileAuto(TSA_CERT, "");
+                certStorage.Add(tsaCert, false);
+                handler.set_TSPClient(tspClient);
+                handler.set_IgnoreTimestampFailure(true);
+                std::cout << "Timestamp server: " << tsaURL << std::endl;
+
+            }
             else
-                cout << (char *)name.Organization;
+            {
+                std::time_t t;
+                std::time(&t);
+                sig->set_SigningTime(t);
+            }
 
-            cout << endl;
-            vector<uint8_t> SerialNumber;
-            cert.get_SerialNumber(SerialNumber);
-            string s;
-            BinaryToString(SerialNumber, s);
-            BeautifyBinaryString(s, ':', s);
-            cout << "\tSerial number: " << s << endl;
+            std::cout << "Everything has been prepared for signing.\nSign and write changes to the document?: Y or N" << std::endl;
+            std::string input;
+            std::getline(std::cin, input);
+            std::transform(input.begin(), input.end(), input.begin(), ::toupper);
 
-            time_t t;
-            t = (time_t)cert.get_ValidFrom();
-            char* dt = ctime(&t);
-            if (dt != NULL)
-                cout << "\tValid from: " << dt;
-
-            t = (time_t)cert.get_ValidTo();
-            dt = ctime(&t);
-            if (dt != NULL)
-                cout << "\tValid to: " << dt;
-
-            cout << "\tPrivate key: ";
-            if (cert.get_PrivateKeyExists())
-                cout << "YES";
+            if (input == "Y")
+            {
+                pdf.Close(true);
+                std::cout << "Signing succeeded" << std::endl;
+            }
             else
-                cout << "NO";
-
-            cout << endl;
-        }
-        catch (SBException E)
-        {
-            cout << "Error loading certificate: " << E.what() << endl;
-        }
-    }
-    else if (smartcard)
-    {
-        cout << "Enter PKCS11 library path:" << endl;
-        getline(cin, pkcs11Lib);
-
-        try
-        {
-            TElPKCS11CertStorage Storage(NULL);
-            Storage.set_DLLName(pkcs11Lib);
-            cout << "Opening PKCS11 storage." << endl;
-            Storage.Open();
-            for (int i = 0; i < Storage.get_Module()->get_SlotCount(); i++)
             {
-                TElPKCS11SlotInfo* pSlotInfo = Storage.get_Module()->get_Slot(i);
-                string desc;
-                pSlotInfo->get_SlotDescription(desc);
-                if (pSlotInfo->get_TokenPresent())
-                    cout << desc << " (token present)" << endl;
-                else
-                    cout << desc << " (no token)" << endl;
-            }
-            cout << "Enter slot number:" << endl;
-            string iSlotInfo;
-            getline(cin, iSlotInfo);
-            int SlotIndex;
-            SlotIndex = stoi(iSlotInfo);
-            cout << "Opening storage session." << endl;
-            bool RO = Storage.get_Module()->get_Slot(SlotIndex)->get_ReadOnly();
-            TElPKCS11SessionInfoHandle hSession = SB_NULL_HANDLE;
-
-            try
-            {
-                hSession = Storage.OpenSession(SlotIndex, RO);
-            }
-            catch (SBException E)
-            {
-                if (RO)
-                    throw;
-                // trying to open in readonly mode
-                hSession = Storage.OpenSession(SlotIndex, true);
-            }
-            if (hSession != NULL)
-            {
-                if (Storage.get_Module()->get_Slot(SlotIndex)->PinNeeded())
-                {
-                    cout << "Enter pin:" << endl;
-                    getline(cin, pin);
-                    TElPKCS11SessionInfo Session(hSession, false);
-                    Session.Login(utUser, pin);
-                }
-            }
-            for (int i = 0; i < Storage.get_Count(); i++)
-            {
-                TElX509Certificate *pCert = Storage.get_Certificates(i);
-                TName name;
-                pCert->get_SubjectName(name);
-                cout << (i + 1) << "\tSubject: ";
-                if (name.CommonName != NULL)
-                    cout << (char *)name.CommonName;
-                else
-                    cout << (char *)name.Organization;
-
-                cout << endl;
-                pCert->get_IssuerName(name);
-                cout << "\tIssuer: ";
-                if (name.CommonName != NULL)
-                    cout << (char *)name.CommonName;
-                else
-                    cout << (char *)name.Organization;
-
-                cout << endl;
-                vector<uint8_t> SerialNumber;
-                pCert->get_SerialNumber(SerialNumber);
-                string s;
-                BinaryToString(SerialNumber, s);
-                BeautifyBinaryString(s, ':', s);
-                cout << "\tSerial number: " << s << endl;
-
-                time_t t;
-                t = (time_t)pCert->get_ValidFrom();
-                char* dt = ctime(&t);
-                if (dt != NULL)
-                    cout << "\tValid from: " << dt;
-
-                t = (time_t)pCert->get_ValidTo();
-                dt = ctime(&t);
-                if (dt != NULL)
-                    cout << "\tValid to: " << dt;
-
-                cout << "\tPrivate key: ";
-                if (pCert->get_PrivateKeyExists())
-                    cout << "YES";
-                else
-                    cout << "NO";
-
-                cout << endl;
+                pdf.Close(false);
+                std::cout << "Signing cancelled" << std::endl;
             }
         }
         catch (SBException E)
         {
-            cout << "PKCS11 storage error: " << E.what() << endl;
+            std::cout << "Signing failed: " << E.what() << std::endl;
         }
     }
-    else if (win)
+    catch (SBException E)
     {
-        /*
-        try
-        {
-            cout << "Opening PKCS11 storage." << endl;
-            TElWinCertStorage Storage(NULL);
-            Storage.get_SystemStores()->set_Text("MY");
-
-            for (int i = 0; i < Storage.get_Count(); i++)
-            {
-                TElX509Certificate *pCert = Storage.get_Certificates(i);
-                TName name;
-                pCert->get_SubjectName(name);
-                cout << (i + 1) << "\tSubject: ";
-                if (name.CommonName != NULL)
-                    cout << (char *)name.CommonName;
-                else
-                    cout << (char *)name.Organization;
-
-                cout << endl;
-                pCert->get_IssuerName(name);
-                cout << "\tIssuer: ";
-                if (name.CommonName != NULL)
-                    cout << (char *)name.CommonName;
-                else
-                    cout << (char *)name.Organization;
-
-                cout << endl;
-                vector<uint8_t> SerialNumber;
-                pCert->get_SerialNumber(SerialNumber);
-                string s;
-                BinaryToString(SerialNumber, s);
-                BeautifyBinaryString(s, ':', s);
-                cout << "\tSerial number: " << s << endl;
-
-                time_t t;
-                t = (time_t)pCert->get_ValidFrom();
-                char* dt = ctime(&t);
-                if (dt != NULL)
-                    cout << "\tValid from: " << dt;
-
-                t = (time_t)pCert->get_ValidTo();
-                dt = ctime(&t);
-                if (dt != NULL)
-                    cout << "\tValid to: " << dt;
-
-                cout << "\tPrivate key: ";
-                if (pCert->get_PrivateKeyExists())
-                    cout << "YES";
-                else
-                    cout << "NO";
-
-                cout << endl;
-            }
-        }
-        catch (SBException E)
-        {
-            cout << "Windows storage error: " << E.what() << endl;
-        }
-        */
-    } 
-    else
-    {
-        cout << "You must set one of the flags: -cert, -smartcard or -win." << endl;
-        cout << helpMessage << endl;
-        return 0;
+        std::cout << "Error: " << E.what() << std::endl;
     }
-
-    return 0;
 }
-

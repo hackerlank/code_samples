@@ -1,5 +1,5 @@
-/home/leovan/git/code_samples/C++/TestSBB/TestSBB/bin/Debug/main.o: \
- /home/leovan/git/code_samples/C++/TestSBB/TestSBB/main.cpp \
+/home/leovan/git/code_samples/C++/TestSBB/ConsolePAdES/bin/Debug/consolepades.o: \
+ /home/leovan/git/code_samples/C++/TestSBB/ConsolePAdES/consolepades.cpp \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmisc.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdefs.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/all/sbcustom.h \
