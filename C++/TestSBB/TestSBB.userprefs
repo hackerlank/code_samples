@@ -2,35 +2,14 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
     <Files>
-      <File FileName="ConsolePAdES/consolepades.cpp" Line="77" Column="77" />
-      <File FileName="TestSBB/main.cpp" Line="42" Column="42" />
+      <File FileName="ConsolePAdES/consolepades.cpp" Line="1" Column="1" />
+      <File FileName="TestSBB/main.cpp" Line="54" Column="54" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="ConsolePAdES" expanded="True" />
-          <Node name="TestSBB" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ConsolePAdES>
-    <MonoDevelop.Ide.CustomExecutionModes>
-      <Data Name="TSA (Personalizado)" Id="5199e00f-36a5-4c93-a937-0e9270f5870e" ModeId="Default" PromptForParameters="True">
-        <CommandData>
-          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/tmp/cert.pfx&quot; 1234 -tsa &quot;https://freetsa.org/tsr&quot;" ctype="CustomArgsExecutionModeData">
-              <EnvironmentVariables />
-            </Value>
-          </Item>
-        </CommandData>
-      </Data>
-    </MonoDevelop.Ide.CustomExecutionModes>
-  </MonoDevelop.Ide.ItemProperties.ConsolePAdES>
   <MonoDevelop.Ide.ItemProperties.TestSBB>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="Smartcard (Personalizado)" Id="2d55c605-7215-49d2-892f-e9273adb168b" ModeId="Default" PromptForParameters="True">
@@ -53,4 +32,17 @@
       </Data>
     </MonoDevelop.Ide.CustomExecutionModes>
   </MonoDevelop.Ide.ItemProperties.TestSBB>
+  <MonoDevelop.Ide.ItemProperties.ConsolePAdES>
+    <MonoDevelop.Ide.CustomExecutionModes>
+      <Data Name="TSA (Personalizado)" Id="5199e00f-36a5-4c93-a937-0e9270f5870e" ModeId="Default" PromptForParameters="True">
+        <CommandData>
+          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
+            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/tmp/cert.pfx&quot; 1234 -tsa &quot;https://freetsa.org/tsr&quot;" ctype="CustomArgsExecutionModeData">
+              <EnvironmentVariables />
+            </Value>
+          </Item>
+        </CommandData>
+      </Data>
+    </MonoDevelop.Ide.CustomExecutionModes>
+  </MonoDevelop.Ide.ItemProperties.ConsolePAdES>
 </Properties>

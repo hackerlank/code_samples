@@ -19,7 +19,7 @@
 #include "sbhttpocspclient.h"
 #include "sbhttpcertretriever.h"
 
-#define TSA_CERT "/tmp/tsa.crt"
+#define TSA_CERT "/tmp/SafeCreative_TSA.cer"
 #define CA_CERT "/tmp/root.crt"
 
 using namespace SecureBlackbox;
@@ -67,12 +67,13 @@ void SB_CALLBACK PDF_OnCertValidatorFinished(void * _ObjectData, TObjectHandle S
 
 void SB_CALLBACK TSP_OnCertificateValidate(void * /* _ObjectData */, TObjectHandle /* Sender */, TElX509CertificateHandle /*Certificate*/, TElCustomCertStorageHandle /* AdditionalCertificates */, TSBCertificateValidityRaw * Validity, TSBCertificateValidityReasonRaw * Reason, int8_t * DoContinue)
 {
-    std::cout << "TSA certificate invalid: " << Validity << std::endl;
+    std::cout << "TSA certificate validity: " << Validity << std::endl;
+    std::cout << "Reason: " << Reason << std::endl;
 }
 
 void SB_CALLBACK HTTP_OnError(void * _ObjectData, TObjectHandle Sender, int32_t ErrorCode, int8_t Fatal, int8_t Remote)
 {
-    std::cout << "HTTP Error: " << Remote << std::endl;
+    std::cout << "HTTP Error: " << ErrorCode << std::endl;
 }
 
 void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32_t ResponseCode)
@@ -269,7 +270,7 @@ int main(int argc, char **argv)
                 tsaCert.LoadFromFileAuto(TSA_CERT, "");
                 certStorage.Add(tsaCert, false);
                 handler.set_TSPClient(tspClient);
-                handler.set_IgnoreTimestampFailure(true);
+                //handler.set_IgnoreTimestampFailure(true);
                 std::cout << "Timestamp server: " << tsaURL << std::endl;
 
             }
