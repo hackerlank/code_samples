@@ -3,7 +3,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
     <Files>
       <File FileName="ConsolePAdES/consolepades.cpp" Line="1" Column="1" />
-      <File FileName="TestSBB/main.cpp" Line="54" Column="54" />
+      <File FileName="TestSBB/main.cpp" Line="187" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -21,10 +21,10 @@
           </Item>
         </CommandData>
       </Data>
-      <Data Name="Default (Personalizado)" Id="c4fb2c21-4e69-4380-87a5-d4331f8b92be" ModeId="Default" PromptForParameters="True">
+      <Data Name="Casa (Custom)" Id="c4fb2c21-4e69-4380-87a5-d4331f8b92be" ModeId="Default" PromptForParameters="True">
         <CommandData>
           <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/home/leovan/devel/certificados/leovant@gmail.com.p12&quot; 12345 -tsa &quot;https://freetsa.org/tsr&quot; -autorev -inv -ltv -trustedcerts &quot;/home/leovan/devel/certificados/leovant@gmail.com.crt&quot;" ctype="CustomArgsExecutionModeData">
+            <Value Arguments="-f &quot;/home/leovan/Documents/sample_sign.pdf&quot; -c &quot;/home/leovan/Documents/leovan-cacert.p12&quot; 12345 -tsa &quot;http://tsa.safecreative.org&quot; -inv -ltv" ctype="CustomArgsExecutionModeData">
               <EnvironmentVariables />
             </Value>
           </Item>

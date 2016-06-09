@@ -20,7 +20,8 @@
 #include "sbhttpcertretriever.h"
 
 #define TSA_CERT "/tmp/SafeCreative_TSA.cer"
-#define CA_CERT "/tmp/root.crt"
+#define CA_CERT_ROOT "/tmp/CACert-root.crt"
+#define CA_CERT_INT "/tmp/CACert-int.crt"
 
 using namespace SecureBlackbox;
 
@@ -79,6 +80,11 @@ void SB_CALLBACK HTTP_OnError(void * _ObjectData, TObjectHandle Sender, int32_t 
 void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32_t ResponseCode)
 {
     std::cout << "HTTP Error: " << ResponseCode << std::endl;
+}
+
+void SB_CALLBACK TSP_OnTSPError(void * _ObjectData, TObjectHandle hSender, int32_t ResponseCode)
+{
+    std::cout << "TSP Error: " << ResponseCode << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -208,6 +214,7 @@ int main(int argc, char **argv)
             std::cout << "Signed:\t\t\tyes" << std::endl;
         else
             std::cout << "Signed:\t\t\tno" << std::endl;
+        
         std::cout << "Empty signature fields:\t" << pdf.get_EmptySignatureFieldCount() << std::endl;
 
         try
@@ -227,8 +234,11 @@ int main(int argc, char **argv)
             certStorage.Add(cert, true);
 
             TElX509Certificate CACert(NULL);
-            CACert.LoadFromFileAuto(CA_CERT, "");
+            TElX509Certificate CACertInt(NULL);
+            CACert.LoadFromFileAuto(CA_CERT_ROOT, "");
+            CACertInt.LoadFromFileAuto(CA_CERT_INT, "");
             certStorage.Add(CACert, false);
+            certStorage.Add(CACertInt, false);
 
             handler.set_CertStorage(certStorage);
             handler.set_PAdESSignatureType(pastEnhanced);
@@ -266,6 +276,7 @@ int main(int argc, char **argv)
                 tspClient.set_HashAlgorithm(SB_ALGORITHM_DGST_SHA512);
                 tspClient.set_OnCertificateValidate(&TSP_OnCertificateValidate, NULL);
                 tspClient.set_OnHTTPError(&TSP_OnHTTPError, NULL);
+                tspClient.set_OnTSPError(&TSP_OnTSPError, NULL);
                 TElX509Certificate tsaCert(NULL);
                 tsaCert.LoadFromFileAuto(TSA_CERT, "");
                 certStorage.Add(tsaCert, false);
