@@ -135,6 +135,11 @@ void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32
     std::cout << "HTTP Error: " << ResponseCode << std::endl;
 }
 
+void SB_CALLBACK TSP_OnTSPError(void * _ObjectData, TObjectHandle hSender, int32_t ResponseCode)
+{
+    std::cout << "TSP Error: " << ResponseCode << std::endl;
+}
+
 int main(int argc, char **argv)
 {
     std::string helpMessage = "TestSBB [params]\n" \
@@ -262,6 +267,7 @@ int main(int argc, char **argv)
             std::cout << "Signed:\t\t\tyes" << std::endl;
         else
             std::cout << "Signed:\t\t\tno" << std::endl;
+        
         std::cout << "Empty signature fields:\t" << pdf.get_EmptySignatureFieldCount() << std::endl;
 
         try
@@ -293,7 +299,9 @@ int main(int argc, char **argv)
             certStorage.Add(cert, true);
             //Certificado raiz
             TElX509Certificate CACert(NULL);
-            CACert.LoadFromFileAuto(CA_CERT, "");
+            TElX509Certificate CACertInt(NULL);
+            CACert.LoadFromFileAuto(CA_CERT_ROOT, "");
+            CACertInt.LoadFromFileAuto(CA_CERT_INT, "");
             certStorage.Add(CACert, false);
             trustedCertStorage.Add(CACert, false);
             //Certificado intermediario
@@ -328,6 +336,7 @@ int main(int argc, char **argv)
                 tspClient.set_HashAlgorithm(SB_ALGORITHM_DGST_SHA1);
                 tspClient.set_OnCertificateValidate(&TSP_OnCertificateValidate, NULL);
                 tspClient.set_OnHTTPError(&TSP_OnHTTPError, NULL);
+
                 if (tsaCertFile != "")
                 {
                     TElX509Certificate tsaCert(NULL);

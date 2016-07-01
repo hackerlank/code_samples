@@ -14,6 +14,8 @@
         <Package file="/home/leovan/git/code_samples/C++/TestSBB/SBB/SBB.md.pc" name="SBB" IsProject="True" />
       </Packages>
     </Packages>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
