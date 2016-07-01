@@ -19,8 +19,20 @@
 #include "sbhttpocspclient.h"
 #include "sbhttpcertretriever.h"
 
-#define TSA_CERT "/tmp/SafeCreative_TSA.cer"
-#define CA_CERT "/tmp/root.crt"
+#define SAFECREATIVE_CERT "../../tests/SafeCreative_TSA.cer"
+#define SAFECREATIVE_URL "http://tsa.safecreative.org/"
+#define FREETSA_CERT "../../tests/freetsa.crt"
+#define FREETSA_CA_CERT "../../tests/freetsaca.pem"
+#define FREETSA_URL "http://freetsa.org/tsr"
+#define TIMECERTUM_URL "http://time.certum.pl"
+#define TSA_SAFECREATIVE "1"
+#define TSA_FREETSA "2"
+#define TSA_TIMECERTUM "3"
+#define CA_CERT "../../tests/cacert.crt"
+#define INT_CERT "../../tests/cacertint.crt"
+#define DEFAULT_CERT "../../tests/leovant@gmail.com.p12"
+#define DEFAULT_CERT_PASS "12345"
+#define PDF_FILE "../../tests/unsigned.pdf"
 
 using namespace SecureBlackbox;
 
@@ -42,9 +54,12 @@ void SB_CALLBACK PDF_OnCertValidatorPrepared(void * /* _ObjectData */, TObjectHa
     {
         TElX509CertificateValidator CertValidator(*hCertValidator, false);
         CertValidator.AddTrustedCertificates(pTrustedCertStorage);
+        CertValidator.set_CheckCRL(false);
         CertValidator.set_MandatoryCRLCheck(false);
         CertValidator.set_MandatoryOCSPCheck(false);
         CertValidator.set_MandatoryRevocationCheck(false);
+        //CertValidator.set_OfflineMode(true); //LTV
+        //CertValidator.set_OnAfterCertificateValidation(&PDF_OnAfterCertificateValidation, NULL);
         std::cout << "Validator prepared." << std::endl;
         TElX509Certificate Cert(hCert, false);
         std::string SubjectName;
@@ -54,6 +69,24 @@ void SB_CALLBACK PDF_OnCertValidatorPrepared(void * /* _ObjectData */, TObjectHa
     catch (SBException E)
     {
         std::cout << "Unexpected error in OnCertValidatorPrepared event handler" << std::endl;
+        std::cout << E.what() << std::endl;
+        std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
+    }
+}
+
+void SB_CALLBACK PDF_OnAfterCertificateValidation(void * _ObjectData, TObjectHandle hSender, TElX509CertificateHandle hCertificate, TElX509CertificateHandle hCACertificate, TSBCertificateValidityRaw &Validity, TSBCertificateValidityReasonRaw &Reason, int8_t &DoContinue)
+{
+    try
+    {
+        TElX509Certificate certificate(hCertificate, false);
+        TName subject, issuer;
+        certificate.get_SubjectName(subject);
+        certificate.get_IssuerName(issuer);
+        std::cout << "TElX509CertificateValidator.OnAfterCertificateValidation: " << (char *)subject.CommonName << "[" << (char *)issuer.CommonName << "]" << std::endl;
+    }
+    catch (SBException E)
+    {
+        std::cout << "Unexpected error in TElX509CertificateValidator.OnAfterCertificateValidation event handler!" << std::endl;
         std::cout << E.what() << std::endl;
         std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
     }
@@ -76,6 +109,27 @@ void SB_CALLBACK HTTP_OnError(void * _ObjectData, TObjectHandle Sender, int32_t 
     std::cout << "HTTP Error: " << ErrorCode << std::endl;
 }
 
+void SB_CALLBACK HTTP_OnData(void * _ObjectData, TObjectHandle hSender, void * Buffer, int32_t Size)
+{
+    try
+    {
+        std::cout << "TElHTTPSClient.OnData: Received " << std::to_string(Size) << std::endl;
+
+        for (int32_t i = 0; i != Size; i++)
+        {
+            //std::cout << std::hex << static_cast<unsigned char>(Buffer[i]) << ' ';
+            printf("%c", ((char*) Buffer)[i]);
+        }
+        std::cout << std::endl;
+    }
+    catch (SBException E)
+    {
+        std::cout << "Unexpected error in TElHTTPSClient.OnData event handler!" << std::endl;
+        std::cout << E.what() << std::endl;
+        std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
+    }
+}
+
 void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32_t ResponseCode)
 {
     std::cout << "HTTP Error: " << ResponseCode << std::endl;
@@ -83,9 +137,10 @@ void SB_CALLBACK TSP_OnHTTPError(void * _ObjectData, TObjectHandle Sender, int32
 
 int main(int argc, char **argv)
 {
-    std::string helpMessage = "ConsolePAdES.exe [params]\n" \
+    std::string helpMessage = "TestSBB [params]\n" \
         "params:\n" \
-        "-f <filename> : path to .pdf file;\n" \
+        "-tsa <op> : 1 - SafeCreative; 2 - FreeTSA; 2 - TimeCertum\n" \
+/*
         "-c <filename> <password> : certificate filename and password if needed;\n" \
         "-inv : invisible signature;\n" \
         "-tsa <url> : timestamp server;\n" \
@@ -93,11 +148,12 @@ int main(int argc, char **argv)
         "-autorev : auto collect revocation info;\n" \
         "-ignoreerrors : ignore chain validation errors;\n" \
         "-ltv : enable LTV;\n" \
+*/
         "-h : help;\n";
 
-    std::string pdfFilename, certFilename, certPassword, tsaURL, trustedCertsFilename;
-    bool invisibleSignature = false;
-    bool autoRev = false;
+    std::string pdfFilename, certFilename, certPassword, tsaURL, tsaCertFile, tsaCACertFile, trustedCertsFilename;
+    bool invisibleSignature = true;
+    bool autoRev = true;
     bool ignoreErrors = false;
     bool ltv = false;
 
@@ -120,53 +176,44 @@ int main(int argc, char **argv)
             std::string param;
             param.assign(argv[i]);
 
-            if (param == "-f")
+            if  (param == "-tsa")
             {
-                if (++i < argc)
-                    pdfFilename = UnQuote(argv[i]);
-            }
-            else if (param == "-c")
-            {
-                if (++i < argc)
-                    certFilename = UnQuote(argv[i]);
-
-                if ((i + 1 < argc) && (argv[i + 1][0] != '-'))
+                if (++i < argc) 
                 {
-                    i++;
-                    certPassword = UnQuote(argv[i]);
+                    std::string opt;
+                    opt.assign(argv[i]);
+                    if (opt == TSA_SAFECREATIVE) 
+                    {
+                        tsaURL = SAFECREATIVE_URL;
+                        tsaCertFile = SAFECREATIVE_CERT;
+                    } 
+                    else if (opt == TSA_FREETSA) 
+                    {
+                        tsaURL = FREETSA_URL;
+                        tsaCertFile = FREETSA_CERT;
+                        tsaCACertFile = FREETSA_CA_CERT;
+                    }
+                    else if (opt == TSA_TIMECERTUM)
+                    {
+                        tsaURL = TIMECERTUM_URL;
+                    }
+                    else 
+                    {
+                        std::cout << helpMessage << std::endl;
+                        return 0;
+                    }
                 }
-            }
-            else if (param == "-tsa")
-            {
-                if (++i < argc)
-                    tsaURL = UnQuote(argv[i]);
-            }
-            else if (param == "-trustedcerts")
-            {
-                if (++i < argc)
-                    trustedCertsFilename = UnQuote(argv[i]);
-            }
-            else if (param == "-inv")
-            {
-                invisibleSignature = true;
-            }
-            else if (param == "-autorev")
-            {
-                autoRev = true;
-            }
-            else if (param == "-ignoreerrors")
-            {
-                ignoreErrors = true;
-            }
-            else if (param == "-ltv")
-            {
-                ltv = true;
+                else
+                {
+                    std::cout << helpMessage << std::endl;
+                    return 0;
+                }
             }
             else if (param == "-h")
             {
                 std::cout << helpMessage << std::endl;
+                return 0;
             }
-
             i++;
         }
     }
@@ -176,12 +223,19 @@ int main(int argc, char **argv)
         std::cout << helpMessage << std::endl;
         return 0;
     }
+    pdfFilename = "/tmp/signed.pdf";
+    //Copiando arquivo, para manter o original
 
-    if ((pdfFilename == "") || (certFilename == ""))
-    {
-        std::cout << helpMessage << std::endl;
-        return 0;
-    }
+    std::ifstream source(PDF_FILE, std::ios::binary);
+    std::ofstream dest(pdfFilename, std::ios::binary);
+    dest << source.rdbuf();
+
+    source.close();
+    dest.close();
+
+    certFilename = DEFAULT_CERT;
+    certPassword = DEFAULT_CERT_PASS;
+    //pdfFilename = PDF_FILE;
 
     try
     {
@@ -216,6 +270,13 @@ int main(int argc, char **argv)
             TElPDFSignature* sig = pdf.get_Signatures(idx);
             sig->set_Handler(handler);
             sig->set_Invisible(invisibleSignature);
+            sig->set_Reason("Teste de assinatura");
+            sig->set_ContactInfo("leovan.tavares@doc.space");
+            sig->set_SignatureType(stDocument);
+
+            std::time_t t;
+            std::time(&t);
+            sig->set_SigningTime(t);
 
             int k = cert.LoadFromFileAuto(certFilename, certPassword);
             if (k != 0)
@@ -223,16 +284,26 @@ int main(int argc, char **argv)
                 std::cout << std::hex << "Failed to load certificate: 0x" << k << std::endl;
                 return 1;
             }
+            TElRelativeDistinguishedName* subject;
+            subject = cert.get_SubjectRDN();
+            std::string DNString;
+            subject->SaveToDNString(DNString);
+            sig->set_AuthorName(DNString);
 
             certStorage.Add(cert, true);
-
+            //Certificado raiz
             TElX509Certificate CACert(NULL);
             CACert.LoadFromFileAuto(CA_CERT, "");
             certStorage.Add(CACert, false);
+            trustedCertStorage.Add(CACert, false);
+            //Certificado intermediario
+            TElX509Certificate IntCert(NULL);
+            IntCert.LoadFromFileAuto(INT_CERT, "");
+            certStorage.Add(IntCert, false);
 
             handler.set_CertStorage(certStorage);
-            handler.set_PAdESSignatureType(pastEnhanced);
-            handler.set_CustomName("Adobe.PPKMS");
+            handler.set_PAdESSignatureType(pastBasic);
+            handler.set_CustomName("Adobe.PPKLite");
             handler.set_AutoCollectRevocationInfo(autoRev);
             handler.set_IgnoreChainValidationErrors(ignoreErrors);
             handler.set_OnCertValidatorPrepared(&PDF_OnCertValidatorPrepared, NULL);
@@ -240,45 +311,46 @@ int main(int argc, char **argv)
 
             if (ltv)
             {
+                std::cout << "Enabling LTV" << std::endl;
                 handler.set_DeepValidation(true);
                 handler.set_ForceCompleteChainValidation(true);
                 handler.set_AutoCollectRevocationInfo(true);
+                handler.set_IncludeRevocationInfoToAdbeAttribute(true);
             }
-
-            if (trustedCertsFilename != "")
-            {
-                trustedCert.LoadFromFileAuto(trustedCertsFilename, "");
-                trustedCertStorage.Add(trustedCert, false);
-                //TFileStream fs(trustedCertsFilename, filemodeOpenRead);
-                //trustedCertStorage.LoadFromStreamPFX(fs, "", 0);
-                pTrustedCertStorage = &trustedCertStorage;
-                std::cout << "Loaded trusted certificates from " << trustedCertsFilename << std::endl;
-            }
-            else
-                pTrustedCertStorage = &certStorage;
 
             if (tsaURL != "")
             {
                 httpClient.set_SocketTimeout(600000);
                 httpClient.set_OnError(&HTTP_OnError, NULL);
+                httpClient.set_OnData(&HTTP_OnData, NULL);
                 tspClient.set_HTTPClient(httpClient);
                 tspClient.set_URL(tsaURL);
-                tspClient.set_HashAlgorithm(SB_ALGORITHM_DGST_SHA512);
+                tspClient.set_HashAlgorithm(SB_ALGORITHM_DGST_SHA1);
                 tspClient.set_OnCertificateValidate(&TSP_OnCertificateValidate, NULL);
                 tspClient.set_OnHTTPError(&TSP_OnHTTPError, NULL);
-                TElX509Certificate tsaCert(NULL);
-                tsaCert.LoadFromFileAuto(TSA_CERT, "");
-                certStorage.Add(tsaCert, false);
+                if (tsaCertFile != "")
+                {
+                    TElX509Certificate tsaCert(NULL);
+                    tsaCert.LoadFromFileAuto(tsaCertFile, "");
+                    certStorage.Add(tsaCert, false);
+
+                    if (tsaCACertFile == "")
+                    {
+                        trustedCertStorage.Add(tsaCert, false);
+                    }
+                }
+                if (tsaCACertFile != "")
+                {
+                    TElX509Certificate tsaCACert(NULL);
+                    tsaCACert.LoadFromFileAuto(tsaCACertFile, "");
+                    certStorage.Add(tsaCACert, false);
+                    trustedCertStorage.Add(tsaCACert, false);
+                }
+                pTrustedCertStorage = &trustedCertStorage;
+
                 handler.set_TSPClient(tspClient);
                 //handler.set_IgnoreTimestampFailure(true);
                 std::cout << "Timestamp server: " << tsaURL << std::endl;
-
-            }
-            else
-            {
-                std::time_t t;
-                std::time(&t);
-                sig->set_SigningTime(t);
             }
 
             std::cout << "Everything has been prepared for signing.\nSign and write changes to the document?: Y or N" << std::endl;

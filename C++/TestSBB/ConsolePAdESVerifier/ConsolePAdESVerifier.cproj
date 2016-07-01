@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DECA1816-338E-4A67-9FA2-63319F72B218}</ProjectGuid>
+    <ProjectGuid>{F60BC6B4-6F5B-460E-9843-E274D0756D82}</ProjectGuid>
     <Compiler>
       <Compiler ctype="GppCompiler" />
     </Compiler>
@@ -19,47 +19,27 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug</OutputPath>
     <Externalconsole>true</Externalconsole>
-    <OutputName>TestSBB</OutputName>
+    <OutputName>ConsolePAdESVerifier</OutputName>
     <CompileTarget>Bin</CompileTarget>
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
-    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
-    <OptimizationLevel>2</OptimizationLevel>
-    <WarningLevel>All</WarningLevel>
     <Libs>
       <Libs>
         <Lib>sbb</Lib>
       </Libs>
     </Libs>
+    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
     <Externalconsole>true</Externalconsole>
-    <OutputName>TestSBB</OutputName>
+    <OutputName>ConsolePAdESVerifier</OutputName>
     <CompileTarget>Bin</CompileTarget>
     <OptimizationLevel>3</OptimizationLevel>
     <DefineSymbols>MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
-    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
-    <LibPaths>
-      <LibPaths>
-        <LibPath>${ProjectDir}/lib</LibPath>
-      </LibPaths>
-    </LibPaths>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tests\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tests\leovant%40gmail.com.p12" />
-    <None Include="tests\SafeCreative_TSA.cer" />
-    <None Include="tests\freetsa.crt" />
-    <None Include="tests\freetsaca.pem" />
-    <None Include="tests\cacert.crt" />
-    <None Include="tests\unsigned.pdf" />
-    <None Include="tests\cacertint.crt" />
+    <Compile Include="consolepadesverifier.cpp" />
   </ItemGroup>
 </Project>
