@@ -53,6 +53,53 @@ std::string UnQuote(std::string s)
     return s;
 }
 
+TElOCSPClientHandle myHandle;
+TElHTTPOCSPClient MyOcspClient(NULL);
+
+TElX509CertificateHandle myCertHandle;
+TElX509CertificateValidator certValidator_(NULL);
+
+void SB_CALLBACK MyCertValidator_OnBeforeOCSPClientUse(void * _ObjectData, TObjectHandle hSender, TElX509CertificateHandle hCertificate, TElX509CertificateHandle hCACertificate, const char *pcOCSPLocation, int32_t szOCSPLocation, TElOCSPClientHandle * hOCSPClient)
+{
+    try
+    {
+        TElHTTPOCSPClient MyOcspClient(myHandle, true);
+        hOCSPClient = &myHandle;
+        TElX509Certificate Certificate(hCertificate, false);
+        TName subject, issuer;
+        Certificate.get_SubjectName(subject);
+        Certificate.get_IssuerName(issuer);
+        std::cout << "TElX509CertificateValidator.OnBeforeOCSPClientUse: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
+        std::cout << "OCSP: " << pcOCSPLocation << std::endl;
+    }
+    catch (SBException E)
+    {
+        std::cout << "Unexpected error in TElX509CertificateValidator.OnBeforeOCSPClientUse event handler!" << std::endl;
+        std::cout << E.what() << std::endl;
+        std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
+    }
+}
+
+void SB_CALLBACK MySignSecHandler_OnCertValidatorPrepared(void *, TObjectHandle, TElX509CertificateValidatorHandle * hCertValidator, TElX509CertificateHandle hCertificate)
+{
+    try
+    {
+        TElHTTPOCSPClient certValidator_(myCertHandle, true);
+        hCertValidator = &myCertHandle;
+        TElX509Certificate Certificate(hCertificate, false);
+        TName subject, issuer;
+        Certificate.get_SubjectName(subject);
+        Certificate.get_IssuerName(issuer);
+        std::cout << "TElPDFAdvancedPublicKeySecurityHandler.OnCertValidatorPrepared: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
+    }
+    catch (SBException E)
+    {
+        std::cout << "Unexpected error in TElPDFAdvancedPublicKeySecurityHandler.OnCertValidatorPrepared event handler!" << std::endl;
+        std::cout << E.what() << std::endl;
+        std::cout << "Stack trace: " << E.getErrorStackTrace().c_str() << std::endl;
+    }
+}
+
 int main(int argc, char **argv)
 {
     try
@@ -155,6 +202,8 @@ int main(int argc, char **argv)
         TElMemoryCertStorage signerCertificateStorage(NULL);
         //Repositório da cadeia de certificados
         TElMemoryCertStorage chainCertificateStorage(NULL);
+        //Repositório de emissores de OCSP
+        TElMemoryCertStorage OCSPIssuersCertificateStorage(NULL);
         //Certificado raiz
         TElX509Certificate rootCertificate_(NULL);
         //Certificado do assinante
@@ -169,6 +218,7 @@ int main(int argc, char **argv)
             //Raiz é confiável e parte da cadeia
             trustedCertificateStorage.Add(rootCertificate_, false);
             chainCertificateStorage.Add(rootCertificate_, false);
+            OCSPIssuersCertificateStorage.Add(rootCertificate_, false);
             //signerCertificateStorage.Add(rootCertificate_, false);
             //Certificado intermediário é parte da cadeia
             TElX509Certificate intCertificate_(NULL);
@@ -247,17 +297,19 @@ int main(int argc, char **argv)
             }
             */
             //Percorrendo a cadeia para validar
-            int count = certificateChain->get_Count();
+            //int count = certificateChain->get_Count();
+            int count = 0;
             std::cout << "Percorrendo cadeia com " << count << " certificados." << std::endl;
             for (int i = 0; i < count; i++)
             {
-                TElX509Certificate * tmpCert = certificateChain->get_Certificates(i);
-                std::cout << "Certificado " << i << std::endl;
+                TElX509Certificate * tmpCert = &signerCertificate_;
+                //TElX509Certificate * tmpCert = certificateChain->get_Certificates(i);
+                //std::cout << "Certificado " << i << std::endl;
                 TName subject, issuer;
                 tmpCert->get_SubjectName(subject);
                 tmpCert->get_IssuerName(issuer);
                 std::cout << "Processando: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
-                TElCertificateExtensions * certExts = certificateChain->get_Certificates(i)->get_Extensions();
+                TElCertificateExtensions * certExts = tmpCert->get_Extensions();
                 //OCSP
                 TElAuthorityInformationAccessExtension * AIAExt = certExts->get_AuthorityInformationAccess();
                 std::vector<uint8_t> ocspOID = {1, 3, 6, 1, 5, 5, 7, 48, 1};
@@ -367,9 +419,9 @@ int main(int argc, char **argv)
             /*
 
             */
-
+            MyOcspClient.set_IssuerCertStorage(OCSPIssuersCertificateStorage);
             //Validador
-            TElX509CertificateValidator certValidator_(NULL);
+            //TElX509CertificateValidator certValidator_(NULL);
             //Atribuindo os certificados confiáveis e conhecidos
             certValidator_.AddTrustedCertificates(&trustedCertificateStorage);
             certValidator_.AddKnownCertificates(&knownCertificateStorage);
@@ -383,12 +435,12 @@ int main(int argc, char **argv)
             certValidator_.set_OnCRLRetrieved(&CertValidator_OnCRLRetrieved, NULL);
             certValidator_.set_OnCRLError(&CertValidator_OnCRLError, NULL);
             certValidator_.set_OnAfterCRLUse(&CertValidator_OnAfterCRLUse, NULL);
-            certValidator_.set_OnBeforeOCSPClientUse(&CertValidator_OnBeforeOCSPClientUse, NULL);
+            certValidator_.set_OnBeforeOCSPClientUse(&MyCertValidator_OnBeforeOCSPClientUse, NULL);
             certValidator_.set_OnOCSPResponseSignerValid(&CertValidator_OnOCSPResponseSignerValid, NULL);
             certValidator_.set_OnOCSPError(&CertValidator_OnOCSPError, NULL);
             certValidator_.set_OnAfterOCSPResponseUse(&CertValidator_OnAfterOCSPResponseUse, NULL);
             //Definindo opções do validador
-            certValidator_.set_CheckCRL(true); // default = true
+            certValidator_.set_CheckCRL(false); // default = true
             certValidator_.set_CheckOCSP(true); // default = true
             certValidator_.set_CheckValidityPeriodForTrusted(true); // default = true
             certValidator_.set_ForceCompleteChainValidationForTrusted(true); // default = true
@@ -450,7 +502,7 @@ int main(int argc, char **argv)
             signSecHandler.set_ForceCompleteChainValidation(false);
             signSecHandler.set_IncludeRevocationInfoToAdbeAttribute(false);
             //Eventos
-            signSecHandler.set_OnCertValidatorPrepared(&signSecHandler_OnCertValidatorPrepared, NULL);
+            signSecHandler.set_OnCertValidatorPrepared(&MySignSecHandler_OnCertValidatorPrepared, NULL);
             signSecHandler.set_OnBeforeSign(&signSecHandler_OnBeforeSign, NULL);
             signSecHandler.set_OnAfterSign(&signSecHandler_OnAfterSign, NULL);
             signSecHandler.set_OnRemoteSign(&signSecHandler_OnRemoteSign, NULL);
