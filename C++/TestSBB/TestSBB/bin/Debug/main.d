@@ -84,6 +84,7 @@
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbwincertstorage.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmskeyblob.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbx509.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbx509ext.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcertvalidator.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpdfsecurity.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttptspclient.h \
@@ -115,4 +116,13 @@
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpsclient.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcrl.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpocspclient.h \
- /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcertretriever.h
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcertretriever.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcrl.h \
+ /home/leovan/git/code_samples/C++/TestSBB/TestSBB/EventHandlers.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11base.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11certstorage.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11base.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs8.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs5.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h

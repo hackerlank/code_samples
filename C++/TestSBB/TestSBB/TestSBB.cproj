@@ -14,8 +14,6 @@
         <Package file="/home/leovan/git/code_samples/C++/TestSBB/SBB/SBB.md.pc" name="SBB" IsProject="True" />
       </Packages>
     </Packages>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="main.cpp" />
+    <Compile Include="EventHandlers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="tests\" />
@@ -63,5 +62,8 @@
     <None Include="tests\cacert.crt" />
     <None Include="tests\unsigned.pdf" />
     <None Include="tests\cacertint.crt" />
+    <None Include="EventHandlers.h" />
+    <None Include="tests\OCSP-1.crt" />
+    <None Include="tests\OCSP-3.crt" />
   </ItemGroup>
 </Project>

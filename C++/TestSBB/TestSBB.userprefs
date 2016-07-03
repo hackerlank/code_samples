@@ -2,36 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
     <Files>
-      <File FileName="ConsolePAdES/consolepades.cpp" Line="1" Column="1" />
-      <File FileName="TestSBB/main.cpp" Line="26" Column="26" />
+      <File FileName="ConsolePAdES/consolepades.cpp" Line="47" Column="47" />
+      <File FileName="TestSBB/main.cpp" Line="115" Column="115" />
+      <File FileName="ConsolePAdESVerifier/consolepadesverifier.cpp" Line="94" Column="94" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.TestSBB>
-    <MonoDevelop.Ide.CustomExecutionModes>
-      <Data Name="Smartcard (Personalizado)" Id="2d55c605-7215-49d2-892f-e9273adb168b" ModeId="Default" PromptForParameters="True">
-        <CommandData>
-          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value Arguments="-ignoreerrors -inv -f &quot;/tmp/doc.pdf&quot; -usesmartcard &quot;/usr/lib/libaetpkss.so&quot; 1234" ctype="CustomArgsExecutionModeData">
-              <EnvironmentVariables />
-            </Value>
-          </Item>
-        </CommandData>
-      </Data>
-      <Data Name="Casa (Custom)" Id="c4fb2c21-4e69-4380-87a5-d4331f8b92be" ModeId="Default" PromptForParameters="True">
-        <CommandData>
-          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value Arguments="-f &quot;/home/leovan/Documents/sample_sign.pdf&quot; -c &quot;/home/leovan/Documents/leovan-cacert.p12&quot; 12345 -tsa &quot;http://tsa.safecreative.org&quot; -inv -ltv" ctype="CustomArgsExecutionModeData">
-              <EnvironmentVariables />
-            </Value>
-          </Item>
-        </CommandData>
-      </Data>
-    </MonoDevelop.Ide.CustomExecutionModes>
-  </MonoDevelop.Ide.ItemProperties.TestSBB>
   <MonoDevelop.Ide.ItemProperties.ConsolePAdES>
     <MonoDevelop.Ide.CustomExecutionModes>
       <Data Name="TSA (Personalizado)" Id="5199e00f-36a5-4c93-a937-0e9270f5870e" ModeId="Default" PromptForParameters="True">
