@@ -54,16 +54,17 @@ std::string UnQuote(std::string s)
 }
 
 TElOCSPClientHandle myHandle;
-TElHTTPOCSPClient MyOcspClient(NULL);
+//TElHTTPOCSPClient * MyOcspClient;
 
 TElX509CertificateHandle myCertHandle;
-TElX509CertificateValidator certValidator_(NULL);
+//TElX509CertificateValidator * MyCertValidator_;
+//TElHTTPOCSPClient ocspClient_(NULL);
+//TElX509CertificateValidator certValidator_(NULL);
 
 void SB_CALLBACK MyCertValidator_OnBeforeOCSPClientUse(void * _ObjectData, TObjectHandle hSender, TElX509CertificateHandle hCertificate, TElX509CertificateHandle hCACertificate, const char *pcOCSPLocation, int32_t szOCSPLocation, TElOCSPClientHandle * hOCSPClient)
 {
     try
     {
-        TElHTTPOCSPClient MyOcspClient(myHandle, true);
         hOCSPClient = &myHandle;
         TElX509Certificate Certificate(hCertificate, false);
         TName subject, issuer;
@@ -84,7 +85,6 @@ void SB_CALLBACK MySignSecHandler_OnCertValidatorPrepared(void *, TObjectHandle,
 {
     try
     {
-        TElHTTPOCSPClient certValidator_(myCertHandle, true);
         hCertValidator = &myCertHandle;
         TElX509Certificate Certificate(hCertificate, false);
         TName subject, issuer;
@@ -419,10 +419,15 @@ int main(int argc, char **argv)
             /*
 
             */
-            MyOcspClient.set_IssuerCertStorage(OCSPIssuersCertificateStorage);
+            //MyOcspClient(myHandle, true);
+            TElHTTPOCSPClient ocspClient_(myHandle, true);
+            TElX509CertificateValidator certValidator_(myCertHandle, true);
+
+            ocspClient_.set_IssuerCertStorage(OCSPIssuersCertificateStorage);
             //Validador
             //TElX509CertificateValidator certValidator_(NULL);
             //Atribuindo os certificados confiáveis e conhecidos
+            //certValidator_(myCertHandle, true);
             certValidator_.AddTrustedCertificates(&trustedCertificateStorage);
             certValidator_.AddKnownCertificates(&knownCertificateStorage);
             //Definindo event handlers
