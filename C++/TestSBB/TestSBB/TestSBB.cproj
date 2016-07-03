@@ -23,7 +23,7 @@
     <CompileTarget>Bin</CompileTarget>
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
-    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
+    <ExtraCompilerArguments>-std=c++11 -g</ExtraCompilerArguments>
     <OptimizationLevel>2</OptimizationLevel>
     <WarningLevel>All</WarningLevel>
     <Libs>

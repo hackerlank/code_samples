@@ -20,6 +20,8 @@
 #include "sbhttpocspclient.h"
 #include "sbhttpcertretriever.h"
 #include "sbcrl.h"
+#include "sbocspcommon.h"
+#include "sbpkicommon.h"
 
 #include "EventHandlers.h"
 
@@ -151,21 +153,29 @@ int main(int argc, char **argv)
         TElMemoryCertStorage knownCertificateStorage(NULL);
         //Repositório de certificados para assinatura
         TElMemoryCertStorage signerCertificateStorage(NULL);
+        //Repositório da cadeia de certificados
+        TElMemoryCertStorage chainCertificateStorage(NULL);
+        //Certificado raiz
         TElX509Certificate rootCertificate_(NULL);
+        //Certificado do assinante
         TElX509Certificate signerCertificate_(NULL);
+        //Cadeia de certificados
+        TElX509CertificateChain * certificateChain;
+
         try 
         {
             //Certificado raiz
             rootCertificate_.LoadFromFileAuto(CA_CERT, "");
-            //Raiz é confiável e necessário para assinar
+            //Raiz é confiável e parte da cadeia
             trustedCertificateStorage.Add(rootCertificate_, false);
-            signerCertificateStorage.Add(rootCertificate_, false);
-            //Certificado intermediário
+            chainCertificateStorage.Add(rootCertificate_, false);
+            //signerCertificateStorage.Add(rootCertificate_, false);
+            //Certificado intermediário é parte da cadeia
             TElX509Certificate intCertificate_(NULL);
             intCertificate_.LoadFromFileAuto(INT_CERT, "");
             knownCertificateStorage.Add(intCertificate_, false);
-            signerCertificateStorage.Add(intCertificate_, false);
-            //Certificados do ocsp
+            chainCertificateStorage.Add(intCertificate_, false);
+            //Certificados do ocsp (necessários?)
             TElX509Certificate ocsp1Certificate_(NULL);
             ocsp1Certificate_.LoadFromFileAuto(OCSP_1_CERT, "");
             knownCertificateStorage.Add(ocsp1Certificate_, false);
@@ -176,7 +186,13 @@ int main(int argc, char **argv)
             //Certificado do assinante
             signerCertificate_.LoadFromFileAuto(DEFAULT_CERT, DEFAULT_CERT_PASS);
             signerCertificateStorage.Add(signerCertificate_, true);
-            //Se usar TSA, adiciona os certificados dos servidores de tempo
+            chainCertificateStorage.Add(signerCertificate_, true);
+            //Construindo a cadeia
+            //certificateChain = chainCertificateStorage.BuildChain(signerCertificate_);
+            TElX509CertificateChainHandle chainHandle = chainCertificateStorage.BuildChain(signerCertificate_);
+            certificateChain = new TElX509CertificateChain(chainHandle, false);
+
+            //Se usar TSA, adiciona os certificados dos servidores de tempo (necessário?)
             if (tsaURL != "")
             {
                 if (tsaCertFile != "")
@@ -198,17 +214,133 @@ int main(int argc, char **argv)
                     trustedCertificateStorage.Add(tsaCACert, false);
                 }
             }
+
+            std::cout << "teste" << std::endl;
+            int c = certificateChain->get_Count();
+            std::cout << "teste " << c << std::endl;
         } 
         catch (SBException E)
         {
             std::cout << "Erro ao carregar certificados: " << E.what() << std::endl;
+            return 0;
         }
         std::cout << "Certificados carregados." << std::endl;
-        std::cout << "Validando..." << std::endl;
-        //Validação do certificado
+        std::cout << "Obtendo dados de revogação (LCR e OCSP)..." << std::endl;
+
         try 
         {
-            //Dados de revogação
+            /*
+             * Percorrer a lista de certificados que serão validados (cadeia)
+             * Se o certificado possui OCSP, requisitar o serviço.
+             * Senão, obter a CRL.
+             */
+            //Verificando se a cadeia está completa
+            /*
+            bool cadeiaCompleta = certificateChain->get_Complete();
+            if ( cadeiaCompleta )
+            {
+                std::cout << "Cadeia está completa." << std::endl;
+            }
+            else
+            {
+                std::cout << "Cadeia não está completa." << std::endl;
+            }
+            */
+            //Percorrendo a cadeia para validar
+            int count = certificateChain->get_Count();
+            std::cout << "Percorrendo cadeia com " << count << " certificados." << std::endl;
+            for (int i = 0; i < count; i++)
+            {
+                TElX509Certificate * tmpCert = certificateChain->get_Certificates(i);
+                std::cout << "Certificado " << i << std::endl;
+                TName subject, issuer;
+                tmpCert->get_SubjectName(subject);
+                tmpCert->get_IssuerName(issuer);
+                std::cout << "Processando: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
+                TElCertificateExtensions * certExts = certificateChain->get_Certificates(i)->get_Extensions();
+                //OCSP
+                TElAuthorityInformationAccessExtension * AIAExt = certExts->get_AuthorityInformationAccess();
+                std::vector<uint8_t> ocspOID = {1, 3, 6, 1, 5, 5, 7, 48, 1};
+                //Iterando pelas extensões
+                for (int j = 0; j < AIAExt->get_Count(); j++)
+                {
+                    TElAccessDescription * accessDesc = AIAExt->get_AccessDescriptions(j);
+                    std::vector<uint8_t> oid_v;
+                    accessDesc->get_AccessMethod(oid_v);
+                    //Verifica se a informação trata-se de OCSP
+                    if (oid_v == ocspOID)
+                    {
+                        //Obtém a URL
+                        TElGeneralName * accessLocation = accessDesc->get_AccessLocation();
+                        std::string ocspURI;
+                        accessLocation->get_UniformResourceIdentifier(ocspURI);
+
+                        std::cout << "OCSP encontrado: " << ocspURI << std::endl;
+
+                        //TODO: Requisição OCSP
+                        TElHTTPSClient httpClient(NULL);
+                        TElHTTPOCSPClient ocspClient(NULL);
+                        ocspClient.set_HTTPClient(httpClient);
+                        ocspClient.set_URL(ocspURI);
+                        TElMemoryCertStorage checkedCerts(NULL);
+                        checkedCerts.Add(tmpCert, false);
+                        ocspClient.set_CertStorage(checkedCerts);
+                        TElMemoryCertStorage caCerts(NULL);
+                        caCerts.Add(rootCertificate_, false);
+                        ocspClient.set_IssuerCertStorage(caCerts);
+                        TElOCSPServerError serverResult = TElOCSPServerError::oseInternalError;
+                        std::vector<uint8_t> reply;
+                        int res = ocspClient.PerformRequest(serverResult, reply);
+                        //TODO: Verificar resposta
+                        if (res == 0)
+                        {
+                            std::cout << "Requisição OCSP executada com sucesso." << std::endl;
+                        }
+                        else
+                        {
+                            std::cout << "Erro de OCSP: " << res << std::endl;
+                        }
+                        //TODO: Validar por OCSP
+                        TElOCSPResponse * ocspResponse = ocspClient.get_Response();
+                        int32_t ridx = ocspResponse->FindResponse(tmpCert, &rootCertificate_);
+                        TElOCSPSingleResponse * ocspSingle = ocspResponse->get_Responses(ridx);
+
+                        int certStatus = (int) ocspSingle->get_CertStatus();
+                        std::cout << "Status OCSP: " << certStatus << std::endl;
+                        //TODO: Adicionar respostas ao PDF
+                    }
+                }
+                //Obter CRL's
+                /*
+                TElCRLDistributionPointsExtension * distPoints = certExts->get_CRLDistributionPoints();
+                int32_t dcount = distPoints->get_Count();
+                //Iterando pelos pontos de distribuição de CRL
+                for (int j = 0; j < dcount; j++)
+                {
+                    TElDistributionPoint * distPoint = distPoints->get_DistributionPoints(j);
+                    TElGeneralNames* genNames = distPoint->get_Name();
+
+                    for (int k = 0; k < genNames->get_Count(); k++)
+                    {
+                        TElGeneralName * genName = genNames->get_Names(k);
+                        TSBGeneralName nameType = genName->get_NameType();
+                        //Se é uma URL, obtém a lista
+                        if (nameType == TSBGeneralName::gnUniformResourceIdentifier)
+                        {
+                            std::string CRLURI;
+                            genName->get_UniformResourceIdentifier(CRLURI);
+                            TElHTTPCRLRetriever httpRetriever(NULL);
+                            TElClassHandleValue * handle;
+                            handle = httpRetriever.GetCRL(tmpCert, rootCertificate_, TSBGeneralName::gnUniformResourceIdentifier, &CRLURI);
+                            TElCertificateRevocationList CRL(handle, false);
+                            //TODO: validar certificado
+                            //TODO: adicionar ao validador a ao handler de assinatura
+                        }
+                    }
+                }
+                */
+            }
+            
             /*
             TElHTTPCRLRetriever httpRetriever(NULL);
             TElClassHandleValue * handle;
@@ -219,6 +351,21 @@ int main(int argc, char **argv)
             std::cout << "LCR recebida com tamanho " << crl.get_CRLSize() << " de " << issuerDN << std::endl;
             int32_t crl_validity = crl.Validate(rootCertificate_);
             std::cout << "Validade: " << crl_validity << std::endl;
+            */
+        } 
+        catch (SBException E)
+        {
+            std::cout << "Erro ao obter dados de revogação: " << E.what() << std::endl;
+            return 0;
+        }
+
+        std::cout << "Validando..." << std::endl;
+        //Validação do certificado
+        try 
+        {
+            //Dados de revogação
+            /*
+
             */
 
             //Validador
@@ -273,8 +420,8 @@ int main(int argc, char **argv)
         catch (SBException E)
         {
             std::cout << "Erro ao validar certificado: " << E.what() << std::endl;
+            return 0;
         }
-
 
         std::cout << "Assinando..." << std::endl;
 
@@ -356,6 +503,7 @@ int main(int argc, char **argv)
         catch (SBException E)
         {
             std::cout << "Erro ao assinar: " << E.what() << std::endl;
+            return 0;
         }
     }
     catch (SBException E)

@@ -118,6 +118,8 @@
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpocspclient.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcertretriever.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbcrl.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbocspcommon.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkicommon.h \
  /home/leovan/git/code_samples/C++/TestSBB/TestSBB/EventHandlers.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11base.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h \

@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestSBB/main.cpp">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SBB/cpp/sbx509.cpp">
     <Files>
-      <File FileName="ConsolePAdES/consolepades.cpp" Line="47" Column="47" />
-      <File FileName="TestSBB/main.cpp" Line="115" Column="115" />
-      <File FileName="ConsolePAdESVerifier/consolepadesverifier.cpp" Line="94" Column="94" />
+      <File FileName="ConsolePAdES/consolepades.cpp" Line="46" Column="46" />
+      <File FileName="TestSBB/main.cpp" Line="57" Column="57" />
+      <File FileName="TestSBB/EventHandlers.cpp" Line="3" Column="3" />
+      <File FileName="ConsolePAdESVerifier/consolepadesverifier.cpp" Line="1" Column="1" />
+      <File FileName="SBB/cpp/sbx509.cpp" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
