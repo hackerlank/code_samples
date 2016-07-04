@@ -5,9 +5,7 @@ Project("{2857B73E-F847-4B02-9238-064979017E93}") = "TestSBB", "TestSBB\TestSBB.
 EndProject
 Project("{2857B73E-F847-4B02-9238-064979017E93}") = "SBB", "SBB\SBB.cproj", "{04858D52-C549-40DA-A236-4ECA9009885D}"
 EndProject
-Project("{2857B73E-F847-4B02-9238-064979017E93}") = "ConsolePAdES", "ConsolePAdES\ConsolePAdES.cproj", "{A7052613-75B5-4F55-9DEF-53A93F0A9AE4}"
-EndProject
-Project("{2857B73E-F847-4B02-9238-064979017E93}") = "ConsolePAdESVerifier", "ConsolePAdESVerifier\ConsolePAdESVerifier.cproj", "{F60BC6B4-6F5B-460E-9843-E274D0756D82}"
+Project("{2857B73E-F847-4B02-9238-064979017E93}") = "Signer", "Signer\Signer.cproj", "{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,18 +17,14 @@ Global
 		{04858D52-C549-40DA-A236-4ECA9009885D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04858D52-C549-40DA-A236-4ECA9009885D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04858D52-C549-40DA-A236-4ECA9009885D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7052613-75B5-4F55-9DEF-53A93F0A9AE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7052613-75B5-4F55-9DEF-53A93F0A9AE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7052613-75B5-4F55-9DEF-53A93F0A9AE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7052613-75B5-4F55-9DEF-53A93F0A9AE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DECA1816-338E-4A67-9FA2-63319F72B218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DECA1816-338E-4A67-9FA2-63319F72B218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DECA1816-338E-4A67-9FA2-63319F72B218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DECA1816-338E-4A67-9FA2-63319F72B218}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F60BC6B4-6F5B-460E-9843-E274D0756D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F60BC6B4-6F5B-460E-9843-E274D0756D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F60BC6B4-6F5B-460E-9843-E274D0756D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F60BC6B4-6F5B-460E-9843-E274D0756D82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = TestSBB\TestSBB.cproj

@@ -1,29 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SBB/cpp/sbx509.cpp">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Signer/main.cpp">
     <Files>
-      <File FileName="ConsolePAdES/consolepades.cpp" Line="46" Column="46" />
-      <File FileName="TestSBB/main.cpp" Line="57" Column="57" />
+      <File FileName="ConsolePAdES/consolepades.cpp" Line="21" Column="21" />
+      <File FileName="TestSBB/main.cpp" Line="37" Column="37" />
       <File FileName="TestSBB/EventHandlers.cpp" Line="3" Column="3" />
       <File FileName="ConsolePAdESVerifier/consolepadesverifier.cpp" Line="1" Column="1" />
-      <File FileName="SBB/cpp/sbx509.cpp" Line="1" Column="1" />
+      <File FileName="Signer/main.cpp" Line="89" Column="89" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ConsolePAdES>
-    <MonoDevelop.Ide.CustomExecutionModes>
-      <Data Name="TSA (Personalizado)" Id="5199e00f-36a5-4c93-a937-0e9270f5870e" ModeId="Default" PromptForParameters="True">
-        <CommandData>
-          <Item Key="MonoDevelop.Ide.Execution.CustomArgsCustomizer">
-            <Value Arguments="-f &quot;/tmp/doc.pdf&quot; -c &quot;/tmp/cert.pfx&quot; 1234 -tsa &quot;https://freetsa.org/tsr&quot;" ctype="CustomArgsExecutionModeData">
-              <EnvironmentVariables />
-            </Value>
-          </Item>
-        </CommandData>
-      </Data>
-    </MonoDevelop.Ide.CustomExecutionModes>
-  </MonoDevelop.Ide.ItemProperties.ConsolePAdES>
 </Properties>

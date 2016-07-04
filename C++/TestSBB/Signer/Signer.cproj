@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F60BC6B4-6F5B-460E-9843-E274D0756D82}</ProjectGuid>
+    <ProjectGuid>{9EA4FCEB-1574-478E-B2E8-FE3E07FCF6EE}</ProjectGuid>
     <Compiler>
       <Compiler ctype="GppCompiler" />
     </Compiler>
@@ -18,8 +18,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug</OutputPath>
-    <Externalconsole>true</Externalconsole>
-    <OutputName>ConsolePAdESVerifier</OutputName>
+    <OutputName>Signer</OutputName>
     <CompileTarget>Bin</CompileTarget>
     <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
@@ -28,18 +27,33 @@
         <Lib>sbb</Lib>
       </Libs>
     </Libs>
-    <ExtraCompilerArguments>-std=c++11</ExtraCompilerArguments>
+    <WarningLevel>All</WarningLevel>
+    <ExtraCompilerArguments>-std=c++11 -g</ExtraCompilerArguments>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
-    <Externalconsole>true</Externalconsole>
-    <OutputName>ConsolePAdESVerifier</OutputName>
+    <OutputName>Signer</OutputName>
     <CompileTarget>Bin</CompileTarget>
     <OptimizationLevel>3</OptimizationLevel>
     <DefineSymbols>MONODEVELOP</DefineSymbols>
     <SourceDirectory>.</SourceDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="consolepadesverifier.cpp" />
+    <Compile Include="main.cpp" />
+    <Compile Include="EventHandlers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="certs\" />
+    <Folder Include="docs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="certs\cacert-intermediate.cer" />
+    <None Include="certs\cacert-root.cer" />
+    <None Include="certs\freetsa-root.cer" />
+    <None Include="certs\freetsa-tsa.cer" />
+    <None Include="docs\escritura.pdf" />
+    <None Include="certs\cacert-leovan.p12" />
+    <None Include="EventHandlers.h" />
   </ItemGroup>
 </Project>

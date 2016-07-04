@@ -123,4 +123,6 @@
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs8.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs5.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbocspcommon.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkicommon.h \
  /home/leovan/git/code_samples/C++/TestSBB/TestSBB/EventHandlers.h

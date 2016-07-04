@@ -52,18 +52,15 @@
     <Compile Include="EventHandlers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="tests\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tests\leovant%40gmail.com.p12" />
-    <None Include="tests\SafeCreative_TSA.cer" />
+    <None Include="EventHandlers.h" />
+    <None Include="tests\cacert.crt" />
+    <None Include="tests\cacertint.crt" />
     <None Include="tests\freetsa.crt" />
     <None Include="tests\freetsaca.pem" />
-    <None Include="tests\cacert.crt" />
-    <None Include="tests\unsigned.pdf" />
-    <None Include="tests\cacertint.crt" />
-    <None Include="EventHandlers.h" />
+    <None Include="tests\leovant%40gmail.com.p12" />
     <None Include="tests\OCSP-1.crt" />
     <None Include="tests\OCSP-3.crt" />
+    <None Include="tests\SafeCreative_TSA.cer" />
+    <None Include="tests\unsigned.pdf" />
   </ItemGroup>
 </Project>

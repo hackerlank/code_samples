@@ -1,5 +1,5 @@
-/home/leovan/git/code_samples/C++/TestSBB/ConsolePAdES/bin/Debug/consolepades.o: \
- /home/leovan/git/code_samples/C++/TestSBB/ConsolePAdES/consolepades.cpp \
+/home/leovan/git/code_samples/C++/TestSBB/Signer/bin/Debug/EventHandlers.o: \
+ /home/leovan/git/code_samples/C++/TestSBB/Signer/EventHandlers.cpp \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbmisc.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbdefs.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/all/sbcustom.h \
@@ -115,4 +115,14 @@
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpsclient.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcrl.h \
  /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpocspclient.h \
- /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcertretriever.h
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbhttpcertretriever.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11base.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11certstorage.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11base.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs8.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs5.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkcs11common.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbocspcommon.h \
+ /home/leovan/git/code_samples/C++/TestSBB/SBB/include/sbpkicommon.h \
+ /home/leovan/git/code_samples/C++/TestSBB/Signer/EventHandlers.h
