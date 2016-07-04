@@ -21,6 +21,8 @@
 #include "sbpkcs11base.h"
 #include "sbpkcs11certstorage.h"
 #include "sbpkcs11common.h"
+#include "sbocspcommon.h"
+#include "sbpkicommon.h"
 
 #define SAFECREATIVE_CERT "../../tests/SafeCreative_TSA.cer"
 #define FREETSA_CERT "../../tests/freetsa.crt"
@@ -319,7 +321,7 @@ void SB_CALLBACK signSecHandler_OnCertValidatorPrepared(void *, TObjectHandle, T
         certValidator_.set_OnOCSPError(&CertValidator_OnOCSPError, NULL);
         certValidator_.set_OnAfterOCSPResponseUse(&CertValidator_OnAfterOCSPResponseUse, NULL);
         //Definindo opções do validador
-        certValidator_.set_CheckCRL(true); // default = true
+        certValidator_.set_CheckCRL(false); // default = true
         certValidator_.set_CheckOCSP(true); // default = true
         certValidator_.set_CheckValidityPeriodForTrusted(true); // default = true
         certValidator_.set_ForceCompleteChainValidationForTrusted(true); // default = true
@@ -606,11 +608,23 @@ void SB_CALLBACK CertValidator_OnBeforeOCSPClientUse(void * _ObjectData, TObject
 	try
 	{
 		TElX509Certificate Certificate(hCertificate, false);
-		TName subject, issuer;
-		Certificate.get_SubjectName(subject);
-		Certificate.get_IssuerName(issuer);
+        TName subject, issuer;
+        Certificate.get_SubjectName(subject);
+        Certificate.get_IssuerName(issuer);
+        
+        //TElX509CertificateValidator certValidator_(hSender, false);
+        //TElMemoryCertStorage knownCertificateStorage(NULL);
+        //knownCertificateStorage.Add(Certificate, false);
+        //certValidator_.AddKnownCertificates(&knownCertificateStorage);
+
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+
 		std::cout << "TElX509CertificateValidator.OnBeforeOCSPClientUse: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
         std::cout << "OCSP: " << pcOCSPLocation << std::endl;
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
 	}
 	catch (SBException E)
 	{
