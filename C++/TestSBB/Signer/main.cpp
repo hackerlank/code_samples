@@ -118,6 +118,7 @@ void SB_CALLBACK signSecHandler_OnCertValidatorPrepared(void *objCert, TObjectHa
         certValidator_.set_SkipSubjectNameIfAltNameExists(true); // default = true
         //certValidator_->set_UseSystemStorages(false); // default = true
         certValidator_.set_ValidateInvalidCertificates(true); // default = true
+        certValidator_.set_IgnoreCABasicConstraints(true);
         /*
          * Sets validator event handlers
          */
@@ -213,14 +214,27 @@ int main(int argc, char **argv)
         TElPDFAdvancedPublicKeySecurityHandler signSecHandler(NULL);
         signSecHandler.set_CertStorage(signerCertificateStorage);
         signSecHandler.set_PAdESSignatureType(pastBasic); // PADES_BASIC = pastBasic / PADES_BES | PADES_EPES | PADES_LTV = pastEnhanced
-        signSecHandler.set_OnCertValidatorPrepared(&signSecHandler_OnCertValidatorPrepared, &cert);
         signSecHandler.set_TSPClient(tspClient);
         signSecHandler.set_CustomName("Adobe.PPKLite");
+        signSecHandler.set_SignatureType(pstPKCS7SHA1);
         //LTV
         signSecHandler.set_AutoCollectRevocationInfo(true);
-        signSecHandler.set_DeepValidation(false);
-        signSecHandler.set_ForceCompleteChainValidation(false);
-        signSecHandler.set_IncludeRevocationInfoToAdbeAttribute(false);
+        signSecHandler.set_DeepValidation(true);
+        signSecHandler.set_ForceCompleteChainValidation(true);
+        signSecHandler.set_IncludeRevocationInfoToAdbeAttribute(true);
+
+        signSecHandler.get_CustomRevocationInfo()->get_Certificates()->Add(rootCertificate, false);
+        /*
+         * poUseSigningCertificateV2 = 1    If this option is enabled, signing certificates V2 will be used.
+         * poIncludeAllRevInfoToDSS = 2     If this option is enabled, full set of revocation information will be included to the DSS dictionary.
+         * poCreateVRIDictionaries = 4      If this option is enabled, VRI dictionaries will be created. A VRI dictionary references all the validation data that has been used for validating one specific signature.
+         * poUseUndefBEREncoding = 8        If this property is enabled, use of ASN.1 tags with undefined size is allowed in the signature.
+         * poTolerateMissingSigningCertificate = 16
+         */
+        signSecHandler.set_PAdESOptions((TSBPAdESOptions) (poIncludeAllRevInfoToDSS | poCreateVRIDictionaries));
+        //Events
+        signSecHandler.set_OnCertValidatorPrepared(&signSecHandler_OnCertValidatorPrepared, &cert);
+
         /*
          * Copy and loads document
          */
@@ -235,20 +249,22 @@ int main(int argc, char **argv)
         TFileStream inputStream(pdfFilename, filemodeOpenReadWrite);
         TElPDFDocument pdf(NULL);
         pdf.Open(inputStream);
-
-        //Adds new signature
+        /*
+         * Adds new signature
+         */
         int signIndex = pdf.AddSignature();
         TElPDFSignature *sign = pdf.get_Signatures(signIndex);
         sign->set_Handler(signSecHandler);
         sign->set_Invisible(true);
         sign->set_Reason("Assinatura de documento");
+
         sign->set_SignatureType(stDocument);
         time_t t;
         time(&t);
         sign->set_SigningTime(t);
         //Saves PDF (this call triggers the signature process)
         pdf.Close(true);
-        std::cout << "Done! :-)" << std::endl;
+        std::cout << "Done with signature! :-)" << std::endl;
     }
     catch (SBException E)
     {

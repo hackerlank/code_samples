@@ -426,6 +426,12 @@ void SB_CALLBACK CertValidator_OnCRLNeeded(void * _ObjectData, TObjectHandle hSe
 		Certificate.get_SubjectName(subject);
 		Certificate.get_IssuerName(issuer);
 		std::cout << "TElX509CertificateValidator.OnCRLNeeded: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
+
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
 	}
 	catch (SBException E)
 	{
@@ -445,6 +451,12 @@ void SB_CALLBACK CertValidator_OnBeforeCRLRetrieverUse(void * _ObjectData, TObje
 		Certificate.get_IssuerName(issuer);
 		std::cout << "TElX509CertificateValidator.OnBeforeCRLRetrieverUse: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
 		std::cout << "CRL: " << pcLocation << std::endl;
+
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
 	}
 	catch (SBException E)
 	{
@@ -464,6 +476,19 @@ void SB_CALLBACK CertValidator_OnCRLRetrieved(void * _ObjectData, TObjectHandle 
 		Certificate.get_IssuerName(issuer);
 		std::cout << "TElX509CertificateValidator.OnCRLRetrieved: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
         std::cout << "CRL: " << pcLocation << std::endl;
+
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
+
+        TElCertificateRevocationList CRL(hCRL, false);
+        std::string CRLIssuer;
+        CRL.get_Issuer()->SaveToDNString(CRLIssuer);
+        std::cout << "Issuer: " << CRLIssuer << std::endl;
+        std::cout << "Size: " << CRL.get_CRLSize();
+        std::cout << "Items: " << CRL.get_Count();
 	}
 	catch (SBException E)
 	{
@@ -505,6 +530,12 @@ void SB_CALLBACK CertValidator_OnAfterCRLUse(void * _ObjectData, TObjectHandle h
 		std::string CRLLocation;
 		CRL.get_Location(CRLLocation);
 		std::cout << "CRL: " << CRLLocation << std::endl;
+
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
 	}
 	catch (SBException E)
 	{
@@ -523,11 +554,6 @@ void SB_CALLBACK CertValidator_OnBeforeOCSPClientUse(void * _ObjectData, TObject
         Certificate.get_SubjectName(subject);
         Certificate.get_IssuerName(issuer);
         
-        //TElX509CertificateValidator certValidator_(hSender, false);
-        //TElMemoryCertStorage knownCertificateStorage(NULL);
-        //knownCertificateStorage.Add(Certificate, false);
-        //certValidator_.AddKnownCertificates(&knownCertificateStorage);
-
         TElX509Certificate CACertificate(hCACertificate, false);
         TName caSubject, caIssuer;
         CACertificate.get_SubjectName(caSubject);
@@ -554,6 +580,12 @@ void SB_CALLBACK CertValidator_OnOCSPResponseSignerValid(void * _ObjectData, TOb
 		Certificate.get_SubjectName(subject);
 		Certificate.get_IssuerName(issuer);
 		std::cout << "TElX509CertificateValidator.OnOCSPResponseSignerValid: " << (char *)subject.CommonName << " [" << (char *)issuer.CommonName << "]" << std::endl;
+        
+        TElX509Certificate CACertificate(hCACertificate, false);
+        TName caSubject, caIssuer;
+        CACertificate.get_SubjectName(caSubject);
+        CACertificate.get_IssuerName(caIssuer);
+        std::cout << "CA: " << (char *)caSubject.CommonName << " [" << (char *)caIssuer.CommonName << "]" << std::endl;
 	}
 	catch (SBException E)
 	{
