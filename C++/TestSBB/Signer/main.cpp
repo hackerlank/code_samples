@@ -213,7 +213,7 @@ int main(int argc, char **argv)
          */
         TElPDFAdvancedPublicKeySecurityHandler signSecHandler(NULL);
         signSecHandler.set_CertStorage(signerCertificateStorage);
-        signSecHandler.set_PAdESSignatureType(pastBasic); // PADES_BASIC = pastBasic / PADES_BES | PADES_EPES | PADES_LTV = pastEnhanced
+        signSecHandler.set_PAdESSignatureType(pastEnhanced); // PADES_BASIC = pastBasic / PADES_BES | PADES_EPES | PADES_LTV = pastEnhanced
         signSecHandler.set_TSPClient(tspClient);
         signSecHandler.set_CustomName("Adobe.PPKLite");
         signSecHandler.set_SignatureType(pstPKCS7SHA1);
